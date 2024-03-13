@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function getSectionOne(){
+        return $this->hasOne(Section::class,'id','preference_one');
+    }
+
 }

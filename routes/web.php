@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\backend\application\ApplicationsController;
 use App\Http\Controllers\backend\auth\AuthController;
 use App\Http\Controllers\backend\sections\SectionsController;
 use App\Http\Controllers\backend\user\UserController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function (){
 
 
 
+        Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');
 
 
     });

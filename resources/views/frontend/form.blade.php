@@ -1,5 +1,8 @@
 @extends('backend.components.master-withoutnavbar')
 @section('title') Application Form  @endsection
+@section('css')
+    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+@endsection
 @section('content')
 
 
@@ -33,8 +36,8 @@
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label  class="form-label"><span class="text-danger">*</span> Passport No / Nationality ID</label>
-                                        <input type="text" class="form-control" placeholder="Passport No / Nationality ID" name="passport_no">
+                                        <label  class="form-label"><span class="text-danger">*</span> Passport No</label>
+                                        <input type="text" class="form-control" placeholder="Passport No" name="passport_no">
                                         <span class="text-danger error_text passport_no_error"></span>
 
                                     </div>
@@ -58,8 +61,8 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label  class="form-label"><span class="text-danger">*</span> Passaport Photo</label>
-                                        <input type="file" class="form-control" name="passaport_photo">
-                                        <span class="text-danger error_text passaport_photo_error"></span>
+                                        <input type="file" class="form-control" name="passport_photo">
+                                        <span class="text-danger error_text passport_photo_error"></span>
 
                                     </div>
                                 </div><!--end col-->
@@ -109,7 +112,7 @@
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> Country</label>
+                                        <label class="form-label"><span class="text-danger">*</span> High School Country</label>
                                         <input type="text" class="form-control" placeholder="High School Country" name="high_school_country">
                                         <span class="text-danger error_text high_school_country_error"></span>
 
@@ -133,7 +136,7 @@
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> Graduation Degree</label>
+                                        <label class="form-label"><span class="text-danger">*</span> Graduation Degree ( GPA ) </label>
                                         <input type="text" class="form-control"  name="graduation_degree">
                                         <span class="text-danger error_text graduation_degree_error"></span>
 
@@ -141,7 +144,7 @@
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> Official Transcript "3 Years"</label>
+                                        <label class="form-label"><span class="text-danger">*</span> Official Transcript "Last 3 Years"</label>
                                         <input type="file" class="form-control"  name="official_transcript">
                                         <span class="text-danger error_text official_transcript_error"></span>
 
@@ -158,9 +161,9 @@
 
                                 <h6 class="fw-bolder mt-4">PROGRAM DETAILS</h6>
 
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="mb-3">
-                                        <label  class="form-label"><span class="text-danger">*</span> Preference 1</label>
+                                        <label  class="form-label"><span class="text-danger">*</span> Program Preference</label>
                                         <select  class="form-select" name="preference_one">
                                             @foreach( $data as $datas)
                                                 <option value="{{$datas -> id}}">{{$datas -> section_name}}</option>
@@ -171,18 +174,6 @@
                                     </div>
                                 </div><!--end col-->
 
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> Preference 2</label>
-                                        <select  class="form-select" name="preference_two">
-                                            @foreach( $data as $datas)
-                                                <option value="{{$datas -> id}}">{{$datas -> section_name}}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger error_text preference_two_error"></span>
-
-                                    </div>
-                                </div><!--end col-->
                                 <h6 class="fw-bolder mt-4">APPLICATION STATUS</h6>
 
                                         <div class="col-12">
@@ -191,11 +182,9 @@
                                                 <label class="form-check-label" for="inlineFormCheck">
                                                     I Confirm that, <br>
                                                     1. I will bring all required documents for the final registration.<br>
-                                                    2. If my GPA will be less than 2.5 the University has the complete right to deduct my scholarship (If available)as per the condition stated in the tuition fees information.<br>
-                                                    3. If I don't get equivalency from the Ministry of Education in Turkey the University won't take any responsibility and can cancel the registration.<br>
-                                                    4. I will require my deposit fees only in case of visa rejection confirmed from the embassy.<br>
-                                                    5. Tuition fees are paid at beginning of each academic year.<br>
-                                                    6. Tuition fees are non-refundable.<br>
+                                                    2. If I don't get equivalency from the Ministry of Education in Turkey the University won't take any responsibility and can cancel the registration.<br>
+                                                    3. I will require my deposit fees only in case of visa rejection confirmed from the embassy.<br>
+                                                    4. Tuition fees are non-refundable.<br>
                                                 </label>
                                             </div>
                                             <span class="text-danger error_text checkbox_application_status_error"></span>
@@ -237,10 +226,16 @@
 @endsection
 
 @section('addjs')
-
+    <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
         {!!  GoogleReCaptchaV2::render('recaptcha_form') !!}
 
+
+
+
         <script>
+
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -270,8 +265,18 @@
                             });
 
                         } else if (data.code == 1) {
-                           console.log('test')
-
+                            Swal.fire({
+                                imageUrl: "https://www.antalya.edu.tr/uploads/sub/logo-antalya-bilim-universitesi-tr.png",
+                                title: "Successful",
+                                text: data.success,
+                                icon: "success",
+                                confirmButtonColor: '#364574',
+                                imageWidth: 300,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            });
                         }
                     }
                 });

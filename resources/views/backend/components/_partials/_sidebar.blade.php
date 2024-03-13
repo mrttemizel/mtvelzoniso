@@ -33,7 +33,6 @@
 
 
 
-
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-shield-user-line"></i> <span data-key="t-dashboards">Kullanıcılar</span>
@@ -52,6 +51,12 @@
                 </li> <!-- end Dashboard Menu -->
 
 
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{route('applications.index')}}">
+                        <i class="ri-stack-line"></i> <span data-key="t-dashboards">Başvurular</span>
+                    </a>
+                </li> <!-- end Başvurular Menu -->
 
 
 
