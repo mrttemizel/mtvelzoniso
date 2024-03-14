@@ -8,16 +8,6 @@ use App\Http\Controllers\backend\user\UserController;
 use App\Http\Controllers\frontend\form\FormController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/',[FormController::class,'index'])->name('form.index');
 Route::post('/store',[FormController::class,'store'])->name('form.store');
@@ -56,9 +46,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/sections/delete/{id}',[SectionsController::class,'delete'])->name('sections.delete');
 
 
-
         Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');
-
 
     });
 });

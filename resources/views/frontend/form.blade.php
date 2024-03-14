@@ -164,12 +164,12 @@
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label  class="form-label"><span class="text-danger">*</span> Program Preference</label>
-                                        <select  class="form-select" name="preference_one">
+                                        <select  class="form-select" name="section_id">
                                             @foreach( $data as $datas)
                                                 <option value="{{$datas -> id}}">{{$datas -> section_name}}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger error_text preference_one_error"></span>
+                                        <span class="text-danger error_text section_id_error"></span>
 
                                     </div>
                                 </div><!--end col-->

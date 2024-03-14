@@ -43,5 +43,9 @@
 
     @endif
 
+
+    setTimeout(function(){
+        $("div.alert").remove();
+    }, 1000 ); // 2 secs
 </script>
 @yield('addjs')

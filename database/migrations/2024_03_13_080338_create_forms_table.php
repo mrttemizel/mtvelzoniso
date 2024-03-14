@@ -40,8 +40,8 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->unsignedBigInteger('preference_one')->nullable();
-            $table->foreign('preference_one')->references('id')->on('sections');
+            $table->unsignedBigInteger('section_id')->nullable();
+            $table->foreign('section_id')->references('id')->on('sections');
 
         });
     }

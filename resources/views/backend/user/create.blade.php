@@ -161,4 +161,12 @@
     <script src="{{asset('backend/assets/libs/cleave.js/cleave.min.js')}}"></script>
     <script src="{{asset('backend/assets/js/pages/form-masks.init.js')}}"></script>
 
+    <script>
+        setTimeout(function(){
+            $("div.alert").remove();
+        }, 1000 ); // 2 secs
+
+
+    </script>
+
 @endsection

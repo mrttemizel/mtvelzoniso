@@ -50,7 +50,11 @@
                     </div>
                 </li> <!-- end Dashboard Menu -->
 
-
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{route('sections.index')}}">
+                        <i class="bx bx-table"></i> <span data-key="t-dashboards">Bölümler</span>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('applications.index')}}">

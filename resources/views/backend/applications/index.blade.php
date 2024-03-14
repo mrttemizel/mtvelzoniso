@@ -59,7 +59,6 @@
                                     <th>Ülke</th>
                                     <th>Milliyet</th>
                                     <th>Tercih Bölüm 1</th>
-                                    <th>Tercih Bölüm 2</th>
                                     <th>Düzenle</th>
                                 </tr>
                                 </thead>

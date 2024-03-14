@@ -39,7 +39,7 @@ class FormController extends Controller
            'high_school_city' => 'required',
            'year_of_graduation' => 'required',
            'graduation_degree' => 'required',
-           'preference_one' => 'required',
+           'section_id' => 'required',
 
 
            'passport_photo' => 'required|image|mimes:jpg,png,jpeg|max:2048',
@@ -74,7 +74,7 @@ class FormController extends Controller
             $data->high_school_city = $request->input('high_school_city');
             $data->year_of_graduation = $request->input('year_of_graduation');
             $data->graduation_degree = $request->input('graduation_degree');
-            $data->preference_one = $request->input('preference_one');
+            $data->section_id = $request->input('section_id');
 
 
            $data->basvuru_id = $basvuru_id;

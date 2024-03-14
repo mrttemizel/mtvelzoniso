@@ -12,7 +12,7 @@ class Form extends Model
     protected $guarded = [];
 
     public function getSectionOne(){
-        return $this->hasOne(Section::class,'id','preference_one');
+        return $this->hasOne(Section::class,'id','section_id');
     }
 
 }

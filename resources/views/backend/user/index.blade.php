@@ -102,7 +102,8 @@
 
 @section('addjs')
 
-
+    <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
 
 
     <!--datatable js-->
@@ -133,6 +134,8 @@
                 }
             });
         });
+
+
     </script>
 
 @endsection
