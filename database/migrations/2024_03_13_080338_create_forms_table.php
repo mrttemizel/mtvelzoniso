@@ -36,7 +36,9 @@ return new class extends Migration
             $table->string('official_exam')->nullable();
 
             $table->text('information')->nullable();
-            $table->text('status')->nullable();
+            $table->text('about_us')->nullable();
+
+            $table->text('application_status')->nullable();
             $table->timestamps();
 
 

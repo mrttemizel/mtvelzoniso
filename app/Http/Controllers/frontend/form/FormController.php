@@ -29,7 +29,6 @@ class FormController extends Controller
            'passport_no' => 'required',
            'place_of_birth' => 'required',
            'date_of_birth' => 'required',
-
            'country' => 'required',
            'adress' => 'required',
            'phone_number' => 'required',
@@ -40,14 +39,12 @@ class FormController extends Controller
            'year_of_graduation' => 'required',
            'graduation_degree' => 'required',
            'section_id' => 'required',
-
-
            'passport_photo' => 'required|image|mimes:jpg,png,jpeg|max:2048',
            'official_transcript' => 'required|file|mimes:pdf,xlsx,docx,doc|max:1024',
            'official_exam_name' => 'file|mimes:pdf,xlsx,docx,doc|max:1024',
-
            'checkbox_kvkk' => 'required',
            'checkbox_application_status' => 'required',
+           'about_us' => 'required',
 
            'g-recaptcha-response' => [new GoogleReCaptchaV2ValidationRule()]
 
