@@ -20,13 +20,28 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required',
-            'status' => 'required',
-        ]);
+        if ($request->status == 4)
+        {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|min:8|confirmed',
+                'password_confirmation' => 'required',
+                'status' => 'required',
+                'agency_name' => 'required|unique:users',
+                'agency_code' => 'required|unique:users',
+                'agency_tax_number' => 'required|unique:users',
+            ]);
+        }
+        else{
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|min:8|confirmed',
+                'password_confirmation' => 'required',
+                'status' => 'required',
+            ]);
+        }
 
         $data = new User();
 
@@ -46,6 +61,9 @@ class UserController extends Controller
         $data->name = $request->input('name');
         $data->email = $request->input('email');
         $data->phone = $request->input('phone');
+        $data->agency_name = $request->input('agency_name');
+        $data->agency_code = $request->input('agency_code');
+        $data->agency_tax_number = $request->input('agency_tax_number');
         $data->status = $request->status;
         $data->password = Hash::make($request->input('password'));
 

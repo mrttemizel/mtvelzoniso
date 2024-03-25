@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('agency_name')->unique()->nullable();
+            $table->string('agency_code')->unique()->nullable();
+            $table->string('agency_tax_number')->unique()->nullable();
             $table->integer('status');
             $table->string('password');
             $table->string('phone')->nullable();

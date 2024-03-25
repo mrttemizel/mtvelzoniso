@@ -42,10 +42,11 @@ class FormController extends Controller
            'passport_photo' => 'required|image|mimes:jpg,png,jpeg|max:2048',
            'official_transcript' => 'required|file|mimes:pdf,xlsx,docx,doc|max:1024',
            'official_exam_name' => 'file|mimes:pdf,xlsx,docx,doc|max:1024',
-           'checkbox_kvkk' => 'required',
-           'checkbox_application_status' => 'required',
+           'section_id' => 'required',
            'about_us' => 'required',
 
+           'checkbox_kvkk' => 'required',
+           'checkbox_application_status' => 'required',
            'g-recaptcha-response' => [new GoogleReCaptchaV2ValidationRule()]
 
        ]);

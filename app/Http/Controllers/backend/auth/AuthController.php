@@ -21,6 +21,34 @@ class AuthController extends Controller
         return view('backend.auth.login');
     }
 
+    public function create(){
+        return view('backend.auth.create');
+    }
+
+    public  function store(Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required',
+            'g-recaptcha-response' => [new GoogleReCaptchaV2ValidationRule()]
+        ]);
+
+        $data = new User();
+        $data -> email = $request->input('email');
+        $data -> name = $request->input('name');
+        $data -> password = Hash::make($request->input('password'));
+        $data -> status = 3;
+        $query = $data->save();
+
+        if (!$query) {
+            return back()->with('error','Bir Hata Oluştu!');
+        } else {
+            return redirect()->route('auth.login')->with('success','Kayıt Başarılı!');
+        }
+
+    }
 
     public function index(){
         return view('backend.index');

@@ -9,11 +9,14 @@ use App\Http\Controllers\frontend\form\FormController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/',[FormController::class,'index'])->name('form.index');
-Route::post('/store',[FormController::class,'store'])->name('form.store');
+Route::get('/',function () {
+   return view('frontend.index');
+});
 
 
 Route::get('/login',[AuthController::class,'login'])->name('auth.login');
+Route::get('/create',[AuthController::class,'create'])->name('auth.create');
+Route::post('/store',[AuthController::class,'store'])->name('auth.store');
 Route::post('/login-submit',[AuthController::class,'login_submit'])->name('auth.login-submit');
 Route::get('/reset-password',[AuthController::class,'reset_password_page'])->name('auth.reset_password');
 Route::post('/reset-password-link',[AuthController::class,'reset_password_link'])->name('auth.reset-password-link');
@@ -47,6 +50,9 @@ Route::middleware('auth')->group(function (){
 
 
         Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');
+
+        Route::get('/form/index',[FormController::class,'index'])->name('form.index');
+        Route::post('/form/store',[FormController::class,'store'])->name('form.store');
 
     });
 });

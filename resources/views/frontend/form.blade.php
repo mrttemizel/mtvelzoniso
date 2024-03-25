@@ -174,11 +174,9 @@
                                     </div>
                                 </div><!--end col-->
 
-                                <h6 class="fw-bolder mt-4">About Us</h6>
-
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <label  class="form-label"><span class="text-danger">*</span> Where did you hear about us?</label>
+                                        <label  class="form-label"><span class="text-danger">*</span> Where did you hear about us? <b>(If you apply via an agency, please write the agency name)</b> </label>
                                         <input type="text" class="form-control"  name="about_us">
                                         <span class="text-danger error_text about_us_error"></span>
 

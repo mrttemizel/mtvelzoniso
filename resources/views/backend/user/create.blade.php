@@ -44,7 +44,23 @@
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-3">
-                                <div class="col-xl-6 col-md-6">
+                                <div class="col-xl-12 col-md-12">
+                                    <div>
+                                        <label for="labelInput" class="form-label">Kullanıcı Rolü <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="status"  aria-label="Default select example" id="status_change" >
+                                            <option selected disabled>Kullanıcı Rolü Seçiniz</option>
+                                            <option value="1">Yönetici</option>
+                                            <option value="0">Kullanıcı</option>
+                                            <option value="4">Acenta</option>
+                                        </select>
+                                        <span class="text-danger">
+                                    @error('status')
+                                            {{ $message }}
+                                            @enderror
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-md-6 ">
                                     <div>
                                         <label for="basiInput" class="form-label">Ad Soyad <span class="text-danger">*</span></label>
                                         <input type="text" name="name" placeholder="Ad Soyad" class="form-control" value="{{ old('name') }}">
@@ -62,6 +78,40 @@
                                         <input type="text" name="email" placeholder="E-Posta Adresi" class="form-control" value="{{ old('email') }}">
                                         <span class="text-danger">
                                     @error('email')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-md-6" id="agency_name" style="display: none">
+                                    <div>
+                                        <label for="basiInput" class="form-label">Acenta Adı <span class="text-danger">*</span></label>
+                                        <input type="text" name="agency_name" placeholder="Acenta Adı" class="form-control" value="{{ old('agency_name') }}" >
+                                        <span class="text-danger">
+                                    @error('agency_name')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xl-6 col-md-6"  id="agency_code" style="display: none">
+                                    <div>
+                                        <label for="labelInput" class="form-label">Acenta Kodu <span class="text-danger">*</span></label>
+                                        <input type="text" name="agency_code" placeholder="Acenta Kodu" class="form-control" value="{{ old('agency_code') }}">
+                                        <span class="text-danger">
+                                    @error('agency_code')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-md-12" id="agency_tax_number" style="display: none">
+                                    <div>
+                                        <label for="labelInput" class="form-label">Acenta Vergi Numarası <span class="text-danger">*</span></label>
+                                        <input type="text" name="agency_tax_number" placeholder="Acenta Vergi Numarası" class="form-control" value="{{ old('agency_tax_number') }}" >
+                                        <span class="text-danger">
+                                    @error('agency_tax_number')
                                             {{ $message }}
                                             @enderror
                             </span>
@@ -117,21 +167,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-xl-12 col-md-12">
-                                    <div>
-                                        <label for="labelInput" class="form-label">Kullanıcı Rolü <span class="text-danger">*</span></label>
-                                        <select class="form-select" name="status"  aria-label="Default select example">
-                                            <option selected disabled>Kullanıcı Rolü Seçiniz</option>
-                                                <option value="1">Yönetici</option>
-                                                <option value="0">Kullanıcı</option>
-                                        </select>
-                                        <span class="text-danger">
-                                    @error('status')
-                                            {{ $message }}
-                                            @enderror
-                                    </span>
-                                    </div>
-                                </div>
+
 
                                 <div class="col-lg-12">
                                     <div class="hstack gap-2 justify-content-end">
@@ -162,6 +198,28 @@
     <script src="{{asset('backend/assets/js/pages/form-masks.init.js')}}"></script>
 
     <script>
+
+
+        const status_change_input = document.getElementById("status_change");
+        const agency_code_input = document.getElementById("agency_code");
+        const agency_tax_number_input = document.getElementById("agency_tax_number");
+        const agency_name_input = document.getElementById("agency_name");
+
+        status_change_input.addEventListener("change",function (event){
+            if (event.target.value == 4)
+            {
+                agency_code_input.style.display = "block"
+                agency_tax_number_input.style.display = "block"
+                agency_name_input.style.display = "block"
+            }
+            else
+            {
+                agency_code_input.style.display = "none"
+                agency_tax_number_input.style.display = "none"
+                agency_name_input.style.display = "none"
+            }
+        });
+
         setTimeout(function(){
             $("div.alert").remove();
         }, 1000 ); // 2 secs

@@ -88,7 +88,24 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data->id }}">
                                 <div class="row">
-
+                                    <div class="col-xl-12 col-md-12 mb-3">
+                                        <div>
+                                            <label for="labelInput" class="form-label">Kullanıcı Rolü <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="status"  aria-label="Default select example" id="status_change">
+                                                <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>
+                                                    Yönetici</option>
+                                                <option value="0"{{ $data->status == 0 ? 'selected' : '' }}>
+                                                    Kullanıcı</option>
+                                                <option value="4"{{ $data->status == 4 ? 'selected' : '' }}>
+                                                    Acenta</option>
+                                            </select>
+                                            <span class="text-danger">
+                                    @error('status')
+                                                {{ $message }}
+                                                @enderror
+                                    </span>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">Ad Soyad : <span
@@ -121,25 +138,6 @@
                                                 </span>
                                         </div>
                                     </div>
-                                    @if($data->status == 1 || $data->status == 0 )
-                                        <div class="col-xl-12 col-md-12">
-                                            <div>
-                                                <label for="labelInput" class="form-label">Kullanıcı Rolü <span class="text-danger">*</span></label>
-                                                <select class="form-select" name="status"  aria-label="Default select example">
-                                                    <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>
-                                                        Yönetici</option>
-                                                    <option value="0"{{ $data->status == 0 ? 'selected' : '' }}>
-                                                        Kullanıcı</option>
-                                                </select>
-                                                <span class="text-danger">
-                                    @error('status')
-                                                    {{ $message }}
-                                                    @enderror
-                                    </span>
-                                            </div>
-                                        </div>
-
-                                    @endif
 
 
                                     <!--end col-->
