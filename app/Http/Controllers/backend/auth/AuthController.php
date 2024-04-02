@@ -21,10 +21,6 @@ class AuthController extends Controller
         return view('backend.auth.login');
     }
 
-    public function create(){
-        return view('backend.auth.create');
-    }
-
     public  function store(Request $request){
 
         $request->validate([

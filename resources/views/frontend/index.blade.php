@@ -17,17 +17,17 @@
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4 auth-one-bg h-100">
                                         <div class="bg-overlay"></div>
-                                        <div class="position-relative h-100 d-flex flex-column d-flex">
-                                            <div class="mb-4 text-center justify-content-center align-items-center">
+                                        <div class="position-relative h-100 d-flex flex-column d-flex justify-content-center align-items-center">
+                                            <div class="mb-4 text-center">
                                                 <a href="index.html" class="d-block">
-                                                    <img src="{{ asset('backend/my-image/abu-beyaz.svg') }}" alt="" height="60">
+                                                    <img src="{{ asset('backend/my-image/abu-beyaz.svg') }}" alt="" height="100">
                                                     <h4 class="text-primary mt-4 text-white">Welcome !</h4>
                                                     <h5 class="text-primary mt-4 text-white">If you are an agency, please log in.</h5>
                                                 </a>
                                             </div>
 
                                             <div class="text-center text-white">
-                                                <a class=" text-bg-info p-2  text-white" href="{{route('auth.login')}}" ><b>Login Link</b></a>
+                                                <a class="btn btn-info w-100" href="{{route('auth.login')}}" ><b>Login Link</b></a>
 
                                             </div>
                                         </div>
@@ -120,21 +120,7 @@
         </div>
         <!-- end auth page content -->
 
-        <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0">&copy;
-                                <script>document.write(new Date().getFullYear())</script> MPanel. Crafted with <i class="mdi mdi-heart text-danger"></i> by Antalya Bilim Üniversitesi
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end Footer -->
+
 @endsection
 
 @section('addjs')
