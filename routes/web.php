@@ -49,9 +49,10 @@ Route::middleware('auth')->group(function (){
 
 
         Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');
+        Route::get('/applications/create',[ApplicationsController::class,'create'])->name('applications.create');
+        Route::post('/applications/store',[ApplicationsController::class,'store'])->name('applications.store');
 
-        Route::get('/form/index',[FormController::class,'index'])->name('form.index');
-        Route::post('/form/store',[FormController::class,'store'])->name('form.store');
+
 
     });
 });

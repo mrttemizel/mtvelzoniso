@@ -1,6 +1,6 @@
 @extends('backend.components.master')
 @section('title')
-    Başvurular Listesi
+    Applications
 @endsection
 @section('css')
     <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
@@ -16,10 +16,10 @@
 @section('content')
     @component('backend.components.breadcrumb')
         @slot('li_1')
-            Başvurular
+            Applications
         @endslot
         @slot('title')
-            Başvurular Listesi
+            Applications List
         @endslot
     @endcomponent
 
@@ -45,7 +45,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0"> Başvurular Listesi</h5>
+                            <h5 class="card-title mb-0"> Applications List</h5>
                         </div>
                         <div class="card-body">
                             <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">

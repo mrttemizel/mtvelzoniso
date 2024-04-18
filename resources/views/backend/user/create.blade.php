@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="col-xl-12 col-md-12" id="agency_tax_number" style="display: none">
                                     <div>
-                                        <label for="labelInput" class="form-label">Acenta Vergi Numarası <span class="text-danger">*</span></label>
+                                        <label for="labelInput" class="form-label">Acenta Vergi Numarası</label>
                                         <input type="text" name="agency_tax_number" placeholder="Acenta Vergi Numarası" class="form-control" value="{{ old('agency_tax_number') }}" >
                                         <span class="text-danger">
                                     @error('agency_tax_number')

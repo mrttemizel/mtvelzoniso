@@ -56,11 +56,24 @@
                     </a>
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{route('applications.index')}}">
-                        <i class="ri-stack-line"></i> <span data-key="t-dashboards">Başvurular</span>
+                    <a class="nav-link menu-link" href="#ApplicationsDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="ri-stack-line"></i> <span data-key="t-dashboards">Apply & New Applications</span>
                     </a>
-                </li> <!-- end Başvurular Menu -->
+                    <div class="collapse menu-dropdown" id="ApplicationsDashboards">
+                        <ul class="nav nav-sm flex-column">
+
+                            <li class="nav-item">
+                                <a href="{{route('applications.create')}}" class="nav-link"><span data-key="t-job">New Applications</span> <span class="badge badge-pill bg-success" data-key="t-new">+</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('applications.index')}}" class="nav-link" data-key="t-analytics"> Applications List </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+
 
 
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('agency_name')->unique()->nullable();
             $table->string('agency_code')->unique()->nullable();
             $table->string('agency_tax_number')->unique()->nullable();
-            $table->integer('status');
+            $table->integer('status')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('image')->nullable();

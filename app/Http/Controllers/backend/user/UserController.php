@@ -30,7 +30,7 @@ class UserController extends Controller
                 'status' => 'required',
                 'agency_name' => 'required|unique:users',
                 'agency_code' => 'required|unique:users',
-                'agency_tax_number' => 'required|unique:users',
+                'agency_tax_number' => 'unique:users',
             ]);
         }
         else{
@@ -185,6 +185,7 @@ class UserController extends Controller
             $data->name = $request->input('name');
             $data->email = $request->input('email');
             $data->phone = $request->input('phone');
+
             $data->status = 3;
 
             $query = $data->update();
@@ -213,6 +214,9 @@ class UserController extends Controller
             $data->name = $request->input('name');
             $data->email = $request->input('email');
             $data->phone = $request->input('phone');
+            $data->agency_name = $request->input('agency_name');
+            $data->agency_code = $request->input('agency_code');
+            $data->agency_tax_number = $request->input('agency_tax_number');
             $data->status = $request->status;
 
             $query = $data->update();

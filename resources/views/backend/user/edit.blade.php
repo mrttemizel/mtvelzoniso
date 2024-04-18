@@ -42,8 +42,12 @@
                                     Super Admin
                                 @elseif($data->status == 1 )
                                     Yönetici
-                                @else
+                                @elseif($data->status == 0 )
                                     Kullanıcı
+                                @elseif($data->status == 3 )
+                                    Öğrenci
+                                @elseif($data->status == 4 )
+                                    Acenta
                                 @endif</p>
                         </div>
                     </div>
@@ -139,7 +143,40 @@
                                         </div>
                                     </div>
 
-
+                                    <div class="col-xl-6 col-md-6" id="agency_name" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }} >
+                                        <div>
+                                            <label for="basiInput" class="form-label">Acenta Adı <span class="text-danger">*</span></label>
+                                            <input type="text" name="agency_name" placeholder="Acenta Adı" class="form-control" value="{{$data->agency_name}}" >
+                                            <span class="text-danger">
+                                    @error('agency_name')
+                                                {{ $message }}
+                                                @enderror
+                            </span>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-xl-6 col-md-6"  id="agency_code" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }}>
+                                        <div>
+                                            <label for="labelInput" class="form-label">Acenta Kodu <span class="text-danger">*</span></label>
+                                            <input type="text" name="agency_code" placeholder="Acenta Kodu" class="form-control" value="{{$data->agency_code}}">
+                                            <span class="text-danger">
+                                    @error('agency_code')
+                                                {{ $message }}
+                                                @enderror
+                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-md-12 mt-3" id="agency_tax_number" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }}>
+                                        <div>
+                                            <label for="labelInput" class="form-label">Acenta Vergi Numarası</label>
+                                            <input type="text" name="agency_tax_number" placeholder="Acenta Vergi Numarası" class="form-control" value="{{$data->agency_tax_number}}" >
+                                            <span class="text-danger">
+                                    @error('agency_tax_number')
+                                                {{ $message }}
+                                                @enderror
+                            </span>
+                                        </div>
+                                    </div>
                                     <!--end col-->
                                     <div class="col-lg-12 mt-3">
                                         <div class="hstack gap-2 justify-content-end">
@@ -221,7 +258,13 @@
     <script src="{{asset('backend/assets/js/pages/form-masks.init.js')}}"></script>
     <script>
 
+        const status_change_input = document.getElementById("status_change");
+        const agency_code_input = document.getElementById("agency_code");
+        const agency_tax_number_input = document.getElementById("agency_tax_number");
+        const agency_name_input = document.getElementById("agency_name");
+
         $(document).ready(function() {
+
 
             $('#changeUserPasswordForm').on('submit', function(e) {
                 e.preventDefault();
@@ -259,6 +302,27 @@
             });
 
         });
+
+        status_change_input.addEventListener("change",function (event){
+            if (event.target.value == 4)
+            {
+                agency_code_input.style.display = "block"
+                agency_tax_number_input.style.display = "block"
+                agency_name_input.style.display = "block"
+            }
+            else
+            {
+                agency_code_input.style.display = "none"
+                agency_tax_number_input.style.display = "none"
+                agency_name_input.style.display = "none"
+            }
+        });
+
+        setTimeout(function(){
+            $("div.alert").remove();
+        }, 1000 ); // 2 secs
+
+
     </script>
 
 @endsection
