@@ -28,6 +28,7 @@ class ApplicationsController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'name_surname' => 'required',
             'nationality' => 'required',
@@ -44,10 +45,12 @@ class ApplicationsController extends Controller
             'year_of_graduation' => 'required',
             'graduation_degree' => 'required',
             'section_id' => 'required',
+
             'passport_photo' => 'required|image|mimes:jpg,png,jpeg|max:2048',
             'official_transcript' => 'required|file|mimes:pdf,xlsx,docx,doc|max:1024',
             'official_exam_name' => 'file|mimes:pdf,xlsx,docx,doc|max:1024',
-            'section_id' => 'required',
+
+
             'checkbox_kvkk' => 'required',
             'checkbox_application_status' => 'required',
         ]);

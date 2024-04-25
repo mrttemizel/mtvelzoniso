@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function (){
         Route::post('/user/information-update',[UserController::class,'information_update'])->name('users.information.update')->middleware('adminStatus');
         Route::post('/user/password-update',[UserController::class,'password_update'])->name('users.password.update')->middleware('adminStatus');
 
-        Route::get('/sections/index',[SectionsController::class,'index'])->name('sections.index');
-        Route::post('/sections/store',[SectionsController::class,'store'])->name('sections.store');
-        Route::get('/sections/delete/{id}',[SectionsController::class,'delete'])->name('sections.delete');
+        Route::get('/sections/index',[SectionsController::class,'index'])->name('sections.index')->middleware('CheckRole');
+        Route::post('/sections/store',[SectionsController::class,'store'])->name('sections.store')->middleware('CheckRole');
+        Route::get('/sections/delete/{id}',[SectionsController::class,'delete'])->name('sections.delete')->middleware('CheckRole');;
 
 
         Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');

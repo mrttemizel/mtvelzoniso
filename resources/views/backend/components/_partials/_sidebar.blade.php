@@ -23,16 +23,16 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-
+                @if(Auth::user()->status==2 || Auth::user()->status==1)
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('auth.index')}}">
                         <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
                     </a>
                 </li> <!-- end Dashboard Menu -->
+                @endif
 
 
-
-
+                @if(Auth::user()->status==2 || Auth::user()->status==1)
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-shield-user-line"></i> <span data-key="t-dashboards">Kullanıcılar</span>
@@ -49,13 +49,15 @@
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
+                @endif
 
+                @if(Auth::user()->status==2 || Auth::user()->status==1)
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('sections.index')}}">
                         <i class="bx bx-table"></i> <span data-key="t-dashboards">Bölümler</span>
                     </a>
                 </li>
-
+                @endif
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#ApplicationsDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
