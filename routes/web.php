@@ -1,11 +1,11 @@
 <?php
 
 
-use App\Http\Controllers\backend\application\ApplicationsController;
+
 use App\Http\Controllers\backend\auth\AuthController;
 use App\Http\Controllers\backend\sections\SectionsController;
 use App\Http\Controllers\backend\user\UserController;
-use App\Http\Controllers\frontend\form\FormController;
+use App\Http\Controllers\backend\form\FormController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,10 +48,12 @@ Route::middleware('auth')->group(function (){
         Route::get('/sections/delete/{id}',[SectionsController::class,'delete'])->name('sections.delete')->middleware('CheckRole');;
 
 
-        Route::get('/applications/index',[ApplicationsController::class,'index'])->name('applications.index');
-        Route::get('/applications/create',[ApplicationsController::class,'create'])->name('applications.create');
-        Route::post('/applications/store',[ApplicationsController::class,'store'])->name('applications.store');
-
+        Route::get('/form/index',[FormController::class,'index'])->name('form.index');
+        Route::get('/form/create',[FormController::class,'create'])->name('form.create');
+        Route::post('/form/store',[FormController::class,'store'])->name('form.store');
+        Route::get('/form/see/{id}',[FormController::class,'see'])->name('form.see');
+        Route::get('/form/edit/{id}',[FormController::class,'edit'])->name('form.edit');
+        Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete');
 
 
     });

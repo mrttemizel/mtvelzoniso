@@ -67,10 +67,10 @@
                         <ul class="nav nav-sm flex-column">
 
                             <li class="nav-item">
-                                <a href="{{route('applications.create')}}" class="nav-link"><span data-key="t-job">New Applications</span> <span class="badge badge-pill bg-success" data-key="t-new">+</span></a>
+                                <a href="{{route('form.create')}}" class="nav-link"><span data-key="t-job">New Applications</span> <span class="badge badge-pill bg-success" data-key="t-new">+</span></a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('applications.index')}}" class="nav-link" data-key="t-analytics"> Applications List </a>
+                                <a href="{{route('form.index')}}" class="nav-link" data-key="t-analytics"> Applications List </a>
                             </li>
                         </ul>
                     </div>

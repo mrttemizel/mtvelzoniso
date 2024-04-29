@@ -52,13 +52,16 @@
                                 <thead>
                                 <tr>
                                     <th>SR No.</th>
+                                    <th>Durum</th>
                                     <th>Başvuru No.</th>
                                     <th>Ad Soyad</th>
                                     <th>E-Posta</th>
                                     <th>Telefon</th>
                                     <th>Ülke</th>
                                     <th>Milliyet</th>
-                                    <th>Tercih Bölüm 1</th>
+                                    <th>Tercih Bölüm</th>
+
+
                                     <th>Düzenle</th>
                                 </tr>
                                 </thead>
@@ -68,23 +71,28 @@
                                     @php $i++ @endphp
                                     <tr>
                                         <td>{{$i}}</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
                                         <td>{{$datas->basvuru_id}}</td>
                                         <td>{{$datas->name_surname}}</td>
                                         <td>{{$datas->email}}</td>
                                         <td>{{$datas->phone_number}}</td>
                                         <td>{{$datas->country}}</td>
                                         <td>{{$datas->nationality}}</td>
-                                        <td>{{$datas->nationality}}</td>
-                                        <td>{{$datas->nationality}}</td>
+                                        <td>{{$datas->getSectionOne->section_name}}</td>
 
                                         <td>
                                             <div class="hstack gap-3 fs-15">
-                                                <a href="{{route('users.edit', ['id' => $datas->id])}}" class="link-primary"><i class="ri-settings-4-line"></i></a>
-                                                <a href="javascript:void(0)" data-url={{route('users.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }} class="link-danger" id="delete_user"><i class="ri-delete-bin-5-line"></i></a>                                                </div>
+
+                                                <a href="javascript:void(0)" class="btn btn-success btn-sm"  data-bs-toggle="modal" data-bs-target="#formDetailsModal" id="show_form_details" data-id={{ $datas->id }}><i class=" ri-eye-fill"></i></a>
+                                            @if(Auth::user()->status == 1 | Auth::user()->status == 2 )
+                                                <a href="{{route('form.edit', ['id' => $datas->id])}}" class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
+                                                <a href="javascript:void(0)"  class="btn btn-danger btn-sm" data-url={{route('form.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }}  id="delete_user"><i class="ri-delete-bin-5-line"></i></a>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
-                                    @endforeach
 
+                                    @endforeach
                                     </tbody>
                             </table>
                         </div>
@@ -94,21 +102,36 @@
         </div>
     </div>
 
+    <!-- Default Modals -->
+
+@include('backend.form.form-details-modal')
 @endsection
 
 @section('addjs')
-
-
-
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-
-
     <script src="{{asset('backend/assets/js/pages/datatables.init.js')}}"></script>
+
+
+    <script>
+        $(document).on('click', '#show_form_details', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            $.ajax({
+                type: 'GET',
+                url: '/see/' + id, // Veri çekmek için oluşturduğumuz route'a istek gönder
+                success: function(response) {
+                    $('#formDetailsModal .modal-body').html(response); // Modal içeriğini güncelle
+                },
+            });
+        });
+
+    </script>
+
 
     <script>
         $(document).on('click', '#delete_user', function () {
@@ -129,6 +152,7 @@
                 }
             });
         });
+
     </script>
 
 @endsection

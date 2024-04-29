@@ -7,6 +7,7 @@ use App\Models\Form;
 use App\Models\Section;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use TimeHunter\LaravelGoogleReCaptchaV2\Validations\GoogleReCaptchaV2ValidationRule;
 
 class FormController extends Controller
@@ -104,6 +105,7 @@ class FormController extends Controller
 
            }
 
+           $existingRecord = Form::where('id', Auth::user())->exists();
            $query = $data->save();
            if (!$query) {
                return response()->json(['code' => 1, 'success' => 'Your message has been sent successfully']);

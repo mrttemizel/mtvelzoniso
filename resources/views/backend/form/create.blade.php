@@ -36,11 +36,11 @@
             <div class="card ">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Apply & New Applications</h4>
-                    <a href="{{ route('applications.index') }}" class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i class="ri-arrow-go-back-fill"></i> &nbsp; Back</a>
+                    <a href="{{ route('form.index') }}" class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i class="ri-arrow-go-back-fill"></i> &nbsp; Back</a>
 
                 </div><!-- end card header -->
                     <div class="card-body">
-                        <form class="application-form" id="application-form" method="POST" action="{{route('applications.store')}}"  enctype="multipart/form-data">
+                        <form class="application-form" id="application-form" method="POST" action="{{route('form.store')}}"  enctype="multipart/form-data">
                             @csrf
                             <h6 class="fw-bolder">PERSONAL DETAILS</h6>
                             <div class="row">
@@ -191,7 +191,7 @@
                                 </div><!--end col-->
                                 <div class="col-6">
                                     <div class="mb-3">
-                                        <label class="form-label"><span class="text-danger">*</span> City</label>
+                                        <label class="form-label"><span class="text-danger">*</span>High School City</label>
                                         <input type="text" class="form-control" placeholder="High School City" name="high_school_city" value="{{ old('high_school_city') }}">
                                         <span class="text-danger">
                                     @error('high_school_city')
@@ -317,7 +317,7 @@
 
                                 <div class="col-lg-12">
                                     <div class="text-end">
-                                        <button type="submit" id="form_submit_button" class="btn btn-primary">Submit</button>
+                                        <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div><!--end col-->
                             </div><!--end row-->
@@ -338,6 +338,8 @@
 
 
 @section('addjs')
+    <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
 
     <script>
 
@@ -345,6 +347,31 @@
             $("div.alert").remove();
         }, 1000 ); // 2 secs
 
+        $(document).on('click', '#submitButton', function () {
+
+            let timerInterval;
+            Swal.fire({
+                title: "Your application is being received",
+                html: "Please wait until it is completed <b></b> milliseconds.",
+                timer: 7000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const timer = Swal.getPopup().querySelector("b");
+                    timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log("I was closed by the timer");
+                }
+            });
+        });
 
     </script>
 
