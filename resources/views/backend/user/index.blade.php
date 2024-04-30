@@ -79,7 +79,7 @@
                                             @elseif($datas->status == 0 )
                                                 <td><h6 class="text-success fs-13 mb-0">Kullanıcı</h6></td>
                                             @elseif($datas->status == 3 )
-                                                <td><h6 class="text-danger fs-13 mb-0">Başvuru Yapan Kişi</h6></td>
+                                                <td><h6 class="text-danger fs-13 mb-0">Student</h6></td>
                                             @elseif($datas->status == 4 )
                                                 <td><h6 class="text-warning fs-13 mb-0">Acenta</h6></td>
                                             @endif

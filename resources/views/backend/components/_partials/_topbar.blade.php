@@ -42,11 +42,15 @@
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
                                 <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
                                     @if (Auth::user()->status == 1 )
-                                        Yönetici
+                                        Admin
                                     @elseif(Auth::user()->status == 2 )
                                         Super Admin
                                     @elseif(Auth::user()->status == 0 )
                                         Editör
+                                    @elseif(Auth::user()->status == 3 )
+                                        Students
+                                    @elseif(Auth::user()->status == 4 )
+                                        Agency
                                     @else
                                         User
                                     @endif
@@ -57,8 +61,8 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <h6 class="dropdown-header">Welcome</h6>
-                        <a class="dropdown-item" href="{{route('user.profile')}}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profil Düzenle</span></a>
-                        <a class="dropdown-item" href="{{route('auth.logout')}}"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Çıkış Yap</span></a>
+                        <a class="dropdown-item" href="{{route('user.profile')}}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Edit Profile</span></a>
+                        <a class="dropdown-item" href="{{route('auth.logout')}}"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Log out</span></a>
 
 
                     </div>

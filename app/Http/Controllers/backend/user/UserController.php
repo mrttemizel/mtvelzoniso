@@ -20,8 +20,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->status == 4)
-        {
+        if ($request->status == 4) {
             $request->validate([
                 'name' => 'required',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -30,10 +29,8 @@ class UserController extends Controller
                 'status' => 'required',
                 'agency_name' => 'required|unique:users',
                 'agency_code' => 'required|unique:users',
-                'agency_tax_number' => 'unique:users',
             ]);
-        }
-        else{
+        } else {
             $request->validate([
                 'name' => 'required',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -47,7 +44,7 @@ class UserController extends Controller
 
         if ($request->hasFile('image')) {
             $request->validate([
-                'image' => 'image|mimes:jpg,jpeg,png,svg|max:1024',
+                'image' => 'image|mimes:jpg,jpeg,png,svg|max:2048',
             ]);
 
             $imagename = str_replace([" ", "."], null, $request->input('name'));
@@ -56,6 +53,26 @@ class UserController extends Controller
             $filname = $imagename . '-' . 'image' . '.' . $extention;
             $file->move('users', $filname);
             $data->image = $filname;
+        }
+
+        if ($request->hasFile('sozlesme')) {
+            $request->validate([
+                'sozlesme' => 'file|mimes:pdf,xlsx,docx,doc|max:2048',
+            ]);
+            $sozlesme = $request->file('sozlesme');
+            $sozlesme_name = 'SZ' .'-'. $request->input('agency_name') . '-' . time() . '.' . $sozlesme->getClientOriginalExtension();
+            $sozlesme->move('users', $sozlesme_name);
+            $data->sozlesme = $sozlesme_name;
+        }
+
+        if ($request->hasFile('vergi_levhasi')) {
+            $request->validate([
+                'vergi_levhasi' => 'file|mimes:pdf,xlsx,docx,doc|max:2048',
+            ]);
+            $vergi_levhasi = $request->file('vergi_levhasi');
+            $vergi_levhasi_name = 'VL' .'-'. $request->input('agency_name') . '-' . time() . '.' . $vergi_levhasi->getClientOriginalExtension();
+            $vergi_levhasi->move('users', $vergi_levhasi_name);
+            $data->vergi_levhasi = $vergi_levhasi_name;
         }
 
         $data->name = $request->input('name');
@@ -78,7 +95,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $data = User::all()->whereNotIn('status',[2]);
+        $data = User::all()->whereNotIn('status', [2]);
         return view('backend.user.index', compact('data'));
     }
 
@@ -91,6 +108,18 @@ class UserController extends Controller
 
         if (\File::exists($path)) {
             \File::delete($path);
+        }
+
+        $path1 = public_path() . '/users/' . $data->sozlesme;
+
+        if (\File::exists($path1)) {
+            \File::delete($path1);
+        }
+
+        $path2 = public_path() . '/users/' . $data->vergi_levhasi;
+
+        if (\File::exists($path2)) {
+            \File::delete($path2);
         }
         $query = $data->delete();
         if (!$query) {
@@ -167,7 +196,7 @@ class UserController extends Controller
 
         $data = User::where('id', $request->input('id'))->first();
 
-        if ($data->status == 3){
+        if ($data->status == 3) {
             if ($data->email == $request->input('email')) {
                 $request->validate([
                     'name' => 'required',
@@ -196,18 +225,23 @@ class UserController extends Controller
             } else {
                 return redirect()->route('users.index')->with($notification_success);
             }
-        }else{
+        } else {
             if ($data->email == $request->input('email')) {
                 $request->validate([
                     'name' => 'required',
                     'email' => 'required|string|email|max:255',
                     'status' => 'required',
+                    'agency_name' => 'required',
+                    'agency_code' => 'required',
                 ]);
             } else {
                 $request->validate([
                     'name' => 'required',
                     'email' => 'required|string|email|max:255|unique:users',
                     'status' => 'required',
+                    'agency_name' => 'required|unique:users',
+                    'agency_code' => 'required|unique:users',
+                    'agency_tax_number' => 'unique:users',
                 ]);
             }
 
@@ -218,6 +252,43 @@ class UserController extends Controller
             $data->agency_code = $request->input('agency_code');
             $data->agency_tax_number = $request->input('agency_tax_number');
             $data->status = $request->status;
+
+
+            if ($request->hasFile('vergi_levhasi')) {
+                $request->validate([
+                    'vergi_levhasi' => 'file|mimes:pdf,xlsx,docx,doc|max:2048',
+                ]);
+
+                $path1 = public_path() . '/users/' . $data->vergi_levhasi;
+
+                if (\File::exists($path1)) ;
+                {
+                    \File::delete($path1);
+                }
+
+                $vergi_levhasi = $request->file('vergi_levhasi');
+                $vergi_levhasi_name = 'VL' .'-'. $request->input('agency_name') . '-' . time() . '.' . $vergi_levhasi->getClientOriginalExtension();
+                $vergi_levhasi->move('users', $vergi_levhasi_name);
+                $data->vergi_levhasi = $vergi_levhasi_name;
+            }
+
+
+            if ($request->hasFile('sozlesme')) {
+                $request->validate([
+                    'sozlesme' => 'file|mimes:pdf,xlsx,docx,doc|max:2048',
+                ]);
+
+                $path2 = public_path() . '/users/' . $data->sozlesme;
+
+                if (\File::exists($path2)) ;
+                {
+                    \File::delete($path2);
+                }
+                $sozlesme = $request->file('sozlesme');
+                $sozlesme_name = 'SZ' .'-'. $request->input('agency_name') . '-' . time() . '.' . $sozlesme->getClientOriginalExtension();
+                $sozlesme->move('users', $sozlesme_name);
+                $data->sozlesme = $sozlesme_name;
+            }
 
             $query = $data->update();
 
@@ -231,14 +302,14 @@ class UserController extends Controller
     }
 
 
-    public  function password_update(Request $request)
+    public function password_update(Request $request)
     {
         $data = User::where('id', $request->input('id'))->first();
 
         if (Auth::user()->status == 0) {
             $validator = \Validator::make($request->all(), [
 
-                'current_password' => ['required', function ($attribute, $value, $fail)  use ($data) {
+                'current_password' => ['required', function ($attribute, $value, $fail) use ($data) {
                     if (!\Hash::check($value, $data->password)) {
                         return $fail(__('The current password is incorrect.'));
                     }

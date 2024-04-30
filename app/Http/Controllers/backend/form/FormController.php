@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Mail;
 
 class FormController extends Controller
 {
+
+    public function NotificationMessage($message, $alertType) {
+        $notification = array(
+            'message' => $message,
+            'alert-type' => $alertType
+        );
+        return $notification;
+    }
+
     public function index()
     {
 
@@ -46,40 +55,29 @@ class FormController extends Controller
     public function create()
     {
 
-        $existingRecord = Form::where('user_id', Auth::user()->id)->exists();
+        if (Auth::user()->status == 3){
+            $existingRecord = Form::where('user_id', Auth::user()->id)->exists();
+            if ($existingRecord) {
+                return back()->with($this->NotificationMessage('A prior application for this student has already been submitted.','error'));
+            } else {
+                $data = Section::query()
+                    ->orderBy('section_name', 'asc')
+                    ->get();
 
-        if ($existingRecord) {
-            // Başvuruyu kabul etmeyin veya uygun bir işlem yapın
-            return redirect()->back()->with('error', 'A prior application for this student has already been submitted.');
-        } else {
+                return view('backend.form.create', compact('data'));
+            }
+        }
             $data = Section::query()
                 ->orderBy('section_name', 'asc')
                 ->get();
-
             return view('backend.form.create', compact('data'));
-        }
+
 
     }
 
 
     public function store(Request $request)
     {
-
-        $notification = array(
-            'message' => 'Başvuru İşlemi Başarılı',
-            'alert-type' => 'success'
-        );
-
-        $notification_error = array(
-            'message' => 'Gönderilecek Mail Adresi Bulunamadı',
-            'alert-type' => 'error'
-        );
-
-        $existingRecord = Form::where('user_id', Auth::user()->id)->exists();
-        if ($existingRecord) {
-            // Başvuruyu kabul etmeyin veya uygun bir işlem yapın
-            return back()->with($notification_error);
-        } else {
 
             $request->validate([
                 'name_surname' => 'required',
@@ -127,7 +125,14 @@ class FormController extends Controller
             $data->year_of_graduation = $request->input('year_of_graduation');
             $data->graduation_degree = $request->input('graduation_degree');
             $data->section_id = $request->input('section_id');
-            $data->about_us = $request->input('about_us"');
+            $data->about_us = $request->input('about_us');
+            $data->application_status = 1;
+
+            if (Auth::user()->status == 4)
+            {
+                $data->agency_code = Auth::user()->agency_code;
+            }
+
 
             if ($request->hasFile('passport_photo')) {
 
@@ -164,7 +169,7 @@ class FormController extends Controller
             ];
 
             $mailAdmin = [
-                'title' => 'Yeni Başvuru Var :',
+                'title' => 'Yeni Başvuru Alınmıştır :',
                 'tableData' => [
                     ['key' => 'Ad Soyad', 'value' => $request->input('name_surname')],
                     ['key' => 'E-Posta', 'value' => $request->input('email')],
@@ -175,11 +180,40 @@ class FormController extends Controller
             Mail::to('murat.temizel@antalya.edu.tr')->send(new FormStoreAdminInformation($mailAdmin));
             $query = $data->save();
             if (!$query) {
-                return back()->with($notification_error);
+                return back()->with($this->NotificationMessage('Application Process Wrong','error'));
             } else {
-                return redirect()->route('form.index')->with($notification);
+                return redirect()->route('form.index')->with($this->NotificationMessage('Application Process Successful','success'));
             }
         }
 
-    }
+
+        public function delete($id)
+        {
+            $data = Form::find($id);
+
+            $path = public_path() . '/form/' . $data->passport_photo;
+
+            if (\File::exists($path)) {
+                \File::delete($path);
+            }
+
+            $path1 = public_path() . '/form/' . $data->official_transcript;
+
+            if (\File::exists($path1)) {
+                \File::delete($path1);
+            }
+
+            $path2 = public_path() . '/form/' . $data->official_exam;
+
+            if (\File::exists($path2)) {
+                \File::delete($path2);
+            }
+            $query = $data->delete();
+            if (!$query) {
+                return back()->with('error', 'Kullanıcı düzenlerken bir hata oluştu!');
+            } else {
+                return back()->with($this->NotificationMessage('Başvuru Silme İşlemi Başarılı','success'));
+            }
+        }
+
 }

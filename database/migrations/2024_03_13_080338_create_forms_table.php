@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('official_transcript')->nullable();
 
             $table->string('official_exam')->nullable();
+            $table->string('agency_code')->nullable();
             $table->text('about_us')->nullable();
 
             $table->unsignedBigInteger('section_id')->nullable();

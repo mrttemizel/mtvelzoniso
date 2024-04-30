@@ -33,7 +33,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <h5 class="text-primary mt-4">Şifre Sıfırlama E-postası Gönder</h5>
+                                    <h5 class="text-primary mt-4">Send Password Reset Email</h5>
 
 
                                     <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
@@ -43,7 +43,7 @@
                                 </div>
 
                                 <div class="alert alert-borderless alert-warning text-center mb-2 mx-2" role="alert">
-                                    E-postanızı girin, talimatlar size gönderilecek!
+                                    Enter your email and instructions will be sent to you!
                                 </div>
                                 @if (session()->get('error'))
                                     <div class="alert alert-danger alert-border-left alert-dismissible fade show"
@@ -68,7 +68,7 @@
                                     <form action="{{route('auth.reset-password-link')}}" method="POST">
                                         @csrf
                                         <div class="mb-4">
-                                            <label class="form-label">E-Posta Adresi</label>
+                                            <label class="form-label">E-mail address</label>
                                             <input type="text" class="form-control" id="email" name="email">
                                             <span class="text-danger">
                                                 @error('email')
@@ -78,8 +78,7 @@
                                         </div>
 
                                         <div class="text-center mt-4">
-                                            <button class="btn btn-success w-100" id="reset_button" type="submit">Sıfırlama Linki
-                                                Gönder</button>
+                                            <button class="btn btn-success w-100" id="reset_button" type="submit">Reset Link Send</button>
                                         </div>
                                     </form><!-- end form -->
                                 </div>
@@ -89,8 +88,8 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Bekle, şifremi hatırlıyorum.... <a href="{{ route('auth.login') }}"
-                                                                               class="fw-semibold text-primary text-decoration-underline"> Giriş Yap </a> </p>
+                            <p class="mb-0">Wait, I remember my password.... <a href="{{ route('auth.login') }}"
+                                                                               class="fw-semibold text-primary text-decoration-underline"> Login </a> </p>
                         </div>
 
                     </div>
@@ -108,7 +107,7 @@
 @section('addjs')
     <script>
         $(document).on('click', '#reset_button', function () {
-            $('#reset_button').html('Sıfırlama E-Postası Gönderiliyor...');
+            $('#reset_button').html('Sending Reset Email...');
             $('#reset_button').addClass("disabled");
         });
     </script>

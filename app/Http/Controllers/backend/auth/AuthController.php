@@ -41,7 +41,7 @@ class AuthController extends Controller
         if (!$query) {
             return back()->with('error','Bir Hata Oluştu!');
         } else {
-            return redirect()->route('auth.login')->with('success','Kayıt Başarılı!');
+            return redirect()->route('auth.login')->with('success','Registration Successful!');
         }
 
     }
@@ -68,7 +68,7 @@ class AuthController extends Controller
         ];
 
         $notification = array(
-            'message' => 'Giriş Başarılı',
+            'message' => 'Login Successful!',
             'alert-type' => 'success'
         );
 
@@ -77,7 +77,7 @@ class AuthController extends Controller
                 return redirect()->route('auth.index')->with($notification);
 
         } else {
-            return back()->with('error','Girilen Bilgiler Doğru Değil!');
+            return back()->with('error','The Information Entered Is Not Correct!');
         }
     }
 
@@ -85,7 +85,7 @@ class AuthController extends Controller
     public function logout()
     {
         $notification = array(
-            'message' => 'Çıkış İşlemi Başarılı',
+            'message' => 'Logout Successful',
             'alert-type' => 'success'
         );
 
@@ -103,7 +103,7 @@ class AuthController extends Controller
         $data = User::where('email',$request->email)->first();
         if(!$data)
         {
-            return back()->with('error','Bu E-posta adresi sisteme kayıtlı değil.');
+            return back()->with('error','This e-mail address is not registered in the system.');
         }
 
         $token = hash('sha256',time());
@@ -118,7 +118,7 @@ class AuthController extends Controller
         Mail::to($request->email)->send(new Websiteemail($subject , $button));
 
 
-        return back()->with('success','Sfırlama talimatları e-posta adresinize gönderildi!');
+        return back()->with('success','Reset instructions have been sent to your email address!');
 
     }
 
@@ -145,12 +145,12 @@ class AuthController extends Controller
         $data = User::where('token',$request->token)->where('email',$request->email)->first();
 
         if((Hash::check($request->password,$data->password))){
-            return back()->with('error','Yeni şifreniz, eski şifreniz ile aynı olamaz!');
+            return back()->with('error','Your new password cannot be the same as your old password!');
         }else{
             $data -> password = Hash::make($request->password);
             $data -> token = '';
             $data -> update();
-            return redirect()->route('auth.login')->with('success','Şifreniz değiştirildi');
+            return redirect()->route('auth.login')->with('success','Your password has been changed');
         }
 
     }

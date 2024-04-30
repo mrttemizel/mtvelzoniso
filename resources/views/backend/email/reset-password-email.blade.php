@@ -25,17 +25,17 @@
                                     </tr>
                                     <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 24px; vertical-align: top; margin: 0; padding: 0 0 10px;  text-align: center;" valign="top">
-                                            <h4 style="font-family: 'Roboto', sans-serif; margin-bottom: 0px;font-weight: 500; line-height: 1.5;">Şifremi Unuttum ?</h4>
+                                            <h4 style="font-family: 'Roboto', sans-serif; margin-bottom: 0px;font-weight: 500; line-height: 1.5;">I forgot my password ?</h4>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" style="font-family: 'Roboto', sans-serif; color: #878a99; box-sizing: border-box; font-size: 15px; vertical-align: top; margin: 0; padding: 0 0 12px; text-align: center;" valign="top">
-                                            <p style="margin-bottom: 13px; line-height: 1.5;">Şifrenizi güvenlik nedeniyle değiştirebilir veya unutursanız sıfırlayabilirsiniz..</p>
+                                            <p style="margin-bottom: 13px; line-height: 1.5;">You can change your password for security reasons or reset it if you forget it.</p>
                                         </td>
                                     </tr>
                                     <tr style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                         <td class="content-block" itemprop="handler" itemscope="" itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 22px; text-align: center;" valign="top">
-                                            <a href="{!! $body !!}" itemprop="url" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: .8125rem; color: #FFF; text-decoration: none; font-weight: 400; text-align: center; cursor: pointer; display: inline-block; border-radius: .25rem; text-transform: capitalize; background-color: #405189; margin: 0; border-color: #405189; border-style: solid; border-width: 1px; padding: .5rem .9rem;">Yeni Şifre Oluştur</a>
+                                            <a href="{!! $body !!}" itemprop="url" style="font-family: 'Roboto', sans-serif; box-sizing: border-box; font-size: .8125rem; color: #FFF; text-decoration: none; font-weight: 400; text-align: center; cursor: pointer; display: inline-block; border-radius: .25rem; text-transform: capitalize; background-color: #405189; margin: 0; border-color: #405189; border-style: solid; border-width: 1px; padding: .5rem .9rem;">Create New Password</a>
                                         </td>
                                     </tr>
 
@@ -46,8 +46,8 @@
                         </tbody></table>
 
                     <div style="text-align: center; margin: 28px auto 0px auto;">
-                        <h4>Yardımamı ihtiyacınız var ?</h4>
-                        <p style="color: #878a99;">Lütfen şu adrese geri bildirim veya hata bilgisi gönderin: <a href="" style="font-weight: 500px;">murat.temizel@antalya.edu.tr</a></p>
+                        <h4>Do you need help?</h4>
+                        <p style="color: #878a99;">Please send feedback or error information to: <a href="" style="font-weight: 500px;">murat.temizel@antalya.edu.tr</a></p>
                         <p style="font-family: 'Roboto', sans-serif; font-size: 14px;color: #98a6ad; margin: 0px;">2023 Mpanel. Design &amp; Develop by murattemizel</p>
                     </div>
                 </div>

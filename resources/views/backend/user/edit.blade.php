@@ -87,7 +87,7 @@
                 <div class="card-body p-4">
                     <div class="tab-content">
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form action="{{ route('users.information.update') }}" method="POST">
+                            <form action="{{ route('users.information.update') }}" method="POST" enctype="multipart/form-data">
 
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data->id }}">
@@ -102,6 +102,8 @@
                                                     Kullanıcı</option>
                                                 <option value="4"{{ $data->status == 4 ? 'selected' : '' }}>
                                                     Acenta</option>
+                                                <option value="3"{{ $data->status == 3 ? 'selected' : '' }}>
+                                                    Student</option>
                                             </select>
                                             <span class="text-danger">
                                     @error('status')
@@ -126,7 +128,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="phonenumberInput" class="form-label">Telefon Numarası :</label>
-                                            <input type="text"  name="phone" class="form-control" value="{{$data->phone}}" id="cleave-phone" placeholder="(xxx)xxx-xxxx">
+                                            <input type="text"  name="phone" class="form-control" value="{{$data->phone}}" placeholder="Telefon">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -143,7 +145,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-6 col-md-6" id="agency_name" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }} >
+                                    <div class="col-xl-6 col-md-6" id="agency_name" >
                                         <div>
                                             <label for="basiInput" class="form-label">Acenta Adı <span class="text-danger">*</span></label>
                                             <input type="text" name="agency_name" placeholder="Acenta Adı" class="form-control" value="{{$data->agency_name}}" >
@@ -155,7 +157,7 @@
                                         </div>
                                     </div>
                                     <!--end col-->
-                                    <div class="col-xl-6 col-md-6"  id="agency_code" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }}>
+                                    <div class="col-xl-6 col-md-6"  id="agency_code" >
                                         <div>
                                             <label for="labelInput" class="form-label">Acenta Kodu <span class="text-danger">*</span></label>
                                             <input type="text" name="agency_code" placeholder="Acenta Kodu" class="form-control" value="{{$data->agency_code}}">
@@ -166,7 +168,7 @@
                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 col-md-12 mt-3" id="agency_tax_number" {{ $data->status == 4 ? 'style="display: bock"' : 'style="display: none' }}>
+                                    <div class="col-xl-12 col-md-12 mt-3" id="agency_tax_number">
                                         <div>
                                             <label for="labelInput" class="form-label">Acenta Vergi Numarası</label>
                                             <input type="text" name="agency_tax_number" placeholder="Acenta Vergi Numarası" class="form-control" value="{{$data->agency_tax_number}}" >
@@ -177,7 +179,37 @@
                             </span>
                                         </div>
                                     </div>
+                                    <div class="col-xl-6 col-md-6 mt-3"  id="sozlesme" >
+                                        <div>
+                                            <label for="formFile" class="form-label">Sözleşme</label>
+                                            @if ($data->sozlesme == '') Dosya Yüklü Değil @else<a href="{{ asset('users/'.$data->sozlesme) }}" download> Yüklü Dosyayı İndir </a> @endif
+                                            <input class="form-control"  type="file" name="sozlesme">
+                                            <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
+
+                                            <span class="text-danger">
+                                    @error('sozlesme')
+                                                {{ $message }}
+                                                @enderror
+                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 mt-3"  id="vergi_levhasi" {{ $data->status == 4 ? 'style="display: none"' : 'style="display: block' }}>
+                                        <div>
+                                            <label for="formFile" class="form-label">Vergi Levhası</label>
+                                            @if ($data->vergi_levhasi == '') Dosya Yüklü Değil @else<a href="{{ asset('users/'.$data->vergi_levhasi) }}" download> Yüklü Dosyayı İndir </a> @endif
+
+                                            <input class="form-control"  type="file" name="vergi_levhasi">
+                                            <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
+
+                                            <span class="text-danger">
+                                    @error('vergi_levhasi')
+                                                {{ $message }}
+                                                @enderror
+                            </span>
+                                        </div>
+                                    </div>
                                     <!--end col-->
+
                                     <div class="col-lg-12 mt-3">
                                         <div class="hstack gap-2 justify-content-end">
                                             <button type="submit" class="btn btn-primary">Güncelle</button>
@@ -262,6 +294,8 @@
         const agency_code_input = document.getElementById("agency_code");
         const agency_tax_number_input = document.getElementById("agency_tax_number");
         const agency_name_input = document.getElementById("agency_name");
+        const sozlesme_input = document.getElementById("sozlesme");
+        const vergi_levhasi_input = document.getElementById("vergi_levhasi");
 
         $(document).ready(function() {
 
@@ -303,18 +337,37 @@
 
         });
 
+        window.addEventListener('DOMContentLoaded', function() {
+            // $data->status değişkeninin değerini kontrol ediyoruz
+            var status = {{ $data->status }};
+
+            // Eğer status 4'e eşit değilse
+            if (status !== 4) {
+                // Elementi gizle
+                agency_code_input.style.display = "none"
+                agency_tax_number_input.style.display = "none"
+                agency_name_input.style.display = "none"
+                sozlesme_input.style.display = "none"
+                vergi_levhasi_input.style.display = "none"
+            }
+        });
+
         status_change_input.addEventListener("change",function (event){
             if (event.target.value == 4)
             {
                 agency_code_input.style.display = "block"
                 agency_tax_number_input.style.display = "block"
                 agency_name_input.style.display = "block"
+                sozlesme_input.style.display = "block"
+                vergi_levhasi_input.style.display = "block"
             }
             else
             {
                 agency_code_input.style.display = "none"
                 agency_tax_number_input.style.display = "none"
                 agency_name_input.style.display = "none"
+                sozlesme_input.style.display = "none"
+                vergi_levhasi_input.style.display = "none"
             }
         });
 

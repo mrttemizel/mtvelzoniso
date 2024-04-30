@@ -42,9 +42,9 @@
                                         <form action="{{route('auth.store')}}" method="POST">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="name" class="form-label">Ad Soyad : <span class="text-danger">*</span></label>
+                                                <label for="name" class="form-label">Name Surname: <span class="text-danger">*</span></label>
                                                 <input type="text" name="name" value="{{ old('name') }}"
-                                                       class="form-control" placeholder="Ad ve Soyad">
+                                                       class="form-control" placeholder="Name Surname">
                                                 <span class="text-danger">
                                                 @error('name')
                                                     {{ $message }}
@@ -52,9 +52,9 @@
                                             </span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="email" class="form-label">E-Posta Adresi : <span class="text-danger">*</span></label>
+                                                <label for="email" class="form-label">Email : <span class="text-danger">*</span></label>
                                                 <input type="email" name="email" value="{{ old('email') }}"
-                                                       class="form-control" placeholder="E-posta Adresiniz">
+                                                       class="form-control" placeholder="Email">
                                                 <span class="text-danger">
                                                 @error('email')
                                                     {{ $message }}
@@ -64,9 +64,9 @@
 
 
                                             <div class="mb-3">
-                                                <label for="password" class="form-label">Şifre : <span class="text-danger">*</span></label>
+                                                <label for="password" class="form-label">Password : <span class="text-danger">*</span></label>
                                                 <input type="password" name="password" value="{{ old('password') }}"
-                                                       class="form-control" placeholder="Şifre">
+                                                       class="form-control" placeholder="Password">
                                                 <span class="text-danger">
                                                 @error('password')
                                                     {{ $message }}
@@ -74,9 +74,9 @@
                                             </span>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="password_confirmation" class="form-label">Şifre Tekrar : <span class="text-danger">*</span></label>
+                                                <label for="password_confirmation" class="form-label">Confirm Password : <span class="text-danger">*</span></label>
                                                 <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                                       class="form-control" placeholder="Şifre Tekrar">
+                                                       class="form-control" placeholder="Confirm Password">
                                                 <span class="text-danger">
                                                 @error('password_confirmation')
                                                     {{ $message }}

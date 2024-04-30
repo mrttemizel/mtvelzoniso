@@ -37,12 +37,17 @@
                                 </div>
                             </div>
                             <h5 class="fs-16 mb-1">{{ Auth::user()->name }}</h5>
-                            <p class="text-muted mb-0">       @if (Auth::user()->status == 1 )
-                                    Yönetici
+                            <p class="text-muted mb-0">
+                                @if (Auth::user()->status == 1 )
+                                    Admin
                                 @elseif(Auth::user()->status == 2 )
                                     Super Admin
                                 @elseif(Auth::user()->status == 0 )
                                     Editör
+                                @elseif(Auth::user()->status == 3 )
+                                    Students
+                                @elseif(Auth::user()->status == 4 )
+                                    Agency
                                 @else
                                     User
                                 @endif</p>
@@ -56,7 +61,7 @@
                                             </span>
                         </div>
                     <div class="hstack gap-2 justify-content-center mb-2">
-                        <button type="submit" class="btn btn-primary">Güncelle</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
 
 
@@ -71,12 +76,12 @@
                         <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                    <i class="fas fa-home"></i> Profil İşlemleri
+                                    <i class="fas fa-home"></i> Profile Edit
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
-                                    <i class="far fa-user"></i> Şifre İşlemleri
+                                    <i class="far fa-user"></i> Password Edit
                                 </a>
                             </li>
                         </ul>
@@ -90,7 +95,7 @@
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
-                                                <label for="firstnameInput" class="form-label">Ad Soyad : <span
+                                                <label for="firstnameInput" class="form-label">Name Surname : <span
                                                         class="text-danger">*</span></label></label>
                                                 <input type="text" class="form-control" name="name" placeholder="Ad Soyad" value="{{Auth::user()->name}}">
                                                 <span class="text-danger">
@@ -103,15 +108,15 @@
                                         <!--end col-->
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="phonenumberInput" class="form-label">Telefon Numarası :</label>
+                                                <label for="phonenumberInput" class="form-label">Phone :</label>
 
-                                                <input type="text"  name="phone" class="form-control" value="{{Auth::user()->phone}}" id="cleave-phone" placeholder="(xxx)xxx-xxxx">
+                                                <input type="text"  name="phone" class="form-control" value="{{Auth::user()->phone}}">
                                             </div>
                                         </div>
                                         <!--end col-->
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="emailInput" class="form-label">E-Posta Adresi : <span
+                                                <label for="emailInput" class="form-label">Email : <span
                                                         class="text-danger">*</span></label></label>
                                                 <input type="email" class="form-control" name="email" placeholder="E-Posta Adresi" value="{{Auth::user()->email}}">
                                                 <span class="text-danger">
@@ -140,7 +145,7 @@
                                     <div class="row g-2">
                                         <div class="col-lg-4">
                                             <div>
-                                                <label for="oldpasswordInput" class="form-label">Kullanılan Şifre <span
+                                                <label for="oldpasswordInput" class="form-label">Password Used <span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" name="current_password"
                                                        id="oldpassword">
@@ -150,7 +155,7 @@
                                         <!--end col-->
                                         <div class="col-lg-4">
                                             <div>
-                                                <label for="newpasswordInput" class="form-label">Yeni Şifre <span
+                                                <label for="newpasswordInput" class="form-label">New Password<span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" name="password" id="password">
 
@@ -160,7 +165,7 @@
                                         <!--end col-->
                                         <div class="col-lg-4">
                                             <div>
-                                                <label for="confirmpasswordInput" class="form-label">Yeni Şifre Tekrar <span
+                                                <label for="confirmpasswordInput" class="form-label">Confirm Password <span
                                                         class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" name="password_confirmation"
                                                        id="password_confirmation">
@@ -170,7 +175,7 @@
                                         <!--end col-->
                                         <div class="col-lg-12">
                                             <div class="text-end">
-                                                <button type="submit" class="btn btn-success">Güncelle</button>
+                                                <button type="submit" class="btn btn-success">Update</button>
                                             </div>
                                         </div>
                                         <!--end col-->

@@ -17,6 +17,36 @@
                         </thead>
                         <tbody>
                         @foreach($data as $datas)
+                            @if(Auth::user()->status == 2 | Auth::user()->status == 1 )
+                                <tr>
+                                    <td class="text-danger">Agency Code</td>
+                                    <td>{{$datas->agency_code}}</td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <td class="text-danger">Application No</td>
+                                <td>{{$datas->basvuru_id}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-danger">Application Status</td>
+
+                                <td>
+                                    @if($datas -> application_status == 1)
+                                        <span class="badge bg-warning">Waiting For Evaluation</span>
+                                    @elseif($datas -> application_status == 2)
+                                        <span class="badge bg-info">Pre - Acceptance</span>
+                                    @elseif($datas -> application_status == 3)
+                                        <span class="badge bg-primary">Official Acceptance</span>
+                                    @elseif($datas -> application_status == 4)
+                                        <span class="badge bg-danger">Rejected</span>
+                                    @elseif($datas -> application_status == 5)
+                                        <span class="badge bg-secondary">Missing Document</span>
+                                    @elseif($datas -> application_status == 6)
+                                        <span class="badge bg-success">Registration Completed</span>
+                                    @endif
+
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="text-danger">Name and Surname</td>
                                 <td>{{$datas->name_surname}}</td>
@@ -90,7 +120,7 @@
                             <tr>
                                 <td class="text-danger">Exam(TOEFL vb)</td>
                                 @if($datas->official_exam == '')
-                                    <td> Document Not Uploaded</td>
+                                    <td class="text-danger"> Document Not Uploaded</td>
                                 @else
                                 <td><a href="{{ asset('form/'.$datas->official_exam) }}" download target="_blank">Download File</a></td>
                                 @endif
@@ -101,7 +131,11 @@
                             </tr>
                             <tr>
                                 <td class="text-danger">Abouth Us</td>
-                                <td>{{$datas->about_us}}</td>
+                                @if($datas->official_exam == '')
+                                    <td class="text-danger"> No Data Entry</td>
+                                @else
+                                    <td>{{$datas->about_us}}</td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>

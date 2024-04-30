@@ -121,7 +121,7 @@
                                 <div class="col-xl-6 col-md-6">
                                     <div>
                                         <label for="labelInput" class="form-label">Telefon</label>
-                                        <input type="text"  name="phone" class="form-control" value="{{ old('phone') }}" id="cleave-phone" placeholder="(xxx)xxx-xxxx">
+                                        <input type="text"  name="phone" class="form-control" value="{{ old('phone') }}" placeholder="Telefon">
                                         <span class="text-danger">
                                     @error('phone')
                                             {{ $message }}
@@ -135,8 +135,38 @@
                                     <div>
                                         <label for="formFile" class="form-label">Profil Resmi</label>
                                         <input class="form-control"  type="file" name="image">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are jpg, png, jpeg, svg.</span><br>
+
                                         <span class="text-danger">
                                     @error('image')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                                <div class="col-lg-6" id="sozlesme" style="display: none">
+                                    <div>
+                                        <label for="formFile" class="form-label">Sözleşme</label>
+                                        <input class="form-control"  type="file" name="sozlesme">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
+
+                                        <span class="text-danger">
+                                    @error('sozlesme')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
+                                    </div>
+                                    <!-- end card -->
+                                </div>
+                                <div class="col-lg-6" id="vergi_levhasi" style="display: none">
+                                    <div>
+                                        <label for="formFile" class="form-label">Vergi Levhası</label>
+                                        <input class="form-control"  type="file" name="vergi_levhasi">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
+
+                                        <span class="text-danger">
+                                    @error('vergi_levhasi')
                                             {{ $message }}
                                             @enderror
                             </span>
@@ -204,6 +234,8 @@
         const agency_code_input = document.getElementById("agency_code");
         const agency_tax_number_input = document.getElementById("agency_tax_number");
         const agency_name_input = document.getElementById("agency_name");
+        const sozlesme_input = document.getElementById("sozlesme");
+        const vergi_levhasi_input = document.getElementById("vergi_levhasi");
 
         status_change_input.addEventListener("change",function (event){
             if (event.target.value == 4)
@@ -211,12 +243,16 @@
                 agency_code_input.style.display = "block"
                 agency_tax_number_input.style.display = "block"
                 agency_name_input.style.display = "block"
+                sozlesme_input.style.display = "block"
+                vergi_levhasi_input.style.display = "block"
             }
             else
             {
                 agency_code_input.style.display = "none"
                 agency_tax_number_input.style.display = "none"
                 agency_name_input.style.display = "none"
+                sozlesme_input.style.display = "none"
+                vergi_levhasi_input.style.display = "none"
             }
         });
 

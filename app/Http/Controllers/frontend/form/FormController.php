@@ -75,6 +75,8 @@ class FormController extends Controller
             $data->graduation_degree = $request->input('graduation_degree');
             $data->section_id = $request->input('section_id');
 
+            $data->application_status = 1;
+
 
            $data->basvuru_id = $basvuru_id;
 

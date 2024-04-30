@@ -51,18 +51,23 @@
                             <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>SR No.</th>
-                                    <th>Durum</th>
-                                    <th>Başvuru No.</th>
-                                    <th>Ad Soyad</th>
-                                    <th>E-Posta</th>
-                                    <th>Telefon</th>
-                                    <th>Ülke</th>
-                                    <th>Milliyet</th>
-                                    <th>Tercih Bölüm</th>
+                                    <th>Number</th>
+                                    <th>
+                                        @if(Auth::user()->status == 2 | Auth::user()->status == 1 )
+                                            Agency Code
+                                        @endif
+                                    </th>
+                                    <th>Application Status</th>
+                                    <th>Application No.</th>
+                                    <th>Name Surname</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Country</th>
+                                    <th>Nationality</th>
+                                    <th>Preference Section</th>
 
 
-                                    <th>Düzenle</th>
+                                    <th>Edit</th>
                                 </tr>
                                 </thead>
                                 <tbody
@@ -71,7 +76,26 @@
                                     @php $i++ @endphp
                                     <tr>
                                         <td>{{$i}}</td>
-                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                        <td>
+                                            @if(Auth::user()->status == 2 | Auth::user()->status == 1 )
+                                                {{$datas->agency_code }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($datas -> application_status == 1)
+                                                <span class="badge bg-warning">Waiting For Evaluation</span>
+                                            @elseif($datas -> application_status == 2)
+                                                <span class="badge bg-info">Pre - Acceptance</span>
+                                            @elseif($datas -> application_status == 3)
+                                                <span class="badge bg-primary">Official Acceptance</span>
+                                            @elseif($datas -> application_status == 4)
+                                                <span class="badge bg-danger">Rejected</span>
+                                            @elseif($datas -> application_status == 5)
+                                                <span class="badge bg-secondary">Missing Document</span>
+                                            @elseif($datas -> application_status == 6)
+                                                <span class="badge bg-success">Registration Completed</span>
+                                            @endif
+                                        </td>
                                         <td>{{$datas->basvuru_id}}</td>
                                         <td>{{$datas->name_surname}}</td>
                                         <td>{{$datas->email}}</td>
@@ -86,7 +110,7 @@
                                                 <a href="javascript:void(0)" class="btn btn-success btn-sm"  data-bs-toggle="modal" data-bs-target="#formDetailsModal" id="show_form_details" data-id={{ $datas->id }}><i class=" ri-eye-fill"></i></a>
                                             @if(Auth::user()->status == 1 | Auth::user()->status == 2 )
                                                 <a href="{{route('form.edit', ['id' => $datas->id])}}" class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
-                                                <a href="javascript:void(0)"  class="btn btn-danger btn-sm" data-url={{route('form.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }}  id="delete_user"><i class="ri-delete-bin-5-line"></i></a>
+                                                <a href="javascript:void(0)"  class="btn btn-danger btn-sm" data-url="{{route('form.delete', ['id'=>$datas->id]) }}" data-id="{{ $datas->id }}"  id="delete_form"><i class="ri-delete-bin-5-line"></i></a>
                                                 @endif
                                             </div>
                                         </td>
@@ -108,6 +132,8 @@
 @endsection
 
 @section('addjs')
+    <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
 
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -134,12 +160,12 @@
 
 
     <script>
-        $(document).on('click', '#delete_user', function () {
+        $(document).on('click', '#delete_form', function () {
             var user_id = $(this).attr('data-id');
             const url = $(this).attr('data-url');
             Swal.fire({
                 title: 'Emin misiniz?',
-                text: "Bu kullanıcıyı silmek istediğinize emin misiniz?",
+                text: "Bu başvuruyu silmek istediğinize emin misiniz?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

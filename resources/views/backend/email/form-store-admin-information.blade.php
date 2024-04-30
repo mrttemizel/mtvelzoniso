@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<h3>{{ $title }}</h3>
+<h5>{{ $title }}</h5>
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
     <tr>

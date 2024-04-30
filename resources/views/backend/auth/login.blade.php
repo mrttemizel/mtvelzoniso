@@ -34,7 +34,7 @@
                             <div class="card-body p-4 mt-2">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <h5 class="text-primary mt-4">Hoş Geldiniz !</h5>
+                                    <h5 class="text-primary mt-4">Welcome !</h5>
                                 </div>
                                 @if (session()->get('error'))
                                     <div class="alert alert-danger alert-border-left alert-dismissible fade show"
@@ -62,9 +62,9 @@
                                     <form action="{{route('auth.login-submit')}}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">E-Posta Adresi :</label>
+                                            <label for="email" class="form-label">E-mail address :</label>
                                             <input type="email" name="email" value="{{ old('email') }}"
-                                                   class="form-control" placeholder="E-posta Adresiniz">
+                                                   class="form-control" placeholder="E-mail address">
                                             <span class="text-danger">
                                                 @error('email')
                                                 {{ $message }}
@@ -74,14 +74,13 @@
 
                                         <div class="mb-3">
                                             <div class="float-end">
-                                                <a href="{{route('auth.reset_password')}}" class="text-muted"><b>Şifremi
-                                                        Unuttum?</b></a>
+                                                <a href="{{route('auth.reset_password')}}" class="text-muted"><b>I forgot my password?</b></a>
                                             </div>
-                                            <label class="form-label">Şifre :</label>
+                                            <label class="form-label">Password :</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 <input type="password" name="password"
                                                        class="form-control pe-5 password-input"
-                                                       placeholder="Şifre">
+                                                       placeholder="Password">
                                                 <button
                                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                                                     type="button" id="password-addon"></button>
@@ -96,39 +95,41 @@
 
                                         <div class="mb-3">
 
-                                        <div id="recaptcha_form"></div>
+                                            <div id="recaptcha_form"></div>
                                             <span class="text-danger">
-                                                    @error('g-recaptcha-response')
-                                                {{ $message }}
-                                                    @enderror
+                                            @error('g-recaptcha-response')
+                                            {{ $message }}
+                                            @enderror
 
                                         </div>
 
+                                        <a href="{{route('frontend.index')}}" class="text-muted"><b>Register Student</b></a>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-info w-100"  id="login_button" type="submit">Giriş Yap</button>
+                                            <button class="btn btn-info w-100" id="login_button" type="submit">Login
+                                            </button>
                                         </div>
 
                                     </form>
 
+                                </div>
+                                <!-- end card body -->
                             </div>
-                            <!-- end card body -->
+                            <!-- end card -->
+
                         </div>
-                        <!-- end card -->
-
                     </div>
+                    <!-- end row -->
                 </div>
-                <!-- end row -->
+                <!-- end container -->
             </div>
-            <!-- end container -->
+            <!-- end auth page content -->
+
+
         </div>
-        <!-- end auth page content -->
+        <!-- end auth-page-wrapper -->
 
-
-    </div>
-    <!-- end auth-page-wrapper -->
-
-@endsection
+        @endsection
 
         @section('addjs')
 

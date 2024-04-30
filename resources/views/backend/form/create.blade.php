@@ -106,6 +106,7 @@
                                     <div class="mb-3">
                                         <label  class="form-label"><span class="text-danger">*</span> Passaport Photo</label>
                                         <input type="file" class="form-control" name="passport_photo" value="{{ old('passport_photo') }}">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are jpg, png, jpeg.</span><br>
                                         <span class="text-danger">
                                     @error('passport_photo')
                                             {{ $message }}
@@ -115,7 +116,7 @@
                                     </div>
                                 </div><!--end col-->
 
-                                <h6 class="fw-bolder mt-4">CONTACT  DETAILS</h6>
+                                <h6 class="fw-bolder mt-1">CONTACT  DETAILS</h6>
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label"><span class="text-danger">*</span> Country</label>
@@ -229,6 +230,7 @@
                                     <div class="mb-3">
                                         <label class="form-label"><span class="text-danger">*</span> Official Transcript "Last 3 Years"</label>
                                         <input type="file" class="form-control"  name="official_transcript" value="{{ old('official_transcript') }}">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
                                         <span class="text-danger">
                                     @error('official_transcript')
                                             {{ $message }}
@@ -243,6 +245,12 @@
                                     <div class="mb-3">
                                         <label class="form-label">If taken before, a copy of language proficiency exam result (e.g. TOEFL etc.)</label>
                                         <input type="file" class="form-control"  name="official_exam" value="{{ old('official_exam') }}">
+                                        <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
+                                        <span class="text-danger">
+                                    @error('official_exam')
+                                            {{ $message }}
+                                            @enderror
+                            </span>
                                     </div>
                                 </div><!--end col-->
 

@@ -33,7 +33,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <p class="text-muted mt-4">Yeni şifreniz daha önce kullandığınız şifreden farklı olmalıdır.</p>
+                                    <p class="text-muted mt-4">Your new password must be different from the password you used before.</p>
                                 </div>
                                 @if (session()->get('error'))
                                     <div class="alert alert-danger alert-border-left alert-dismissible fade show"
@@ -52,22 +52,22 @@
                                         <input type="hidden" name="token" value="{{ $token }}">
                                         <input type="hidden" name="email" value="{{ $email }}">
                                         <div class="mb-3">
-                                            <label class="form-label" for="password-input">Şifre</label>
+                                            <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" name="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Şifre" id="password-input">
+                                                <input type="password" name="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Password" id="password-input">
                                             </div>
                                             <span class="text-danger">
                                                 @error('password')
                                                 {{ $message }}
                                                 @enderror
                                             </span>
-                                            <div id="passwordInput" class="form-text">En az 8 karakter olmalıdır.</div>
+                                            <div id="passwordInput" class="form-text">It must be at least 8 characters.</div>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label" for="confirm-password-input">Şifreyi Onayla</label>
+                                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
                                             <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password" name="password_confirmation" class="form-control pe-5 password-input" onpaste="return false" placeholder="Şifreyi Onayla">
+                                                <input type="password" name="password_confirmation" class="form-control pe-5 password-input" onpaste="return false" placeholder="Confirm Password">
                                             </div>
                                             <span class="text-danger">
                                             @error('password_confirmation')
@@ -78,7 +78,7 @@
 
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Şifremi Sıfırla</button>
+                                            <button class="btn btn-success w-100" type="submit">Reset My Password</button>
                                         </div>
 
                                     </form>
@@ -89,8 +89,8 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Bekle, şifremi hatırlıyorum.... <a href="auth-signin-basic"
-                                                                               class="fw-semibold text-primary text-decoration-underline"> Giriş Yap </a> </p>
+                            <p class="mb-0"><a href="auth-signin-basic"
+                                                                               class="fw-semibold text-primary text-decoration-underline"> Login </a> </p>
                         </div>
 
 

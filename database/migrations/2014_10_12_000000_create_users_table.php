@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
+            $table->string('sozlesme')->nullable();
+            $table->string('vergi_levhasi')->nullable();
             $table->string('token')->nullable();
             $table->timestamps();
         });
