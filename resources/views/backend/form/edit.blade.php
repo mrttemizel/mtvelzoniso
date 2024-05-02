@@ -328,6 +328,10 @@
                             </div><!--end col-->
                         </div><!--end row-->
                     </form>
+                    <div class="col-lg-12 text-end mt-2">
+                        <a href="javascript:void(0)" class="btn btn-secondary"  data-bs-toggle="modal" data-bs-target="#preliminaryAcceptanceLetter" id="show_form_details"><i class="ri-mail-send-line"></i> Ön Kabul Mektubu Gönder</a>
+                    </div>
+
                 </div><!-- end card body -->
 
             </div>
@@ -337,7 +341,7 @@
 
 
 
-
+@include('backend.form.preliminary-acceptance-letter-modal')
 
 @endsection
 
@@ -353,13 +357,13 @@
             $("div.alert").remove();
         }, 1000 ); // 2 secs
 
-        $(document).on('click', '#submitButton', function () {
+        $(document).on('click', '#send-pre-accept', function () {
 
             let timerInterval;
             Swal.fire({
-                title: "Your application is being received",
-                html: "Please wait until it is completed <b></b> milliseconds.",
-                timer: 7000,
+                title: "Kabul Mektubu Gönderiliyor",
+                html: "Lütfen bekleyiniz <b></b> milliseconds.",
+                timer: 3000,
                 timerProgressBar: true,
                 didOpen: () => {
                     Swal.showLoading();

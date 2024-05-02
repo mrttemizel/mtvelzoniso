@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\backend\auth\AuthController;
+use App\Http\Controllers\backend\letter\LetterController;
 use App\Http\Controllers\backend\sections\SectionsController;
 use App\Http\Controllers\backend\user\UserController;
 use App\Http\Controllers\backend\form\FormController;
@@ -25,7 +26,12 @@ Route::post('/reset-password-submit',[AuthController::class,'reset_password_subm
 
 Route::middleware('auth')->group(function (){
     Route::prefix('dashboard')->group(function(){
-        Route::get('/',[AuthController::class,'index'])->name('auth.index');
+
+        Route::get('/guest',function () {
+            return view('backend.guest');
+        })->name('auth.guest');
+
+        Route::get('/',[AuthController::class,'index'])->name('auth.index')->middleware('adminStatus');;
         Route::get('/logout',[AuthController::class,'logout'])->name('auth.logout');
 
 
@@ -53,9 +59,11 @@ Route::middleware('auth')->group(function (){
         Route::post('/form/store',[FormController::class,'store'])->name('form.store');
         Route::get('/form/see/{id}',[FormController::class,'see'])->name('form.see');
         Route::get('/form/edit/{id}',[FormController::class,'edit'])->name('form.edit')->middleware('adminStatus');
-        Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete');
+        Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete')->middleware('adminStatus');
         Route::post('/form/update',[FormController::class,'update'])->name('form.update')->middleware('adminStatus');
 
+
+        Route::post('/letter/send-pre-letter',[LetterController::class,'send_pre_letter'])->name('letter.send-pre-letter')->middleware('adminStatus');
 
 
     });

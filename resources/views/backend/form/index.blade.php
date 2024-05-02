@@ -59,11 +59,8 @@
                                     </th>
                                     <th>Application Status</th>
                                     <th>Application No.</th>
+                                    <th>Application Date</th>
                                     <th>Name Surname</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Country</th>
-                                    <th>Nationality</th>
                                     <th>Preference Section</th>
 
 
@@ -97,11 +94,8 @@
                                             @endif
                                         </td>
                                         <td>{{$datas->basvuru_id}}</td>
+                                        <td>{{$datas->created_at->format('d-m-Y')}}</td>
                                         <td>{{$datas->name_surname}}</td>
-                                        <td>{{$datas->email}}</td>
-                                        <td>{{$datas->phone_number}}</td>
-                                        <td>{{$datas->country}}</td>
-                                        <td>{{$datas->nationality}}</td>
                                         <td>{{$datas->getSectionOne->section_name}}</td>
 
                                         <td>

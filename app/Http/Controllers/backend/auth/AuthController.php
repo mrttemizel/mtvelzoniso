@@ -74,6 +74,11 @@ class AuthController extends Controller
 
         if(Auth::attempt($credential)){
 
+            if (Auth::user()->status == 3 | Auth::user()->status == 4 ){
+
+                return redirect()->route('auth.guest')->with($notification);
+
+            }
                 return redirect()->route('auth.index')->with($notification);
 
         } else {

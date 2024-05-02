@@ -7,6 +7,7 @@ use App\Mail\FormStoreAdminInformation;
 use App\Mail\FormStoreMail;
 use App\Models\Form;
 use App\Models\Section;
+use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class FormController extends Controller
 
     public function index()
     {
+
 
         if (Auth::user()->status == 0 |Auth::user()->status == 1)
         {
