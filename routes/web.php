@@ -52,8 +52,10 @@ Route::middleware('auth')->group(function (){
         Route::get('/form/create',[FormController::class,'create'])->name('form.create');
         Route::post('/form/store',[FormController::class,'store'])->name('form.store');
         Route::get('/form/see/{id}',[FormController::class,'see'])->name('form.see');
-        Route::get('/form/edit/{id}',[FormController::class,'edit'])->name('form.edit');
+        Route::get('/form/edit/{id}',[FormController::class,'edit'])->name('form.edit')->middleware('adminStatus');
         Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete');
+        Route::post('/form/update',[FormController::class,'update'])->name('form.update')->middleware('adminStatus');
+
 
 
     });
