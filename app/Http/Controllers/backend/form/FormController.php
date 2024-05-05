@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\FormStoreAdminInformation;
 use App\Mail\FormStoreMail;
 use App\Models\Form;
+use App\Models\Letter;
 use App\Models\Section;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
@@ -30,8 +31,9 @@ class FormController extends Controller
 
         if (Auth::user()->status == 0 |Auth::user()->status == 1)
         {
+            $letter = Letter::all();
             $data = Form::all();
-            return view('backend.form.index', compact('data'));
+            return view('backend.form.index', compact('data','letter'));
         }
         elseif(Auth::user()->status == 3){
             $data = Form::all()->where('user_id',Auth::user()->id);

@@ -3,12 +3,12 @@
     Applications
 @endsection
 @section('css')
-    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 
     <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"/>
     <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"/>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 
@@ -16,10 +16,10 @@
 @section('content')
     @component('backend.components.breadcrumb')
         @slot('li_1')
-            Applications
+            Başvurular
         @endslot
         @slot('title')
-            Applications List
+            Tüm Başvurular
         @endslot
     @endcomponent
 
@@ -45,14 +45,22 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0"> Applications List</h5>
+                            <h5 class="card-title mb-0">Tüm Başvurular</h5>
+                            <a href="{{ route('auth.index') }}" class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i class="ri-arrow-go-back-fill"></i> &nbsp; Geri Dön</a>
+
                         </div>
                         <div class="card-body">
-                            <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
+                            <table id="alternative-pagination"
+                                   class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                   style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Number</th>
+                                    <th>
 
+                                        Agency Code
+
+                                    </th>
                                     <th>Application Status</th>
                                     <th>Application No.</th>
                                     <th>Application Date</th>
@@ -69,8 +77,11 @@
                                     @php $i++ @endphp
                                     <tr>
                                         <td>{{$i}}</td>
+                                        <td>
 
+                                            {{$datas->agency_code }}
 
+                                        </td>
                                         <td>
                                             @if($datas -> application_status == 1)
                                                 <span class="badge bg-warning">Waiting For Evaluation</span>
@@ -94,11 +105,18 @@
                                         <td>
                                             <div class="hstack gap-3 fs-15">
 
-                                                <a href="javascript:void(0)" class="btn btn-success btn-sm"  data-bs-toggle="modal" data-bs-target="#formDetailsModal" id="show_form_details" data-id={{ $datas->id }}><i class=" ri-eye-fill"></i></a>
-                                            @if(Auth::user()->status == 1 | Auth::user()->status == 2 )
-                                                <a href="{{route('form.edit', ['id' => $datas->id])}}" class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
-                                                <a href="javascript:void(0)"  class="btn btn-danger btn-sm" data-url="{{route('form.delete', ['id'=>$datas->id]) }}" data-id="{{ $datas->id }}"  id="delete_form"><i class="ri-delete-bin-5-line"></i></a>
-                                                @endif
+                                                <a href="javascript:void(0)" class="btn btn-success btn-sm"
+                                                   data-bs-toggle="modal" data-bs-target="#formDetailsModal"
+                                                   id="show_form_details" data-id={{ $datas->id }}><i
+                                                        class=" ri-eye-fill"></i></a>
+
+                                                    <a href="{{route('form.edit', ['id' => $datas->id])}}"
+                                                       class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm"
+                                                       data-url="{{route('form.delete', ['id'=>$datas->id]) }}"
+                                                       data-id="{{ $datas->id }}" id="delete_form"><i
+                                                            class="ri-delete-bin-5-line"></i></a>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -115,7 +133,7 @@
 
     <!-- Default Modals -->
 
-@include('backend.form.form-details-modal')
+    @include('backend.form.form-details-modal')
 @endsection
 
 @section('addjs')
@@ -137,7 +155,7 @@
             $.ajax({
                 type: 'GET',
                 url: '/see/' + id, // Veri çekmek için oluşturduğumuz route'a istek gönder
-                success: function(response) {
+                success: function (response) {
                     $('#formDetailsModal .modal-body').html(response); // Modal içeriğini güncelle
                 },
             });

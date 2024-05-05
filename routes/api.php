@@ -20,6 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/form-degerlendirme', function () {
+    $total = Form::where('application_status','1')->count();
+    return response()->json(['total' => $total]);
+});
+
+Route::get('/form_resmi_kabul', function () {
+    $total = Form::where('application_status','3')->count();
+    return response()->json(['total' => $total]);
+});
+
 
 Route::get('/form-toplam', function () {
     $total = Form::count();

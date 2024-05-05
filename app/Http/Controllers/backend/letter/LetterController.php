@@ -22,15 +22,19 @@ class LetterController extends Controller
     public  function send_pre_letter(Request $request)
     {
         $form = Form::where('basvuru_id',$request->input('basvuru_id'))->first();
+
         $user_id = $form->user_id;
+
         $form -> application_status = 2;
+
         $form->update();
+
         $name = (Form::where('basvuru_id',$request->input('basvuru_id'))->first())->name_surname;
 
         $mail_adress = User::where('id', $user_id)->first()->email;
 
         $data = new Letter();
-
+        $data -> form_id = $form->id;
         $request->validate([
             'preliminary_acceptance_letter' => 'required|file|mimes:pdf,xlsx,docx,doc|max:2048',
         ]);
@@ -56,7 +60,7 @@ class LetterController extends Controller
         if (!$query) {
             return back()->with($this->NotificationMessage('Application Process Wrong','error'));
         } else {
-            return redirect()->route('form.index')->with($this->NotificationMessage('Kabul Mektubu Gönderildi','success'));
+            return redirect()->route('auth.index')->with($this->NotificationMessage('Kabul Mektubu Gönderildi','success'));
         }
     }
 }

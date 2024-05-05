@@ -3,6 +3,7 @@
 
 
 use App\Http\Controllers\backend\auth\AuthController;
+use App\Http\Controllers\backend\basvurular\BasvurularController;
 use App\Http\Controllers\backend\letter\LetterController;
 use App\Http\Controllers\backend\sections\SectionsController;
 use App\Http\Controllers\backend\user\UserController;
@@ -65,6 +66,11 @@ Route::middleware('auth')->group(function (){
 
         Route::post('/letter/send-pre-letter',[LetterController::class,'send_pre_letter'])->name('letter.send-pre-letter')->middleware('adminStatus');
 
+
+        Route::get('/basvurular/degerlendirmeyi_bekleyenler',[BasvurularController::class,'degerlendirmeyi_bekleyenler'])->name('basvurular.degerlendirmeyi_bekleyenler')->middleware('adminStatus');;
+        Route::get('/basvurular/on_kabul_almislar',[BasvurularController::class,'on_kabul_almislar'])->name('basvurular.on_kabul_almislar')->middleware('adminStatus');;
+        Route::get('/basvurular/resmi_kabul_almislar',[BasvurularController::class,'resmi_kabul_almislar'])->name('basvurular.resmi_kabul_almislar')->middleware('adminStatus');;
+        Route::get('/basvurular/tum_basvurular',[BasvurularController::class,'tum_basvurular'])->name('basvurular.tum_basvurular')->middleware('adminStatus');;
 
     });
 });

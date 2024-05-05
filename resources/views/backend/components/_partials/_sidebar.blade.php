@@ -26,7 +26,7 @@
                 @if(Auth::user()->status==2 || Auth::user()->status==1)
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('auth.index')}}">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboard</span>
+                        <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Başvurular</span>
                     </a>
                 </li> <!-- end Dashboard Menu -->
                 @endif
@@ -76,6 +76,12 @@
                     </div>
                 </li> <!-- end Dashboard Menu -->
 
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#">
+                            <i class=" ri-secure-payment-line"></i> <span data-key="t-dashboards">Upload Receipt</span>
+                        </a>
+                    </li>
 
 
 
