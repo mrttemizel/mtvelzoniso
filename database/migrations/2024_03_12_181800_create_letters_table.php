@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('form_id')->nullable();
             $table->foreign('form_id')->references('id')->on('forms');
+
             $table->timestamps();
         });
     }

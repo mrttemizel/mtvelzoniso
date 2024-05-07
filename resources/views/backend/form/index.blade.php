@@ -52,6 +52,7 @@
                                 <thead>
                                 <tr>
                                     <th>Number</th>
+                                    <th>Pre Letter</th>
 
                                     <th>Application Status</th>
                                     <th>Application No.</th>
@@ -69,6 +70,7 @@
                                     @php $i++ @endphp
                                     <tr>
                                         <td>{{$i}}</td>
+                                        <td>{{$form}}</td>
 
 
                                         <td>
@@ -147,6 +149,7 @@
 
 
     <script>
+
         $(document).on('click', '#delete_form', function () {
             var user_id = $(this).attr('data-id');
             const url = $(this).attr('data-url');

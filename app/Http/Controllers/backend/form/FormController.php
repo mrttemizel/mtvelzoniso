@@ -29,7 +29,7 @@ class FormController extends Controller
     {
 
 
-        if (Auth::user()->status == 0 |Auth::user()->status == 1)
+        if (Auth::user()->status == 0 |Auth::user()->status == 1 |Auth::user()->status == 2)
         {
             $letter = Letter::all();
             $data = Form::all();
@@ -78,7 +78,6 @@ class FormController extends Controller
 
 
     }
-
 
     public function store(Request $request)
     {
@@ -190,8 +189,6 @@ class FormController extends Controller
             }
         }
 
-
-
         public  function  edit($id)
         {
             $section = Section::orderBy('section_name', 'asc')->get();
@@ -279,14 +276,6 @@ class FormController extends Controller
                 return redirect()->route('form.index')->with($this->NotificationMessage('Başvuru Düzenleme İşlemi Başarılı','success'));
             }
         }
-
-
-
-
-
-
-
-
 
         public function delete($id)
         {

@@ -43,6 +43,9 @@ return new class extends Migration
             $table->foreign('section_id')->references('id')->on('sections');
 
             $table->text('application_status')->nullable();
+
+
+
             $table->timestamps();
 
 
