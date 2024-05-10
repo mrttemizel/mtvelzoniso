@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->string('passport_no')->nullable();
             $table->string('place_of_birth')->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->string('passport_photo')->nullable();
 
             $table->string('country')->nullable();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('high_school')->nullable();
             $table->string('high_school_country')->nullable();
             $table->string('high_school_city')->nullable();
-            $table->date('year_of_graduation')->nullable();
+            $table->string('year_of_graduation')->nullable();
             $table->string('graduation_degree')->nullable();
             $table->string('official_transcript')->nullable();
 
@@ -43,8 +43,9 @@ return new class extends Migration
             $table->foreign('section_id')->references('id')->on('sections');
 
             $table->text('application_status')->nullable();
-
-
+            $table->string('preliminary_acceptance_letter')->nullable();
+            $table->string('letter_of_acceptance')->nullable();
+            $table->string('receipt')->nullable();
 
             $table->timestamps();
 

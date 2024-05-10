@@ -5,9 +5,11 @@ namespace App\Http\Controllers\backend\form;
 use App\Http\Controllers\Controller;
 use App\Mail\FormStoreAdminInformation;
 use App\Mail\FormStoreMail;
+use App\Mail\SendPreLatter;
 use App\Models\Form;
 use App\Models\Letter;
 use App\Models\Section;
+use App\Models\User;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
@@ -31,9 +33,8 @@ class FormController extends Controller
 
         if (Auth::user()->status == 0 |Auth::user()->status == 1 |Auth::user()->status == 2)
         {
-            $letter = Letter::all();
             $data = Form::all();
-            return view('backend.form.index', compact('data','letter'));
+            return view('backend.form.index', compact('data'));
         }
         elseif(Auth::user()->status == 3){
             $data = Form::all()->where('user_id',Auth::user()->id);
@@ -87,7 +88,7 @@ class FormController extends Controller
                 'nationality' => 'required',
                 'passport_no' => 'required',
                 'place_of_birth' => 'required',
-                'date_of_birth' => 'required',
+                'date_of_birth' => 'required|date',
                 'country' => 'required',
                 'adress' => 'required',
                 'phone_number' => 'required',
@@ -95,7 +96,7 @@ class FormController extends Controller
                 'high_school' => 'required',
                 'high_school_country' => 'required',
                 'high_school_city' => 'required',
-                'year_of_graduation' => 'required',
+                'year_of_graduation' => 'required|date',
                 'graduation_degree' => 'required',
                 'section_id' => 'required',
 
@@ -305,5 +306,47 @@ class FormController extends Controller
                 return back()->with($this->NotificationMessage('Başvuru Silme İşlemi Başarılı','success'));
             }
         }
+
+
+    public  function send_pre_letter(Request $request)
+    {
+        $form = Form::where('basvuru_id',$request->input('basvuru_id'))->first();
+
+        $user_id = $form->user_id;
+
+        $form -> application_status = 2;
+
+        $name = (Form::where('basvuru_id',$request->input('basvuru_id'))->first())->name_surname;
+
+        $mail_adress = User::where('id', $user_id)->first()->email;
+
+        $request->validate([
+            'preliminary_acceptance_letter' => 'required|file|mimes:pdf,xlsx,docx,doc|max:2048',
+        ]);
+
+        if ($request->hasFile('preliminary_acceptance_letter')) {
+
+            $preliminary_acceptance_letter = $request->file('preliminary_acceptance_letter');
+            $preliminary_acceptance_letter_name =$name .'-'. 'Preliminary Acceptance Letter' . '-' .  time() . '.' . $preliminary_acceptance_letter->getClientOriginalExtension();
+            $preliminary_acceptance_letter->move('pre-letter/', $preliminary_acceptance_letter_name);
+            $form->preliminary_acceptance_letter = $preliminary_acceptance_letter_name;
+        }
+
+        $file_path = asset('/pre-letter/' . $preliminary_acceptance_letter_name);
+
+        $query = $form->update();
+        $mail = [
+            'title' => 'Greetings from Antalya Bilim University!',
+            'body1' => $file_path,
+        ];
+
+        Mail::to($mail_adress)->send(new SendPreLatter($mail));
+
+        if (!$query) {
+            return back()->with($this->NotificationMessage('Application Process Wrong','error'));
+        } else {
+            return redirect()->route('auth.index')->with($this->NotificationMessage('Kabul Mektubu Gönderildi','success'));
+        }
+    }
 
 }

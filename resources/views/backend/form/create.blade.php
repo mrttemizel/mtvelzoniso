@@ -93,7 +93,7 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label  class="form-label"><span class="text-danger">*</span> Date of Birth</label>
-                                        <input type="date" class="form-control" placeholder="Date of Birth" name="date_of_birth" value="{{ old('date_of_birth') }}">
+                                        <input type="text" class="form-control"  name="date_of_birth" id="cleave-date" placeholder="DD-MM-YYYY" value="{{ old('date_of_birth') }}">
                                         <span class="text-danger">
                                     @error('date_of_birth')
                                             {{ $message }}
@@ -205,7 +205,7 @@
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label class="form-label"><span class="text-danger">*</span> Year of Graduation</label>
-                                        <input type="date" class="form-control"  name="year_of_graduation" value="{{ old('year_of_graduation') }}">
+                                        <input type="text" class="form-control"  name="year_of_graduation" id="cleave-date-2" placeholder="DD-MM-YYYY" value="{{ old('year_of_graduation') }}">
                                         <span class="text-danger">
                                     @error('year_of_graduation')
                                             {{ $message }}
@@ -349,6 +349,9 @@
     <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
 
+
+    <script src="{{asset('backend/assets/libs/cleave.js/cleave.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/pages/form-masks.init.js')}}"></script>
     <script>
 
         setTimeout(function(){

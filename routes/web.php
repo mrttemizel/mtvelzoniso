@@ -63,8 +63,7 @@ Route::middleware('auth')->group(function (){
         Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete')->middleware('adminStatus');
         Route::post('/form/update',[FormController::class,'update'])->name('form.update')->middleware('adminStatus');
 
-
-        Route::post('/letter/send-pre-letter',[LetterController::class,'send_pre_letter'])->name('letter.send-pre-letter')->middleware('adminStatus');
+        Route::post('/form/send-pre-letter',[FormController::class,'send_pre_letter'])->name('form.send_pre_letter')->middleware('adminStatus');
 
 
         Route::get('/basvurular/degerlendirmeyi_bekleyenler',[BasvurularController::class,'degerlendirmeyi_bekleyenler'])->name('basvurular.degerlendirmeyi_bekleyenler')->middleware('adminStatus');;

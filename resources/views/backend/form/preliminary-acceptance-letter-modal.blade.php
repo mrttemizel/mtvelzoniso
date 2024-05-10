@@ -11,7 +11,7 @@
                         <!-- Striped Rows -->
                         Başvuru ID : <b>{{$data->basvuru_id}}</b>
                     </h5>
-                    <form action="{{route('letter.send-pre-letter')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('form.send_pre_letter')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="basvuru_id" value="{{$data->basvuru_id}}">
                         <div class="col-12">

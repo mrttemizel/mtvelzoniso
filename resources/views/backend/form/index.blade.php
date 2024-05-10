@@ -52,7 +52,7 @@
                                 <thead>
                                 <tr>
                                     <th>Number</th>
-                                    <th>Pre Letter</th>
+
 
                                     <th>Application Status</th>
                                     <th>Application No.</th>
@@ -70,7 +70,7 @@
                                     @php $i++ @endphp
                                     <tr>
                                         <td>{{$i}}</td>
-                                        <td>{{$form}}</td>
+
 
 
                                         <td>
