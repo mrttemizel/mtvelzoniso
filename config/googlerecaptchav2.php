@@ -36,7 +36,7 @@ return [
     | Supported: true, false
     |
     */
-    'is_service_enabled' => true,
+    'is_service_enabled' => env('GOOGLE_RECAPTCHA', true),
     /*
     |--------------------------------------------------------------------------
     | Host Name

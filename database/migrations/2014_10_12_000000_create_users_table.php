@@ -13,19 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('role');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('agency_name')->unique()->nullable();
-            $table->string('agency_code')->unique()->nullable();
-            $table->string('agency_tax_number')->unique()->nullable();
-            $table->integer('status')->nullable();
+            $table->string('email')->unique()->index();
             $table->string('password');
+            $table->string('agency_name')->nullable();
+            $table->string('agency_code')->nullable()->index();
+            $table->string('tax_number')->nullable();
             $table->string('phone')->nullable();
             $table->string('image')->nullable();
-            $table->string('sozlesme')->nullable();
-            $table->string('vergi_levhasi')->nullable();
-            $table->string('token')->nullable();
-            $table->timestamps();
+            $table->string('contract')->nullable();
+            $table->timestampsTz();
+            $table->softDeletesTz();
         });
     }
 
