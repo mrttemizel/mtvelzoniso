@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name');
+            $table->double('annual_fee')->default(0);
+            $table->double('discounted_fee')->default(0);
+            $table->timestampsTz();
+            $table->softDeletesTz();
         });
     }
 

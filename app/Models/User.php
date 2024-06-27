@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -32,7 +34,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected array $roles = [
+    protected static array $roles = [
         self::ROLE_SUPER_ADMIN => 'Super Admin',
         self::ROLE_ADMIN => 'Admin',
         self::ROLE_AGENCY => 'Agency',
@@ -41,6 +43,95 @@ class User extends Authenticatable
 
     public function getRole(): string
     {
-        return $this->roles[$this->role] ?? '';
+        return self::$roles[$this->role] ?? '';
+    }
+
+    public static function getRoles(): Collection
+    {
+        return collect(self::$roles);
+    }
+
+    /**
+     * Super admin, admin ve acenteler icin gecerli
+     *
+     * @return bool
+     */
+    public function isAuthorized(): bool
+    {
+        return $this->isAllAdmin() || $this->isAgency();
+    }
+
+    /**
+     * Super admin ve adminler icin gecerli
+     *
+     * @return bool
+     */
+    public function isAllAdmin(): bool
+    {
+        return $this->isSuperAdmin() || $this->isAdmin();
+    }
+
+    /**
+     * Sadece super adminler icin gecerli
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole(self::ROLE_SUPER_ADMIN);
+    }
+
+    /**
+     * Sadece adminler icin gecerli
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(self::ROLE_ADMIN);
+    }
+
+    /**
+     * Sadece acenteler icin gecerli
+     *
+     * @return bool
+     */
+    public function isAgency(): bool
+    {
+        return $this->hasRole(self::ROLE_AGENCY);
+    }
+
+    /**
+     * Sadece ogrenciler icin gecerli
+     *
+     * @return bool
+     */
+    public function isStudent(): bool
+    {
+        return $this->hasRole(self::ROLE_STUDENT);
+    }
+
+    public function hasRole($role): bool
+    {
+        return $this->role == $role;
+    }
+
+    public function hasAvatar(): bool
+    {
+        return ! is_null($this->getRawOriginal('avatar'));
+    }
+
+    public function getAvatarAttribute($value): string
+    {
+        return Storage::disk('public')->url($value);
+    }
+
+    public function profileImage(): string
+    {
+        if (is_null($this->getRawOriginal('avatar'))) {
+            return asset('backend/my-image/no-image.svg');
+        }
+
+        return $this->avatar;
     }
 }

@@ -10,7 +10,7 @@ class HomeController extends Controller
     public function index(): RedirectResponse
     {
         if (auth()->check()) {
-            return redirect()->route('backend.index');
+            return redirect()->route('backend.dashboard.index');
         }
 
         return redirect()->route('auth.login.index');

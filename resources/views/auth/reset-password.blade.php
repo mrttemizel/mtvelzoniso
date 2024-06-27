@@ -1,10 +1,9 @@
-@extends('backend.components.master-withoutnavbar')
+@extends('backend.layouts.master-withoutnavbar')
 
-@push('title', 'Reset Password')
+@push('site_title', trans('passwords.titles.reset-password'))
 
 @section('content')
     <div class="auth-page-wrapper pt-5">
-        <!-- auth page bg -->
         <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
             <div class="bg-overlay"></div>
 
@@ -25,55 +24,43 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
-
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <p class="text-muted mt-4">Your new password must be different from the password you used before.</p>
+                                    <p class="text-muted mt-4">{{ trans('passwords.texts.warning-same-password') }}</p>
                                 </div>
-                                @if (session()->get('error'))
-                                    <div class="alert alert-danger alert-border-left alert-dismissible fade show"
-                                         role="alert">
-                                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>
-                                            {{ session()->get('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                    </div>
-                                @endif
 
                                 <div class="p-2">
-                                    <form action="{{ route('auth.reset-password.store', ['token' => $token]) }}" method="POST">
+                                    <form action="{{ route('auth.reset-password.store', ['token' => $token]) }}"
+                                          method="POST">
                                         @csrf
 
-                                        <input type="hidden" name="token" value="{{ $token }}" />
-                                        <input type="hidden" name="email" value="{{ $email }}" />
+                                        <input type="hidden" name="token" value="{{ $token }}"/>
+                                        <input type="hidden" name="email" value="{{ $email }}"/>
 
                                         <div class="form-group mb-3 {{ $errors->has('password') ? 'has-error' : null }}">
-                                            <label class="form-label" for="password-input">Password</label>
-                                            <div class="position-relative auth-pass-inputgroup">
-                                                <input type="password"
-                                                       name="password"
-                                                       class="form-control pe-5 password-input {{ $errors->has('password') ? 'is-invalid' : null }}"
-                                                       onpaste="return false"
-                                                       placeholder="Password"
-                                                       id="password-input"
-                                                />
-                                            </div>
+                                            <label class="form-label" for="password-input">{{ trans('passwords.inputs.password') }}</label>
+                                            <input type="password"
+                                                   name="password"
+                                                   class="form-control pe-5 password-input {{ $errors->has('password') ? 'is-invalid' : null }}"
+                                                   onpaste="return false"
+                                                   id="password-input"
+                                                   autofocus
+                                            />
                                             @if ($errors->has('password'))
                                                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
                                             @endif
 
-                                            <div id="passwordInput" class="form-text">It must be at least 8 characters.</div>
+                                            <span class="form-text d-block">{{ trans('passwords.texts.password-length') }}</span>
                                         </div>
 
                                         <div class="form-group mb-3 {{ $errors->has('password_confirmation') ? 'has-error' : null }}">
-                                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
+                                            <label class="form-label" for="confirm-password-input">{{ trans('passwords.inputs.password_repeat') }}</label>
                                             <div class="position-relative auth-pass-inputgroup">
                                                 <input type="password"
                                                        name="password_confirmation"
                                                        class="form-control pe-5 password-input {{ $errors->has('password_confirmation') ? 'is-invalid' : null }}"
                                                        onpaste="return false"
-                                                       placeholder="Confirm Password"
                                                 />
                                             </div>
 
@@ -83,7 +70,9 @@
                                         </div>
 
                                         <div class="mt-4">
-                                            <button class="btn btn-success w-100" type="submit">Reset My Password</button>
+                                            <button class="btn btn-info w-100" type="submit">
+                                                {{ trans('passwords.buttons.reset-password') }}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -92,7 +81,8 @@
 
                         <div class="mt-4 text-center">
                             <p class="mb-0">
-                                <a href="{{ route('auth.login.index') }}" class="fw-semibold text-primary text-decoration-underline"> Login </a>
+                                <a href="{{ route('auth.login.index') }}"
+                                   class="fw-semibold text-primary">{{ trans('passwords.buttons.login') }}</a>
                             </p>
                         </div>
                     </div>

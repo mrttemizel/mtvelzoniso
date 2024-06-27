@@ -1,6 +1,6 @@
-@extends('backend.components.master-withoutnavbar')
+@extends('backend.layouts.master-withoutnavbar')
 
-@push('title', 'Login')
+@push('site_title', trans('login.titles.index'))
 
 @section('content')
     <div class="auth-page-wrapper pt-5">
@@ -27,31 +27,14 @@
                             <div class="card-body p-4 mt-2">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <h5 class="text-primary mt-4">Welcome !</h5>
+                                    <h5 class="text-primary mt-4">{{ trans('login.headings.welcome') }}</h5>
                                 </div>
-
-                                @if (session()->get('error'))
-                                    <div class="alert alert-danger alert-border-left alert-dismissible fade show"
-                                         role="alert">
-                                        <i class="ri-error-warning-line me-3 align-middle"></i>
-                                        <strong>{{ session()->get('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                @endif
-
-                                @if (session()->get('success'))
-                                    <div class="alert alert-success alert-dismissible alert-solid alert-label-icon fade show" role="alert">
-                                        <i class="ri-check-double-line label-icon"></i>
-                                        <strong>{{ session()->get('success') }}</strong>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                @endif
 
                                 <div class="p-2">
                                     <form action="{{ route('auth.login.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group {{ $errors->has('email') ? 'has-error' : null }} mb-3">
-                                            <label for="email" class="form-label">E-mail address :</label>
+                                            <label for="email" class="form-label">{{ trans('login.inputs.email') }}</label>
                                             <input type="email"
                                                    name="email"
                                                    class="form-control {{ $errors->has('email') ? 'is-invalid' : null }}"
@@ -65,10 +48,11 @@
 
                                         <div class="form-group {{ $errors->has('password') ? 'has-error' : null }} mb-3">
                                             <div class="float-end">
-                                                <a href="{{ route('auth.forgot-password.index') }}" class="text-muted"><b>I forgot my password?</b></a>
+                                                <a href="{{ route('auth.forgot-password.index') }}"
+                                                   class="text-muted"><b>{{ trans('login.texts.forgot-password') }}</b></a>
                                             </div>
 
-                                            <label class="form-label">Password:</label>
+                                            <label class="form-label">{{ trans('login.inputs.password') }}</label>
                                             <input type="password"
                                                    name="password"
                                                    class="form-control {{ $errors->has('password') ? 'is-invalid' : null }}"
@@ -86,12 +70,12 @@
                                         </div>
 
                                         <a href="{{ route('auth.register.index') }}" class="text-muted">
-                                            <b>Register Student</b>
+                                            <b>{{ trans('login.buttons.register') }}</b>
                                         </a>
 
                                         <div class="mt-4">
                                             <button class="btn btn-info w-100" id="login_button" type="submit">
-                                                Login
+                                                {{ trans('login.buttons.login') }}
                                             </button>
                                         </div>
                                     </form>
@@ -107,11 +91,4 @@
 
 @push('javascript')
     @include('partials.google-recaptcha', ['id' => 'recaptcha_form'])
-
-    <script>
-        $(document).on('click', '#login_button', function () {
-            $('#login_button').html('Loading...');
-            $('#login_button').addClass("disabled");
-        });
-    </script>
 @endpush

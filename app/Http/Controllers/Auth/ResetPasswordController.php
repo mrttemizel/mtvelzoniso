@@ -42,7 +42,9 @@ class ResetPasswordController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return redirect()
                 ->route('auth.login.index')
-                ->with('success', 'Your password has been updated.');
+                ->with('alert-type', 'success')
+                ->with('alert-message', trans($status))
+            ;
         }
 
         return redirect()
@@ -51,6 +53,8 @@ class ResetPasswordController extends Controller
                 'email' => $request->get('email'),
             ])
             ->withInput()
-            ->with('error', 'The account password could not be changed.');
+            ->with('alert-type', 'error')
+            ->with('alert-message', trans($status))
+        ;
     }
 }

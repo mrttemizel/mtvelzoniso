@@ -1,144 +1,83 @@
-@extends('backend.components.master')
-@section('title')
-    Kullanıcı Listesi
-@endsection
-@section('css')
-    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+@extends('backend.layouts.master')
 
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+@push('site_title', trans('users.titles.index'))
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+@push('css')
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/datatable/css/dataTables.bootstrap5.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/datatable/css/responsive.bootstrap.min.css') }}" />
+@endpush
 
-@endsection
 @section('content')
-    @component('backend.components.breadcrumb')
-        @slot('li_1')
-            Kullanıcılar
-        @endslot
-        @slot('title')
-            Kullanıcı Listesi
-        @endslot
-    @endcomponent
-
     <div class="row">
-        <div class="col-lg-12">
-            @if (session()->get('success'))
-                <div class="alert alert-success alert-dismissible alert-solid alert-label-icon fade show"
-                     role="alert">
-                    <i class="ri-check-double-line label-icon"></i><strong>  {{ session()->get('success') }}</strong></strong>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                            aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session()->get('error'))
-                <div class="alert alert-danger alert-dismissible alert-solid alert-label-icon fade show"
-                     role="alert">
-                    <i class="ri-check-double-line label-icon"></i><strong>  {{ session()->get('error') }}</strong></strong>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                            aria-label="Close"></button>
-                </div>
-            @endif
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Kullanıcı Listesi</h5>
-                                <a href="{{ route('users.create') }}" class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i class="ri-add-box-line"></i> &nbsp; Yeni Kullanıcı Ekle</a>
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">{{ trans('users.titles.index') }}</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('backend.dashboard.index') }}">{{ trans('sidebar.dashboard') }}</a>
+                        </li>
 
-                            </div>
-                            <div class="card-body">
-                                <table id="alternative-pagination" class="table nowrap dt-responsive align-middle table-hover table-bordered" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>SR No.</th>
-                                        <th>Profil Resmi</th>
-                                        <th>Ad Soyad</th>
-                                        <th>E-Posta</th>
-                                        <th>Telefon</th>
-                                        <th>Kullanıcı Rolü</th>
-                                        <th>Düzenle</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody
-                                    @php $i = 0 @endphp
-                                    @foreach($data as $datas)
-                                        @php $i++ @endphp
-                                        <tr>
-                                            <td>{{$i}}</td>
-                                            <td><img src="@if ($datas->image != '') {{ asset('users/'.$datas->image)  }}@else{{ asset('backend/my-image/no-image.svg') }} @endif" alt="" class="rounded-circle avatar-xxs"></td>
-                                            <td>{{$datas->name}}</td>
-                                            <td>{{$datas->email}}</td>
-                                            <td>{{$datas->phone}}</td>
-                                            @if ($datas->status == 2 )
-                                                <td><h6 class="text-success fs-13 mb-0">Süper Admin</h6></td>
-                                            @elseif($datas->status == 1 )
-                                                <td><h6 class="text-success fs-13 mb-0">Yönetici</h6></td>
-                                            @elseif($datas->status == 0 )
-                                                <td><h6 class="text-success fs-13 mb-0">Kullanıcı</h6></td>
-                                            @elseif($datas->status == 3 )
-                                                <td><h6 class="text-danger fs-13 mb-0">Student</h6></td>
-                                            @elseif($datas->status == 4 )
-                                                <td><h6 class="text-warning fs-13 mb-0">Acenta</h6></td>
-                                            @endif
-                                            <td>
-                                                <div class="hstack gap-3 fs-15">
-                                                    <a href="{{route('users.edit', ['id' => $datas->id])}}" class="link-primary"><i class="ri-settings-4-line"></i></a>
-                                                    <a href="javascript:void(0)" data-url={{route('users.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }} class="link-danger" id="delete_user"><i class="ri-delete-bin-5-line"></i></a>                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
+                        <li class="breadcrumb-item active">{{ trans('users.titles.index') }}</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-3 d-flex justify-content-end">
+                            <a href="{{ route('backend.users.create') }}" class="btn btn-block btn-info d-flex align-items-center">
+                                <i class="bx bx-plus mr-2"></i>
+                                <span class="d-block">{{ trans('users.buttons.create') }}</span>
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive-sm">
+                                <table id="table" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ trans('users.tables.id') }}</th>
+                                            <th>{{ trans('users.tables.name') }}</th>
+                                            <th>{{ trans('users.tables.actions') }}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
-@section('addjs')
-
-    <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/pages/sweetalerts.init.js') }}"></script>
-
-
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-
-
-    <script src="{{asset('backend/assets/js/pages/datatables.init.js')}}"></script>
+@push('javascript')
+    <script src="{{ asset('backend/assets/vendor/datatable/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatable/js/dataTables.responsive.min.js') }}"></script>
 
     <script>
-        $(document).on('click', '#delete_user', function () {
-            var user_id = $(this).attr('data-id');
-            const url = $(this).attr('data-url');
-            Swal.fire({
-                title: 'Emin misiniz?',
-                text: "Bu kullanıcıyı silmek istediğinize emin misiniz?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Evet, sil!',
-                cancelButtonText: 'Vazgeç'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = url;
-                }
+        $(document).ready(function () {
+            const body = $(this);
+
+            const dt = body.find("#table").DataTable({
+                searching: false,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('backend.users.dataTable') }}"
+                },
+                columns: [
+                    { data: 'id', name: 'id', searchable: false },
+                    { data: 'name', name: 'name' },
+                    { data: 'actions', name: 'actions', searchable: false, orderable: false }
+                ]
             });
         });
-
-
     </script>
-
-@endsection
-
+@endpush

@@ -1,8 +1,0 @@
-
-<link href="{{ asset('backend/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-<link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" />
-<link href="{{ asset('backend/assets/css/app.min.css') }}" rel="stylesheet" />
-<link href="{{ asset('backend/assets/css/custom.min.css') }}" rel="stylesheet" />
-<link href="{{ asset('backend/assets/libs/toastify-js/toastr.min.css') }}" rel="stylesheet" />
-
-@stack('css')

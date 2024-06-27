@@ -35,14 +35,18 @@ class RegisterController extends Controller
                 return redirect()
                     ->route('auth.register')
                     ->withInput()
-                    ->with('error', 'An error has occurred, please try again later.');
+                    ->with('alert-type', 'error')
+                    ->with('alert-message', trans('transactions.failed'))
+                ;
             }
 
             auth()->login($user);
 
             return redirect()
-                ->route('backend.index')
-                ->with('success', 'Your account has been created.');
+                ->route('backend.dashboard.index')
+                ->with('alert-type', 'success')
+                ->with('alert-message', trans('register.success.created'))
+            ;
         });
     }
 }

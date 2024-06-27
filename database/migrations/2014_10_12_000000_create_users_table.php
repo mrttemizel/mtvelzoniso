@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('agency_id')->nullable();
             $table->string('role');
             $table->string('name');
             $table->string('email')->unique()->index();
             $table->string('password');
-            $table->string('agency_name')->nullable();
-            $table->string('agency_code')->nullable()->index();
-            $table->string('tax_number')->nullable();
             $table->string('phone')->nullable();
-            $table->string('image')->nullable();
-            $table->string('contract')->nullable();
+            $table->string('avatar')->nullable();
+            $table->enum('status', \App\Enums\UserStatusEnum::values())->default(\App\Enums\UserStatusEnum::ACTIVE->value);
             $table->timestampsTz();
             $table->softDeletesTz();
         });

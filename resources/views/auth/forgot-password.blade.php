@@ -1,6 +1,6 @@
-@extends('backend.components.master-withoutnavbar')
+@extends('backend.layouts.master-withoutnavbar')
 
-@push('title', 'Forgot Password')
+@push('site_title', trans('passwords.titles.forgot-password'))
 
 @section('content')
     <div class="auth-page-wrapper pt-5">
@@ -27,22 +27,29 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <h5 class="text-primary mt-4">Forgot Password</h5>
+                                    <h5 class="text-primary mt-4">{{ trans('passwords.titles.forgot-password') }}</h5>
                                 </div>
 
                                 <div class="p-2">
                                     <form action="{{route('auth.forgot-password.store')}}" method="POST">
                                         @csrf
                                         <div class="form-group mb-4 {{ $errors->has('email') ? 'has-error' : null }}">
-                                            <label class="form-label">E-Mail</label>
-                                            <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : null }}" id="email" />
+                                            <label class="form-label">{{ trans('passwords.inputs.email') }}</label>
+                                            <input type="email" name="email"
+                                                   class="form-control {{ $errors->has('email') ? 'is-invalid' : null }}"
+                                                   id="email"
+                                                   value="{{ old('email') }}"
+                                                   autofocus
+                                            />
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
 
                                         <div class="text-center mt-4">
-                                            <button class="btn btn-success w-100" id="reset_button" type="submit">Reset Link Send</button>
+                                            <button class="btn btn-success w-100" id="reset_button" type="submit">
+                                                {{ trans('passwords.buttons.send-reset-password') }}
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -50,9 +57,10 @@
                         </div>
                         <div class="mt-4 text-center">
                             <p class="mb-0">
-                                Wait, I remember my password....
-                                <a href="{{ route('auth.login.index') }}" class="fw-semibold text-primary text-decoration-underline">
-                                    Login
+                                {{ trans('passwords.texts.remember-password') }}
+                                <a href="{{ route('auth.login.index') }}"
+                                   class="fw-semibold text-primary text-decoration-underline">
+                                    {{ trans('passwords.buttons.login') }}
                                 </a>
                             </p>
                         </div>
@@ -62,12 +70,3 @@
         </div>
     </div>
 @endsection
-
-@push('javascript')
-    <script>
-        $(document).on('click', '#reset_button', function () {
-            $('#reset_button').html('Sending Reset Email...');
-            $('#reset_button').addClass("disabled");
-        });
-    </script>
-@endpush

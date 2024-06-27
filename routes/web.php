@@ -5,11 +5,14 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Backend\Agencies\AgencyController;
+use App\Http\Controllers\Backend\Application\ApplicationController;
 use App\Http\Controllers\backend\basvurular\BasvurularController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\Departments\DepartmentController;
 use App\Http\Controllers\backend\form\FormController;
 use App\Http\Controllers\backend\sections\SectionsController;
-use App\Http\Controllers\backend\user\UserController;
+use App\Http\Controllers\backend\Users\UserController;
 use App\Http\Controllers\Backend\Users\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -37,47 +40,68 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
 
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('backend.profile.index');
+
+        Route::post('/', [ProfileController::class, 'update'])->name('backend.profile.update');
+        Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('backend.profile.update-password');
+
         Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('backend.profile.update-avatar');
     });
 
-    Route::prefix('users')->group(function () {
+    Route::prefix('agencies')->group(function () {
+        Route::get('/', [AgencyController::class, 'index'])->name('backend.agencies.index');
+        Route::get('/datatable', [AgencyController::class, 'dataTable'])->name('backend.agencies.dataTable');
 
+        Route::get('/create', [AgencyController::class, 'create'])->name('backend.agencies.create');
+        Route::post('/create', [AgencyController::class, 'store'])->name('backend.agencies.store');
+
+        Route::get('/edit/{agencyId}', [AgencyController::class, 'edit'])->name('backend.agencies.edit');
+        Route::post('/edit/{agencyId}', [AgencyController::class, 'update'])->name('backend.agencies.update');
+
+        Route::post('/delete/{agencyId}', [AgencyController::class, 'destroy'])->name('backend.agencies.destroy');
     });
 
-//    Route::get('/profile',[UserController::class,'profile'])->name('user.profile');
-//    Route::post('/profile/profile-image-update',[UserController::class,'profile_image_update'])->name('users.profile.image.update');
-//    Route::post('/profile/profile-information-update',[UserController::class,'profile_information_update'])->name('users.profile.information.update');
-//    Route::post('/profile/profile-password-update',[UserController::class,'profile_password_update'])->name('users.profile.password.update');
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('backend.users.index');
+        Route::get('/datatable', [UserController::class, 'dataTable'])->name('backend.users.dataTable');
 
-    Route::get('/users/create',[UserController::class,'create'])->name('users.create')->middleware('adminStatus');
-    Route::post('/users/store',[UserController::class,'store'])->name('users.store')->middleware('adminStatus');
-    Route::get('/users/index',[UserController::class,'index'])->name('users.index')->middleware('adminStatus');
-    Route::get('/users/delete/{id}',[UserController::class,'delete'])->name('users.delete')->middleware('adminStatus');
-    Route::get('/users/edit/{id}',[UserController::class,'edit'])->name('users.edit')->middleware('adminStatus');
-    Route::post('/user/image-update',[UserController::class,'image_update'])->name('users.image.update')->middleware('adminStatus');
-    Route::post('/user/information-update',[UserController::class,'information_update'])->name('users.information.update')->middleware('adminStatus');
-    Route::post('/user/password-update',[UserController::class,'password_update'])->name('users.password.update')->middleware('adminStatus');
+        Route::post('/reset-password/{userId}', [UserController::class, 'resetPassword'])->name('backend.users.reset-password');
 
-    Route::get('/sections/index',[SectionsController::class,'index'])->name('sections.index')->middleware('CheckRole');
-    Route::post('/sections/store',[SectionsController::class,'store'])->name('sections.store')->middleware('CheckRole');
-    Route::get('/sections/delete/{id}',[SectionsController::class,'delete'])->name('sections.delete')->middleware('CheckRole');;
+        Route::get('/create', [UserController::class, 'create'])->name('backend.users.create');
+        Route::post('/create', [UserController::class, 'store'])->name('backend.users.store');
 
+        Route::get('/edit/{userId}', [UserController::class, 'edit'])->name('backend.users.edit');
+        Route::post('/edit/{userId}', [UserController::class, 'update'])->name('backend.users.update');
 
-    Route::get('/form/index',[FormController::class,'index'])->name('form.index');
-    Route::get('/form/create',[FormController::class,'create'])->name('form.create');
-    Route::post('/form/store',[FormController::class,'store'])->name('form.store');
-    Route::get('/form/see/{id}',[FormController::class,'see'])->name('form.see');
-    Route::get('/form/edit/{id}',[FormController::class,'edit'])->name('form.edit')->middleware('adminStatus');
-    Route::get('/form/delete/{id}',[FormController::class,'delete'])->name('form.delete')->middleware('adminStatus');
-    Route::post('/form/update',[FormController::class,'update'])->name('form.update')->middleware('adminStatus');
+        Route::post('/delete/{userId}', [UserController::class, 'destroy'])->name('backend.users.destroy');
+    });
 
-    Route::post('/form/send-pre-letter',[FormController::class,'send_pre_letter'])->name('form.send_pre_letter')->middleware('adminStatus');
+    Route::prefix('departments')->group(function () {
+        Route::get('/', [DepartmentController::class, 'index'])->name('backend.departments.index');
+        Route::get('/datatable', [DepartmentController::class, 'dataTable'])->name('backend.departments.dataTable');
 
+        Route::get('/create', [DepartmentController::class, 'create'])->name('backend.departments.create');
+        Route::post('/create', [DepartmentController::class, 'store'])->name('backend.departments.store');
 
-    Route::get('/basvurular/degerlendirmeyi_bekleyenler',[BasvurularController::class,'degerlendirmeyi_bekleyenler'])->name('basvurular.degerlendirmeyi_bekleyenler')->middleware('adminStatus');;
-    Route::get('/basvurular/on_kabul_almislar',[BasvurularController::class,'on_kabul_almislar'])->name('basvurular.on_kabul_almislar')->middleware('adminStatus');;
-    Route::get('/basvurular/resmi_kabul_almislar',[BasvurularController::class,'resmi_kabul_almislar'])->name('basvurular.resmi_kabul_almislar')->middleware('adminStatus');;
-    Route::get('/basvurular/tum_basvurular',[BasvurularController::class,'tum_basvurular'])->name('basvurular.tum_basvurular')->middleware('adminStatus');;
+        Route::get('/edit/{departmentId}', [DepartmentController::class, 'edit'])->name('backend.departments.edit');
+        Route::post('/edit/{departmentId}', [DepartmentController::class, 'update'])->name('backend.departments.update');
 
+        Route::post('/delete/{departmentId}', [DepartmentController::class, 'destroy'])->name('backend.departments.destroy');
+    });
+
+    Route::prefix('applications')->group(function () {
+        Route::get('/', [ApplicationController::class, 'index'])->name('backend.applications.index');
+
+        Route::get('/columns', [ApplicationController::class, 'getColumns'])->name('backend.applications.get-columns');
+        Route::get('/datatable', [ApplicationController::class, 'dataTable'])->name('backend.applications.dataTable');
+
+        Route::get('/create', [ApplicationController::class, 'create'])->name('backend.applications.create');
+        Route::post('/create', [ApplicationController::class, 'store'])->name('backend.applications.store');
+
+        Route::get('/edit/{applicationId}', [ApplicationController::class, 'edit'])->name('backend.applications.edit');
+        Route::post('/edit/{applicationId}', [ApplicationController::class, 'update'])->name('backend.applications.update');
+
+        Route::post('/delete/{applicationId}', [ApplicationController::class, 'destroy'])->name('backend.applications.destroy');
+
+        Route::post('/update-status', [ApplicationController::class, 'updateStatus'])->name('backend.applications.update-status');
+    });
 });
-

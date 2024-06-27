@@ -1,21 +1,21 @@
-@extends('backend.components.master')
+@extends('backend.layouts.master')
 @section('title')
     Kullanıcı Düzenle
 @endsection
 @section('css')
-    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    @component('backend.components.breadcrumb')
+    @component('backend.layouts.breadcrumb')
         @slot('li_1')
-           Kullanıcılar
+            Kullanıcılar
         @endslot
         @slot('title')
             {{$data->name}} ' Düzenle
         @endslot
     @endcomponent
 
-    <div class="row mt-5" >
+    <div class="row mt-5">
         <div class="col-xxl-3">
 
             <div class="card mt-n5">
@@ -26,9 +26,11 @@
                         <div class="text-center">
                             <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
                                 <img src="@if ($data->image != '') {{ asset('users/'.$data->image)  }}@else{{ asset('backend/my-image/no-image.svg') }} @endif"
-                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                     alt="user-profile-image">
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                    <input id="profile-img-file-input" type="file" name="image" class="profile-img-file-input">
+                                    <input id="profile-img-file-input" type="file" name="image"
+                                           class="profile-img-file-input">
                                     <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                                     <span class="avatar-title rounded-circle bg-light text-body">
                                                         <i class="ri-camera-fill"></i>
@@ -87,23 +89,30 @@
                 <div class="card-body p-4">
                     <div class="tab-content">
                         <div class="tab-pane active" id="personalDetails" role="tabpanel">
-                            <form action="{{ route('users.information.update') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('users.information.update') }}" method="POST"
+                                  enctype="multipart/form-data">
 
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $data->id }}">
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 mb-3">
                                         <div>
-                                            <label for="labelInput" class="form-label">Kullanıcı Rolü <span class="text-danger">*</span></label>
-                                            <select class="form-select" name="status"  aria-label="Default select example" id="status_change">
+                                            <label for="labelInput" class="form-label">Kullanıcı Rolü <span
+                                                        class="text-danger">*</span></label>
+                                            <select class="form-select" name="status"
+                                                    aria-label="Default select example" id="status_change">
                                                 <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>
-                                                    Yönetici</option>
+                                                    Yönetici
+                                                </option>
                                                 <option value="0"{{ $data->status == 0 ? 'selected' : '' }}>
-                                                    Kullanıcı</option>
+                                                    Kullanıcı
+                                                </option>
                                                 <option value="4"{{ $data->status == 4 ? 'selected' : '' }}>
-                                                    Acenta</option>
+                                                    Acenta
+                                                </option>
                                                 <option value="3"{{ $data->status == 3 ? 'selected' : '' }}>
-                                                    Student</option>
+                                                    Student
+                                                </option>
                                             </select>
                                             <span class="text-danger">
                                     @error('status')
@@ -115,8 +124,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">Ad Soyad : <span
-                                                    class="text-danger">*</span></label></label>
-                                            <input type="text" class="form-control" name="name" placeholder="Ad Soyad" value="{{$data->name}}">
+                                                        class="text-danger">*</span></label></label>
+                                            <input type="text" class="form-control" name="name" placeholder="Ad Soyad"
+                                                   value="{{$data->name}}">
                                             <span class="text-danger">
                                                     @error('name')
                                                 {{ $message }}
@@ -128,15 +138,17 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="phonenumberInput" class="form-label">Telefon Numarası :</label>
-                                            <input type="text"  name="phone" class="form-control" value="{{$data->phone}}" placeholder="Telefon">
+                                            <input type="text" name="phone" class="form-control"
+                                                   value="{{$data->phone}}" placeholder="Telefon">
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="emailInput" class="form-label">E-Posta Adresi : <span
-                                                    class="text-danger">*</span></label></label>
-                                            <input type="email" class="form-control" name="email" placeholder="E-Posta Adresi" value="{{$data->email}}">
+                                                        class="text-danger">*</span></label></label>
+                                            <input type="email" class="form-control" name="email"
+                                                   placeholder="E-Posta Adresi" value="{{$data->email}}">
                                             <span class="text-danger">
                                                     @error('password')
                                                 {{ $email }}
@@ -145,10 +157,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-6 col-md-6" id="agency_name" >
+                                    <div class="col-xl-6 col-md-6" id="agency_name">
                                         <div>
-                                            <label for="basiInput" class="form-label">Acenta Adı <span class="text-danger">*</span></label>
-                                            <input type="text" name="agency_name" placeholder="Acenta Adı" class="form-control" value="{{$data->agency_name}}" >
+                                            <label for="basiInput" class="form-label">Acenta Adı <span
+                                                        class="text-danger">*</span></label>
+                                            <input type="text" name="agency_name" placeholder="Acenta Adı"
+                                                   class="form-control" value="{{$data->agency_name}}">
                                             <span class="text-danger">
                                     @error('agency_name')
                                                 {{ $message }}
@@ -157,10 +171,12 @@
                                         </div>
                                     </div>
                                     <!--end col-->
-                                    <div class="col-xl-6 col-md-6"  id="agency_code" >
+                                    <div class="col-xl-6 col-md-6" id="agency_code">
                                         <div>
-                                            <label for="labelInput" class="form-label">Acenta Kodu <span class="text-danger">*</span></label>
-                                            <input type="text" name="agency_code" placeholder="Acenta Kodu" class="form-control" value="{{$data->agency_code}}">
+                                            <label for="labelInput" class="form-label">Acenta Kodu <span
+                                                        class="text-danger">*</span></label>
+                                            <input type="text" name="agency_code" placeholder="Acenta Kodu"
+                                                   class="form-control" value="{{$data->agency_code}}">
                                             <span class="text-danger">
                                     @error('agency_code')
                                                 {{ $message }}
@@ -171,7 +187,9 @@
                                     <div class="col-xl-12 col-md-12 mt-3" id="agency_tax_number">
                                         <div>
                                             <label for="labelInput" class="form-label">Acenta Vergi Numarası</label>
-                                            <input type="text" name="agency_tax_number" placeholder="Acenta Vergi Numarası" class="form-control" value="{{$data->agency_tax_number}}" >
+                                            <input type="text" name="agency_tax_number"
+                                                   placeholder="Acenta Vergi Numarası" class="form-control"
+                                                   value="{{$data->agency_tax_number}}">
                                             <span class="text-danger">
                                     @error('agency_tax_number')
                                                 {{ $message }}
@@ -179,11 +197,16 @@
                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-md-6 mt-3"  id="sozlesme" >
+                                    <div class="col-xl-6 col-md-6 mt-3" id="sozlesme">
                                         <div>
                                             <label for="formFile" class="form-label">Sözleşme</label>
-                                            @if ($data->sozlesme == '') Dosya Yüklü Değil @else<a href="{{ asset('users/'.$data->sozlesme) }}" download> Yüklü Dosyayı İndir </a> @endif
-                                            <input class="form-control"  type="file" name="sozlesme">
+                                            @if ($data->sozlesme == '')
+                                                Dosya Yüklü Değil
+                                            @else
+                                                <a href="{{ asset('users/'.$data->sozlesme) }}" download> Yüklü Dosyayı
+                                                    İndir </a>
+                                            @endif
+                                            <input class="form-control" type="file" name="sozlesme">
                                             <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
 
                                             <span class="text-danger">
@@ -193,12 +216,18 @@
                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-md-6 mt-3"  id="vergi_levhasi" {{ $data->status == 4 ? 'style="display: none"' : 'style="display: block' }}>
+                                    <div class="col-xl-6 col-md-6 mt-3"
+                                         id="vergi_levhasi" {{ $data->status == 4 ? 'style="display: none"' : 'style="display: block' }}>
                                         <div>
                                             <label for="formFile" class="form-label">Vergi Levhası</label>
-                                            @if ($data->vergi_levhasi == '') Dosya Yüklü Değil @else<a href="{{ asset('users/'.$data->vergi_levhasi) }}" download> Yüklü Dosyayı İndir </a> @endif
+                                            @if ($data->vergi_levhasi == '')
+                                                Dosya Yüklü Değil
+                                            @else
+                                                <a href="{{ asset('users/'.$data->vergi_levhasi) }}" download> Yüklü
+                                                    Dosyayı İndir </a>
+                                            @endif
 
-                                            <input class="form-control"  type="file" name="vergi_levhasi">
+                                            <input class="form-control" type="file" name="vergi_levhasi">
                                             <span class="text-info">The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.</span><br>
 
                                             <span class="text-danger">
@@ -230,7 +259,7 @@
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="oldpasswordInput" class="form-label">Kullanılan Şifre <span
-                                                    class="text-danger">*</span></label>
+                                                        class="text-danger">*</span></label>
                                             <input type="password" class="form-control" name="current_password"
                                                    id="oldpassword">
                                             <span class="text-danger error_text  current_password_error"></span>
@@ -240,7 +269,7 @@
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="newpasswordInput" class="form-label">Yeni Şifre <span
-                                                    class="text-danger">*</span></label>
+                                                        class="text-danger">*</span></label>
                                             <input type="password" class="form-control" name="password" id="password">
 
                                         </div>
@@ -250,7 +279,7 @@
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="confirmpasswordInput" class="form-label">Yeni Şifre Tekrar <span
-                                                    class="text-danger">*</span></label>
+                                                        class="text-danger">*</span></label>
                                             <input type="password" class="form-control" name="password_confirmation"
                                                    id="password_confirmation">
                                             <span class="text-danger  error_text  password_confirmation_error"></span>
@@ -275,8 +304,6 @@
         <!--end col-->
     </div>
 
-
-
 @endsection
 
 
@@ -297,10 +324,10 @@
         const sozlesme_input = document.getElementById("sozlesme");
         const vergi_levhasi_input = document.getElementById("vergi_levhasi");
 
-        $(document).ready(function() {
+        $(document).ready(function () {
 
 
-            $('#changeUserPasswordForm').on('submit', function(e) {
+            $('#changeUserPasswordForm').on('submit', function (e) {
                 e.preventDefault();
                 var form = this;
                 $.ajax({
@@ -310,12 +337,12 @@
                     processData: false,
                     dataType: 'json',
                     contentType: false,
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $(form).find('span.error-text').text('');
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data.code === 0) {
-                            $.each(data.error, function(prefix, val) {
+                            $.each(data.error, function (prefix, val) {
                                 $(form).find('span.' + prefix + '_error').text(val[0]);
                             });
                         } else {
@@ -337,7 +364,7 @@
 
         });
 
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function () {
             // $data->status değişkeninin değerini kontrol ediyoruz
             var status = {{ $data->status }};
 
@@ -352,17 +379,14 @@
             }
         });
 
-        status_change_input.addEventListener("change",function (event){
-            if (event.target.value == 4)
-            {
+        status_change_input.addEventListener("change", function (event) {
+            if (event.target.value == 4) {
                 agency_code_input.style.display = "block"
                 agency_tax_number_input.style.display = "block"
                 agency_name_input.style.display = "block"
                 sozlesme_input.style.display = "block"
                 vergi_levhasi_input.style.display = "block"
-            }
-            else
-            {
+            } else {
                 agency_code_input.style.display = "none"
                 agency_tax_number_input.style.display = "none"
                 agency_name_input.style.display = "none"
@@ -371,9 +395,9 @@
             }
         });
 
-        setTimeout(function(){
+        setTimeout(function () {
             $("div.alert").remove();
-        }, 1000 ); // 2 secs
+        }, 1000); // 2 secs
 
 
     </script>

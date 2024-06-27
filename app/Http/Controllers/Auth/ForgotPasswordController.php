@@ -29,12 +29,16 @@ class ForgotPasswordController extends Controller
         if ($status === Password::RESET_LINK_SENT) {
             return redirect()
                 ->route('auth.forgot-password.index')
-                ->with('success', 'Your password reset request has been received successfully. Please check your e-mail address.');
+                ->with('alert-type', 'success')
+                ->with('alert-message', trans('passwords.sent'))
+            ;
         }
 
         return redirect()
             ->route('auth.forgot-password.index')
             ->withInput()
-            ->with('error', 'No such account was found in our records.');
+            ->with('alert-type', 'error')
+            ->with('alert-message', trans('passwords.user'))
+        ;
     }
 }

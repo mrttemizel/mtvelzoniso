@@ -1,6 +1,6 @@
-@extends('backend.components.master-withoutnavbar')
+@extends('backend.layouts.master-withoutnavbar')
 
-@push('title', 'Register')
+@push('site_title', trans('register.titles.index'))
 
 @section('content')
     <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
@@ -19,13 +19,15 @@
                                             <div class="mb-4 text-center">
                                                 <a href="#" class="d-block">
                                                     <img src="{{ asset('backend/my-image/abu-beyaz.svg') }}" alt="" height="100">
-                                                    <h4 class="text-primary mt-4 text-white">Welcome !</h4>
-                                                    <h5 class="text-primary mt-4 text-white">If you are an agency, please log in.</h5>
+                                                    <h4 class="text-primary mt-4 text-white">{{ trans('register.headings.welcome') }}</h4>
+                                                    <h5 class="text-primary mt-4 text-white">{{ trans('register.texts.are-you-agency') }}</h5>
                                                 </a>
                                             </div>
 
                                             <div class="text-center text-white">
-                                                <a class="btn btn-info w-100" href="{{ route('auth.login.index') }}" ><b>Login Link</b></a>
+                                                <a class="btn btn-info w-100" href="{{ route('auth.login.index') }}">
+                                                    <b>{{ trans('register.buttons.login') }}</b>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -33,12 +35,12 @@
 
                                 <div class="col-lg-6">
                                     <div class="p-lg-5 p-4">
-                                        <p>If you are not a member please register.</p>
+                                        <p>{{ trans('register.texts.not-user') }}</p>
                                         <form action="{{ route('auth.register.store') }}" method="POST">
                                             @csrf
                                             <div class="form-group {{ $errors->has('name') ? 'has-error' : null }} mb-3">
                                                 <label for="name" class="form-label">
-                                                    Name Surname:
+                                                    {{ trans('register.inputs.full_name') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="text"
@@ -53,7 +55,7 @@
 
                                             <div class="form-group mb-3 {{ $errors->has('email') ? 'has-error' : null }}">
                                                 <label for="email" class="form-label">
-                                                    Email:
+                                                    {{ trans('register.inputs.email') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="email"
@@ -68,7 +70,7 @@
 
                                             <div class="form-group mb-3 {{ $errors->has('password') ? 'has-error' : null }}">
                                                 <label for="password" class="form-label">
-                                                    Password:
+                                                    {{ trans('register.inputs.password') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="password"
@@ -83,7 +85,7 @@
 
                                             <div class="form-group mb-3 {{ $errors->has('password_confirmation') ? 'has-error' : null }}">
                                                 <label for="password_confirmation" class="form-label">
-                                                    Confirm Password:
+                                                    {{ trans('register.inputs.password_repeat') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
                                                 <input type="password"
@@ -104,13 +106,17 @@
                                             </div>
 
                                             <div class="mt-4">
-                                                <button class="btn btn-info w-100" id="kayit_ol_button" type="submit">Register</button>
+                                                <button class="btn btn-info w-100" id="kayit_ol_button" type="submit">
+                                                    {{ trans('register.buttons.register') }}
+                                                </button>
                                             </div>
                                         </form>
 
                                         <div class="mt-3 text-center">
-                                            Do you have an account?
-                                            <a class="text-primary" href="{{ route('auth.login.index') }}" ><b>Login Link</b></a>
+                                            {{ trans('register.texts.registered-user') }}
+                                            <a class="text-primary" href="{{ route('auth.login.index') }}">
+                                                <b>{{ trans('register.buttons.login') }}</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

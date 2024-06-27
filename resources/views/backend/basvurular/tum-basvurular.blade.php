@@ -1,4 +1,4 @@
-@extends('backend.components.master')
+@extends('backend.layouts.master')
 @section('title')
     Applications
 @endsection
@@ -14,7 +14,7 @@
 
 @endsection
 @section('content')
-    @component('backend.components.breadcrumb')
+    @component('backend.layouts.breadcrumb')
         @slot('li_1')
             Başvurular
         @endslot
@@ -46,7 +46,9 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Tüm Başvurular</h5>
-                            <a href="{{ route('auth.index') }}" class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i class="ri-arrow-go-back-fill"></i> &nbsp; Geri Dön</a>
+                            <a href="{{ route('auth.index') }}"
+                               class="btn btn-primary waves-effect waves-light d-flex justify-content-between"><i
+                                        class="ri-arrow-go-back-fill"></i> &nbsp; Geri Dön</a>
 
                         </div>
                         <div class="card-body">
@@ -108,13 +110,13 @@
                                                 <a href="javascript:void(0)" class="btn btn-success btn-sm"
                                                    data-bs-toggle="modal" data-bs-target="#formDetailsModal"
                                                    id="show_form_details" data-id={{ $datas->id }}><i
-                                                        class=" ri-eye-fill"></i></a>
+                                                            class=" ri-eye-fill"></i></a>
 
-                                                    <a href="{{route('form.edit', ['id' => $datas->id])}}"
-                                                       class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm"
-                                                       data-url="{{route('form.delete', ['id'=>$datas->id]) }}"
-                                                       data-id="{{ $datas->id }}" id="delete_form"><i
+                                                <a href="{{route('form.edit', ['id' => $datas->id])}}"
+                                                   class="btn btn-primary btn-sm"><i class="ri-settings-4-line"></i></a>
+                                                <a href="javascript:void(0)" class="btn btn-danger btn-sm"
+                                                   data-url="{{route('form.delete', ['id'=>$datas->id]) }}"
+                                                   data-id="{{ $datas->id }}" id="delete_form"><i
                                                             class="ri-delete-bin-5-line"></i></a>
 
                                             </div>

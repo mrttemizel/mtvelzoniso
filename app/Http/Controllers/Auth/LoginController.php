@@ -19,13 +19,16 @@ class LoginController extends Controller
         if (auth()->attempt($request->only(['email', 'password']))) {
             return redirect()
                 ->route('backend.dashboard.index')
-                ->with('success', 'You have successfully logged in.');
+                ->with('alert-type', 'success')
+                ->with('alert-message', trans('login.success.login'))
+            ;
         }
 
         return redirect()
             ->route('auth.login.index')
             ->withInput()
-            ->with('error', 'The Information Entered Is Not Correct!')
+            ->with('alert-type', 'error')
+            ->with('alert-message', trans('login.errors.login'))
         ;
     }
 
@@ -35,6 +38,8 @@ class LoginController extends Controller
 
         return redirect()
             ->route('auth.login.index')
-            ->with('success', 'Your account has been logged out');
+            ->with('alert-type', 'success')
+            ->with('alert-message', trans('login.success.logout'))
+        ;
     }
 }

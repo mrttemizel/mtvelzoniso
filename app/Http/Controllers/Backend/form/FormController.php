@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\FormStoreAdminInformation;
 use App\Mail\FormStoreMail;
 use App\Mail\SendPreLatter;
+use App\Models\Department;
 use App\Models\Form;
 use App\Models\Letter;
 use App\Models\Section;
@@ -62,16 +63,14 @@ class FormController extends Controller
             if ($existingRecord) {
                 return back()->with($this->NotificationMessage('A prior application for this student has already been submitted.', 'error'));
             } else {
-                $data = Section::query()
+                $data = Department::query()
                     ->orderBy('section_name', 'asc')
                     ->get();
 
                 return view('backend.form.create', compact('data'));
             }
         }
-        $data = Section::query()
-            ->orderBy('section_name', 'asc')
-            ->get();
+        $data = [];
         return view('backend.form.create', compact('data'));
 
 

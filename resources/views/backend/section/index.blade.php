@@ -1,4 +1,4 @@
-@extends('backend.components.master')
+@extends('backend.layouts.master')
 @section('title')
     Kullanıcı Ekle
 @endsection
@@ -6,7 +6,7 @@
     <link href="{{asset('backend/assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-    @component('backend.components.breadcrumb')
+    @component('backend.layouts.breadcrumb')
         @slot('li_1')
             Kullanıcılar
         @endslot
@@ -44,17 +44,17 @@
                         <div class="live-preview">
                             <div class="row gy-3">
 
-                                    <div>
-                                        <label for="basiInput" class="form-label"><span
+                                <div>
+                                    <label for="basiInput" class="form-label"><span
                                                 class="text-danger">*</span> Bölüm Adı: </label>
-                                        <input type="text" name="section_name" placeholder="Bölüm Adı" class="form-control"
-                                               value="{{ old('section_name') }}">
-                                        <span class="text-danger">
+                                    <input type="text" name="section_name" placeholder="Bölüm Adı" class="form-control"
+                                           value="{{ old('section_name') }}">
+                                    <span class="text-danger">
                                     @error('section_name')
-                                            {{ $message }}
-                                            @enderror
+                                        {{ $message }}
+                                        @enderror
                             </span>
-                                    </div>
+                                </div>
 
                                 <!--end col-->
                                 <div class="col-lg-12">
@@ -90,7 +90,9 @@
                                     <tr>
 
                                         <td>{{$datas->section_name}}</td>
-                                        <td><a href="javascript:void(0)" data-url={{route('sections.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }} class="link-danger" id="delete_section"><i class="ri-delete-bin-5-line"></i></a></td>
+                                        <td><a href="javascript:void(0)"
+                                               data-url={{route('sections.delete', ['id'=>$datas->id]) }} data-id={{ $datas->id }} class="link-danger"
+                                               id="delete_section"><i class="ri-delete-bin-5-line"></i></a></td>
                                     </tr>
                                 @endforeach
 
@@ -135,9 +137,9 @@
             });
         });
 
-        setTimeout(function(){
+        setTimeout(function () {
             $("div.alert").remove();
-        }, 2000 ); // 2 secs
+        }, 2000); // 2 secs
 
 
     </script>

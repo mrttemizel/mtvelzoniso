@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend\sections;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Section;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class SectionsController extends Controller
 {
     public function index()
     {
-        $data = Section::query()
+        $data = Department::query()
             ->orderBy('section_name', 'asc')
             ->get();
 
@@ -19,7 +20,7 @@ class SectionsController extends Controller
 
     public function store(Request $request)
     {
-        $data = new Section();
+        $data = new Department();
         $request->validate([
             'section_name' => 'required|unique:sections',
         ]);
@@ -35,7 +36,7 @@ class SectionsController extends Controller
 
     public function delete($id)
     {
-        $data = Section::find($id);
+        $data = Department::find($id);
 
         $query = $data->delete();
         if (!$query) {
