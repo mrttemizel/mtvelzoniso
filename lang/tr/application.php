@@ -19,6 +19,8 @@ return [
         'send' => 'Başvuruyu Gönder',
         'save' => 'Başvuruyu Kaydet',
         'preview' => 'Görüntüle',
+        'apply' => 'Uygula',
+        'reset' => 'Sıfırla',
 
         'approve-application' => 'Başvuruyu Onayla',
         'reject-application' => 'Başvuruyu Reddet',
@@ -39,10 +41,10 @@ return [
         'approved' => 'Başvuru Kabul Edildi',
         'missing-document' => 'Eksik veya Hatalı Belge',
         'rejected' => 'Reddedildi',
-        'recognition-certificate' => 'YÖK Tanınırlık Belgesi Bekleniyor',
+        'pending-recognition-certificate' => 'YÖK Tanınırlık Belgesi Bekleniyor',
         'pending-payment' => 'Ödeme Bekleniyor',
         'approval-payment' => 'Ödeme Onaylandı',
-        'official-letter' => 'Resmi Davetiye Gönderildi'
+        'official-letter-sent' => 'Resmi Davetiye Gönderildi'
     ],
 
     'tabs' => [
@@ -95,7 +97,10 @@ return [
         'official_transcript' => 'Resmi Transkript (Son 3 YIL)',
         'official_exam' => 'TOEFL veya IELTS Sonucunuz (varsa)',
         'reference' => 'Referans',
-        'payment_file' => 'Ödeme Dekontu'
+        'payment_file' => 'Ödeme Dekontu',
+        'status' => 'Statü',
+        'nationality_id' => 'Uyruk',
+        'agency_id' => 'Acente'
     ],
 
     'tables' => [

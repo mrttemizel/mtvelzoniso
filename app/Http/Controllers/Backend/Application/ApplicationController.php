@@ -11,6 +11,7 @@ use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
 use App\Managers\ApplicationManager;
 use App\Models\Application;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -257,6 +258,23 @@ class ApplicationController extends Controller
 
         return datatables()
             ->eloquent($model)
+            ->filter(function (Builder $query) {
+                $status = request()->input('status');
+                $nationality = request()->input('nationality');
+                $agency = request()->input('agency');
+
+                if (strlen($status) && ! is_null(ApplicationStatusEnum::getValue($status))) {
+                    $query->where('status', '=', $status);
+                }
+
+                if (strlen($nationality)) {
+                    $query->where('nationality_id', '=', $nationality);
+                }
+
+                if (strlen($agency)) {
+                    $query->where('agency_id', '=', $agency);
+                }
+            })
             ->editColumn('agency_name', function ($item) {
                 if (is_null($item->agency)) {
                     return trans('application.texts.self-application');
@@ -267,31 +285,25 @@ class ApplicationController extends Controller
             ->editColumn('status', function ($item) {
                 switch ($item->status) {
                     case ApplicationStatusEnum::PENDING->value:
-                        return '<span class="badge bg-info">' . trans('application.statuses.pending') . '</span>';
+                        return '<span class="badge bg-info">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
                     break;
 
                     case ApplicationStatusEnum::APPROVED->value:
-                        return '<span class="badge bg-success">' . trans('application.statuses.approved') . '</span>';
-                    break;
-
-                    case ApplicationStatusEnum::MISSING_DOCUMENT->value:
-                        return '<span class="badge bg-warning">' . trans('application.statuses.missing-document') . '</span>';
-                    break;
-
-                    case ApplicationStatusEnum::REJECTED->value:
-                        return '<span class="badge bg-danger">' . trans('application.statuses.rejected') . '</span>';
+                        return '<span class="badge bg-success">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
                     break;
 
                     case ApplicationStatusEnum::PENDING_RECOGNITION_CERTIFICATE->value:
-                        return '<span class="badge bg-warning">' . trans('application.statuses.recognition-certificate') . '</span>';
+                    case ApplicationStatusEnum::PENDING_PAYMENT->value:
+                    case ApplicationStatusEnum::MISSING_DOCUMENT->value:
+                        return '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
                     break;
 
-                    case ApplicationStatusEnum::PENDING_PAYMENT->value:
-                        return '<span class="badge bg-warning">' . trans('application.statuses.pending-payment') . '</span>';
+                    case ApplicationStatusEnum::REJECTED->value:
+                        return '<span class="badge bg-danger">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
                     break;
 
                     case ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value:
-                        return '<span class="badge bg-primary">' . trans('application.statuses.official-letter') . '</span>';
+                        return '<span class="badge bg-primary">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
                     break;
 
                     default:

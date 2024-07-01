@@ -15,3 +15,10 @@ if (! function_exists('departments')) {
         return \App\Models\Department::query()->get();
     }
 }
+
+if (! function_exists('agencies')) {
+    function agencies(): Collection
+    {
+        return \App\Models\Agency::query()->get();
+    }
+}

@@ -29,6 +29,61 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <form action="#" method="POST" id="applicationFilterForm">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="status">{{ trans('application.inputs.status') }}</label>
+                                    <select name="status" class="form-control">
+                                        <option value="" selected>{{ trans('application.inputs.status') }}</option>
+                                        @foreach (\App\Enums\ApplicationStatusEnum::array() as $value => $key)
+                                            <option value="{{ $value }}">{{ trans('application.statuses.' . str($value)->replace('.', '-')) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="status">{{ trans('application.inputs.nationality_id') }}</label>
+                                    <select name="nationality_id" class="form-control">
+                                        <option value="" selected>{{ trans('application.inputs.nationality_id') }}</option>
+                                        @foreach (countries() as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            @if (auth()->user()->isAllAdmin())
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="status">{{ trans('application.inputs.agency_id') }}</label>
+                                        <select name="agency_id" class="form-control">
+                                            <option value="" selected>{{ trans('application.inputs.agency_id') }}</option>
+                                            @foreach (agencies() as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 mt-3 justify-content-end d-flex">
+                                <button type="submit" class="btn btn-primary mr-5">{{ trans('application.buttons.apply') }}</button>
+                                <button type="reset" class="btn btn-danger">{{ trans('application.buttons.reset') }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-12 mb-3 d-flex justify-content-end">
                             <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
@@ -79,9 +134,30 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('backend.applications.dataTable') }}"
+                            url: "{{ route('backend.applications.dataTable') }}",
+                            data: function (item) {
+                                let form = body.find('#applicationFilterForm');
+                                item.status = form.find('select[name="status"] option:selected').val();
+                                item.nationality = form.find('select[name="nationality_id"] option:selected').val();
+                                item.agency = form.find('select[name="agency_id"] option:selected').val();
+
+                                return item;
+                            }
                         },
                         columns: response.data
+                    });
+
+                    body.on('submit', '#applicationFilterForm', function (e) {
+                        e.preventDefault();
+
+                        dt.ajax.reload();
+                    });
+
+                    body.on('click', '#applicationFilterForm button[type="reset"]', function (e) {
+                        let form = body.find('#applicationFilterForm');
+                        form.trigger('reset');
+
+                        dt.ajax.reload();
                     });
                 }
             });

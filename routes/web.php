@@ -1,23 +1,27 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Backend\Agencies\AgencyController;
 use App\Http\Controllers\Backend\Application\ApplicationController;
-use App\Http\Controllers\backend\basvurular\BasvurularController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Departments\DepartmentController;
-use App\Http\Controllers\backend\form\FormController;
-use App\Http\Controllers\backend\sections\SectionsController;
 use App\Http\Controllers\backend\Users\UserController;
 use App\Http\Controllers\Backend\Users\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
+
+Route::get('/pd', function () {
+    $application = \App\Models\Application::query()->with(['department'])->first();
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.pre-offer', ['application' => $application]);
+    return $pdf->stream();
+//    return $pdf;
+});
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('auth.login.index');
