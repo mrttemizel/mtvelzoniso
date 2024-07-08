@@ -133,8 +133,6 @@ class ApplicationController extends Controller
                                 'emailTemplate', $emailTemplate
                             ]);
 
-                            return $pdf->stream();
-
                             $fileName = Str::random() . '.pdf';
                             $path = 'attachments/' . $fileName;
                             $attachments[] = $path;
