@@ -8,14 +8,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
+use App\Mail\ApplicationNotifyMail;
 use App\Managers\ApplicationManager;
 use App\Models\Application;
+use App\Models\EmailTemplate;
+use App\Models\EmailTemplateApplicationStatus;
+use App\Models\EmailTemplateAttachment;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -100,6 +108,43 @@ class ApplicationController extends Controller
                     ->first();
 
                 $this->applicationManager->updateStatus($application, $request->input('status'));
+
+                $emailTemplates = EmailTemplate::query()
+                    ->with(['attachments'])
+                    ->whereHas('statuses', function (Builder $query) use ($request) {
+                        $query
+                            ->where('application_status_type', '=', $request->input('status'))
+                        ;
+                    })
+                    ->get();
+
+                if ($emailTemplates->count()) {
+                    $disk = Storage::disk('public');
+
+                    if (! $disk->exists('attachments')) {
+                        $disk->makeDirectory('attachments');
+                    }
+
+                    foreach ($emailTemplates as $emailTemplate) {
+                        $attachments = [];
+                        foreach ($emailTemplate->attachments as $attachment) {
+                            $pdf = Pdf::loadView('pdfs.' . $attachment->view, [
+                                'application' => $application,
+                                'emailTemplate', $emailTemplate
+                            ]);
+
+                            return $pdf->stream();
+
+                            $fileName = Str::random() . '.pdf';
+                            $path = 'attachments/' . $fileName;
+                            $attachments[] = $path;
+
+                            $pdf->save($disk->path($path));
+                        }
+
+                        Mail::to($application->email)->send(new ApplicationNotifyMail($application, $emailTemplate, $attachments));
+                    }
+                }
 
                 return redirect()
                     ->route('backend.applications.index')

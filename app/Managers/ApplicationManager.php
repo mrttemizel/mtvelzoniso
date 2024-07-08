@@ -4,6 +4,7 @@ namespace App\Managers;
 
 use App\Enums\ApplicationStatusEnum;
 use App\Models\Application;
+use App\Models\EmailTemplateApplicationStatus;
 use App\Models\User;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\UploadedFile;
@@ -99,5 +100,10 @@ class ApplicationManager extends BaseManager
             'step' => ApplicationStatusEnum::getValue($status),
             'status' => $status
         ]);
+    }
+
+    public function sendEmail(Application $application, string $status)
+    {
+        $templates = EmailTemplateApplicationStatus::query()->where('application_status_type', '=', $status)->get();
     }
 }

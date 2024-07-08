@@ -6,6 +6,7 @@ return [
     'agencies' => 'Acenteler',
     'users' => 'Kullanıcılar',
     'departments' => 'Bölümler',
+    'email-template' => 'E-Posta Template',
     'applications' => [
         'index' => 'Başvurular',
         'create' => 'Yeni Başvuru'

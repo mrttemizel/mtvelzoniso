@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('email_template_application_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('faculty');
-            $table->string('name');
-            $table->double('annual_fee')->default(0);
-            $table->double('discounted_fee')->default(0);
-            $table->timestampsTz();
-            $table->softDeletesTz();
+            $table->foreignId('email_template_id')->constrained()->cascadeOnDelete();
+            $table->enum('application_status_type', \App\Enums\ApplicationStatusEnum::values());
+            $table->timestamps();
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('email_template_application_statuses');
     }
 };

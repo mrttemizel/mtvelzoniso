@@ -8,20 +8,13 @@ use App\Http\Controllers\Backend\Agencies\AgencyController;
 use App\Http\Controllers\Backend\Application\ApplicationController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Departments\DepartmentController;
+use App\Http\Controllers\Backend\EmailTemplates\EmailTemplateController;
 use App\Http\Controllers\backend\Users\UserController;
 use App\Http\Controllers\Backend\Users\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
-
-Route::get('/pd', function () {
-    $application = \App\Models\Application::query()->with(['department'])->first();
-
-    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.pre-offer', ['application' => $application]);
-    return $pdf->stream();
-//    return $pdf;
-});
 
 Route::prefix('auth')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('auth.login.index');
@@ -107,5 +100,18 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
         Route::post('/delete/{applicationId}', [ApplicationController::class, 'destroy'])->name('backend.applications.destroy');
 
         Route::post('/update-status', [ApplicationController::class, 'updateStatus'])->name('backend.applications.update-status');
+    });
+
+    Route::prefix('email-templates')->group(function () {
+        Route::get('/', [EmailTemplateController::class, 'index'])->name('backend.email-templates.index');
+        Route::get('/datatable', [EmailTemplateController::class, 'dataTable'])->name('backend.email-templates.dataTable');
+
+        Route::get('/create', [EmailTemplateController::class, 'create'])->name('backend.email-templates.create');
+        Route::post('/create', [EmailTemplateController::class, 'store'])->name('backend.email-templates.store');
+
+        Route::get('/edit/{emailTemplateId}', [EmailTemplateController::class, 'edit'])->name('backend.email-templates.edit');
+        Route::post('/edit/{emailTemplateId}', [EmailTemplateController::class, 'update'])->name('backend.email-templates.update');
+
+        Route::post('/delete/{emailTemplateId}', [EmailTemplateController::class, 'destroy'])->name('backend.email-templates.destroy');
     });
 });

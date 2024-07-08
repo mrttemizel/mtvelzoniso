@@ -39,7 +39,7 @@
                 <td>
                     <div style="font-weight: 600; margin-left: 5px;">Faculty/School</div>
                 </td>
-                <td></td>
+                <td>{{ $application->department->faculty }}</td>
             </tr>
             <tr>
                 <td>
@@ -51,7 +51,7 @@
                 <td>
                     <div style="font-weight: 600; margin-left: 5px;">Annual Fee</div>
                 </td>
-                <td>{{ $application->department_annual_fee }}</td>
+                <td>{{ $application->department->annual_fee }}</td>
             </tr>
             <tr>
                 <td>
@@ -63,7 +63,7 @@
                 <td>
                     <div style="font-weight: 600; margin-left: 5px;">Deposit Payment</div>
                 </td>
-                <td>$1000</td>
+                <td>${{ number_format(1000, 2) }}</td>
             </tr>
             <tr>
                 <td>

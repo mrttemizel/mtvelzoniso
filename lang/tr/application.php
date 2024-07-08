@@ -47,6 +47,10 @@ return [
         'official-letter-sent' => 'Resmi Davetiye Gönderildi'
     ],
 
+    'attachments' => [
+        'pre-letter' => 'Ön Kabul Mektubu'
+    ],
+
     'tabs' => [
         'department-details' => 'Bölüm Bilgileri',
         'personal-details' => 'Kişisel Bilgiler',

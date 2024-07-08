@@ -11,4 +11,22 @@ class Department extends Model
     use SoftDeletes, HasFactory;
 
     protected $guarded = ['id'];
+
+    public function getAnnualFeeAttribute($value): string
+    {
+        if (is_null($value)) {
+            return '';
+        }
+
+        return '$' . number_format($value, 2);
+    }
+
+    public function getDiscountedFeeAttribute($value): string
+    {
+        if (is_null($value)) {
+            return '';
+        }
+
+        return '$' . number_format($value, 2);
+    }
 }
