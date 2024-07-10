@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('faculty');
+            $table->string('faculty')->nullable();
             $table->string('name');
             $table->double('annual_fee')->default(0);
             $table->double('discounted_fee')->default(0);
