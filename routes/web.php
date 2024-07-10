@@ -9,7 +9,7 @@ use App\Http\Controllers\Backend\Application\ApplicationController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Departments\DepartmentController;
 use App\Http\Controllers\Backend\EmailTemplates\EmailTemplateController;
-use App\Http\Controllers\backend\Users\UserController;
+use App\Http\Controllers\Backend\Users\UserController;
 use App\Http\Controllers\Backend\Users\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
