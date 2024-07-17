@@ -320,7 +320,9 @@ class ApplicationController extends Controller
 
                     Mail::to($application->email)->send(new PreApprovalLetterMail($application, $attachments));
 
-                    Mail::to($agencyEmails)->send(new UpdateApplicationStatusMail($application));
+                    if (count($agencyEmails)) {
+                        Mail::to($agencyEmails)->send(new UpdateApplicationStatusMail($application));
+                    }
                 }
 
                 // mali onay bekliyor
