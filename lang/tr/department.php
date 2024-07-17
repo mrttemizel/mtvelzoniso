@@ -19,12 +19,14 @@ return [
 
     'inputs' => [
         'name' => 'Bölüm Adı',
+        'faculty' => 'Fakülte',
         'annual_fee' => 'Yıllık Ücret',
         'discounted_fee' => 'İndirimli Ücret'
     ],
 
     'tables' => [
         'id' => 'ID',
+        'faculty' => 'Fakülte',
         'name' => 'Bölüm Adı',
         'annual_fee' => 'Yıllık Ücret',
         'discounted_fee' => 'İndirimli Ücret',

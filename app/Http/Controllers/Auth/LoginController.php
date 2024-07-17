@@ -18,7 +18,7 @@ class LoginController extends Controller
     {
         if (auth()->attempt($request->only(['email', 'password']))) {
             return redirect()
-                ->route('backend.dashboard.index')
+                ->route('backend.applications.index')
                 ->with('alert-type', 'success')
                 ->with('alert-message', trans('login.success.login'))
             ;

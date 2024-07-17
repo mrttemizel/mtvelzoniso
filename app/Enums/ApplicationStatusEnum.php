@@ -33,22 +33,14 @@ enum ApplicationStatusEnum: string
     case REJECTED = 'rejected';
 
     /**
-     * YOK taninirlik belgesi istendiginde
-     * 1. adimda gelcek
+     * Başvuru ön kabul aldı ve mali onay bekleniyor
      */
-    case PENDING_RECOGNITION_CERTIFICATE = 'pending.recognition.certificate';
+    case SENT_PRE_APPROVAL_LETTER = 'sent.pre-approval.letter';
 
     /**
-     * Odeme Istendigi zaman
-     * 2. adimda gelcek
+     * Mali onay icin dekont yuklendikten sonra bu statuye sahip olmali
      */
-    case PENDING_PAYMENT = 'pending.payment';
-
-
-    /**
-     * Odeme onaylandiginda
-     */
-    case APPROVAL_PAYMENT = 'approval.payment';
+    case PENDING_FINANCIAL_APPROVAL = 'pending.financial.approval';
 
     /**
      * Odeme yapildiktan sonra resmi davetiyenin gonderilmesinde
@@ -66,10 +58,10 @@ enum ApplicationStatusEnum: string
         return match($value) {
             self::PENDING->value,
             self::APPROVED->value,
-            self::MISSING_DOCUMENT->value,
-            self::PENDING_RECOGNITION_CERTIFICATE->value => 'stepOne',
+            self::MISSING_DOCUMENT->value => 'stepOne',
 
-            self::PENDING_PAYMENT->value => 'stepTwo',
+            self::PENDING_FINANCIAL_APPROVAL->value,
+            self::SENT_PRE_APPROVAL_LETTER->value => 'stepTwo',
 
             self::OFFICIAL_LETTER_SENT->value,
             self::REJECTED->value => 'none'

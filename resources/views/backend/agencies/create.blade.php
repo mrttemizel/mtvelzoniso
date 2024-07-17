@@ -69,6 +69,21 @@
                                     </div>
 
                                     <div class="col-12 col-lg-6 mb-3">
+                                        <div class="form-group {{ $errors->has('email') ? 'has-error' : null }}">
+                                            <label for="email">{{ trans('agencies.inputs.email') }}</label>
+                                            <input type="email"
+                                                   name="email"
+                                                   class="form-control {{ $errors->has('email') ? 'is-invalid' : null }}"
+                                                   value="{{ old('email') }}"
+                                                   id="email"
+                                            />
+                                            @if ($errors->has('email'))
+                                                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-lg-6 mb-3">
                                         <div class="form-group">
                                             <label for="tax_certificate">{{ trans('agencies.inputs.tax_certificate') }}</label>
                                             <input type="file"
@@ -82,7 +97,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 mb-3">
+                                    <div class="col-12 col-lg-6 mb-3">
                                         <div class="form-group {{ $errors->has('contract') ? 'has-error' : null }}">
                                             <label for="contract">{{ trans('agencies.inputs.contract') }}</label>
                                             <input type="file"

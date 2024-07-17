@@ -117,10 +117,10 @@
                                         {{ trans('application.inputs.date_of_birth') }}
                                     </label>
                                     <input type="text"
-                                           class="form-control {{ $errors->has('date_of_birth') ? 'is-invalid' : null }}"
+                                           class="form-control date {{ $errors->has('date_of_birth') ? 'is-invalid' : null }}"
                                            placeholder="YYYY-MM-DD"
                                            name="date_of_birth"
-                                           value="{{ old('date_of_birth', $application->date_of_birth) }}"
+                                           value="{{ old('date_of_birth', $application->date_of_birth->format('d/m/Y')) }}"
                                     />
                                     @if ($errors->has('date_of_birth'))
                                         <span class="invalid-feedback">{{ $errors->first('date_of_birth') }}</span>
@@ -156,7 +156,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('country_id') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.country') }}
                                     </label>
                                     <select name="country_id" class="form-control {{ $errors->has('country_id') ? 'is-invalid' : null }}">
@@ -174,7 +173,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('address') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.address') }}
                                     </label>
                                     <input type="text"
@@ -192,7 +190,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('phone_number') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.phone_number') }}
                                     </label>
                                     <input type="text"
@@ -266,7 +263,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('school_city') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.school_city') }}
                                     </label>
                                     <input type="text"
@@ -284,14 +280,13 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('year_of_graduation') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.year_graduation') }}
                                     </label>
                                     <input type="text"
-                                           class="form-control {{ $errors->has('year_of_graduation') ? 'is-invalid' : null }}"
+                                           class="form-control date {{ $errors->has('year_of_graduation') ? 'is-invalid' : null }}"
                                            placeholder="YYYY-MM-DD"
                                            name="year_of_graduation"
-                                           value="{{ old('year_of_graduation', $application->year_of_graduation) }}"
+                                           value="{{ old('year_of_graduation', $application->year_of_graduation->format('d/m/Y')) }}"
                                     />
                                     @if ($errors->has('year_of_graduation'))
                                         <span class="invalid-feedback">{{ $errors->first('year_of_graduation') }}</span>
@@ -300,9 +295,30 @@
                             </div>
 
                             <div class="col-12 col-md-6">
+                                <div class="form-group {{ $errors->has('high_school_diploma') ? 'has-error' : null }} mb-3">
+                                    <label class="form-label">
+                                        {{ trans('application.inputs.high_school_diploma') }}
+                                        @if ($application->hasHighSchoolDiploma())
+                                            <a href="{{ $application->high_school_diploma }}" class="fw-bold" style="margin-left: 10px" target="_blank">
+                                                {{ trans('application.buttons.preview') }}
+                                            </a>
+                                        @endif
+                                    </label>
+                                    <input type="file"
+                                           class="form-control {{ $errors->has('high_school_diploma') ? 'is-invalid' : null }}"
+                                           name="high_school_diploma"
+                                    />
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
+
+                                    @if ($errors->has('high_school_diploma'))
+                                        <span class="invalid-feedback">{{ $errors->first('high_school_diploma') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('graduation_degree') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.graduation_degree') }}
                                     </label>
                                     <input type="text"
@@ -320,7 +336,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('official_transcript') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.official_transcript') }}
                                         @if ($application->hasOfficialTranscript())
                                             <a href="{{ $application->official_transcript }}" class="fw-bold" style="margin-left: 10px" target="_blank">
@@ -332,12 +347,34 @@
                                            class="form-control {{ $errors->has('official_transcript') ? 'is-invalid' : null }}"
                                            name="official_transcript"
                                     />
-                                    <span class="text-info">{{ trans('application.texts.warning-upload-transcript') }}</span>
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
                                     @if ($errors->has('official_transcript'))
                                         <span class="invalid-feedback">{{ $errors->first('official_transcript') }}</span>
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group {{ $errors->has('additional_document') ? 'has-error' : null }} mb-3">
+                                    <label class="form-label">
+                                        {{ trans('application.inputs.additional_document') }}
+                                        @if ($application->hasAdditionalDocument())
+                                            <a href="{{ $application->additional_document }}" class="fw-bold" style="margin-left: 10px" target="_blank">
+                                                {{ trans('application.buttons.preview') }}
+                                            </a>
+                                        @endif
+                                    </label>
+                                    <input type="file"
+                                           class="form-control {{ $errors->has('additional_document') ? 'is-invalid' : null }}"
+                                           name="additional_document"
+                                    />
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
+                                    @if ($errors->has('additional_document'))
+                                        <span class="invalid-feedback">{{ $errors->first('additional_document') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
 
                             <h6 class="fw-bolder text-uppercase mt-4">{{ trans('application.tabs.test-and-score-details') }}</h6>
 
@@ -345,8 +382,8 @@
                                 <div class="form-group {{ $errors->has('official_exam') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
                                         {{ trans('application.inputs.official_exam') }}
-                                        @if ($application->hasDocumentFile())
-                                            <a href="{{ $application->document_file }}" class="fw-bold" style="margin-left: 10px" target="_blank">
+                                        @if ($application->hasOfficialExam())
+                                            <a href="{{ $application->official_exam }}" class="fw-bold" style="margin-left: 10px" target="_blank">
                                                 {{ trans('application.buttons.preview') }}
                                             </a>
                                         @endif
@@ -355,7 +392,7 @@
                                            class="form-control {{ $errors->has('official_exam') ? 'is-invalid' : null }}"
                                            name="official_exam"
                                     />
-                                    <span class="text-info">{{ trans('application.texts.warning-upload-exam') }}</span>
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
 
                                     @if ($errors->has('official_exam'))
                                         <span class="invalid-feedback">{{ $errors->first('official_exam') }}</span>
@@ -399,7 +436,7 @@
                                            class="form-control {{ $errors->has('payment_file') ? 'is-invalid' : null }}"
                                            name="payment_file"
                                     />
-                                    <span class="text-info">{{ trans('application.texts.warning-upload-payment') }}</span>
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
 
                                     @if ($errors->has('payment_file'))
                                         <span class="invalid-feedback">{{ $errors->first('payment_file') }}</span>
@@ -421,3 +458,19 @@
         </div>
     </div>
 @endsection
+
+@push('javascript')
+    <script>
+        $(document).ready(function () {
+            const body = $('body');
+
+            body.find('.date').daterangepicker({
+                singleDatePicker: true,
+                maxDate: parseInt(moment().format('YYYY'), 10),
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            })
+        });
+    </script>
+@endpush

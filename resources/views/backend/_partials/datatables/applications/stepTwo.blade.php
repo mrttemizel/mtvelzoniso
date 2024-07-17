@@ -9,17 +9,15 @@
 
 
 <div class="dropdown-menu">
-    <form action="{{ route('backend.applications.update-status') }}" method="POST" class="application-status-form">
-        @csrf
-
-        <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value }}" />
-        <input type="hidden" name="id" value="{{ $application->id }}">
-
-        <button type="button" class="dropdown-item dropdown-item-success btn-application-update">
+    @if ($application->hasPaymentFile())
+        <button type="button"
+                class="dropdown-item dropdown-item-success btn-sent-letter"
+                data-id="{{ $application->id }}"
+        >
             <i class="bx bx-right-arrow-alt"></i>
             {{ trans('application.buttons.approve-payment') }}
         </button>
-    </form>
+    @endif
 
     <a href="{{ route('backend.applications.edit', ['applicationId' => $application->id]) }}" class="dropdown-item">
         <i class="bx bx-edit-alt"></i>

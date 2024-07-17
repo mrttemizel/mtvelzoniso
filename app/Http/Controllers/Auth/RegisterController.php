@@ -43,7 +43,7 @@ class RegisterController extends Controller
             auth()->login($user);
 
             return redirect()
-                ->route('backend.dashboard.index')
+                ->route('backend.applications.index')
                 ->with('alert-type', 'success')
                 ->with('alert-message', trans('register.success.created'))
             ;

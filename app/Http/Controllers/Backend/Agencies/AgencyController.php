@@ -42,6 +42,7 @@ class AgencyController extends Controller
                 /** @var Agency $agency */
                 $agency = $this->agencyManager->create([
                     'name' => $request->input('agency_name'),
+                    'email' => $request->input('email'),
                     'tax_number' => $request->input('tax_number'),
                 ]);
 
@@ -67,8 +68,13 @@ class AgencyController extends Controller
 
                 $user->setAttribute('raw_password', $password);
 
-                // kayit edilen kullanicinin sifresi otomatik olusturuldugu icin mail gonderimi yapilacak
-                Mail::to($request->input('email'))->send(new WelcomeMail($user));
+                try {
+                    // kayit edilen kullanicinin sifresi otomatik olusturuldugu icin mail gonderimi yapilacak
+                    Mail::to($request->input('email'))->send(new WelcomeMail($user));
+                } catch (\Exception $e) {
+                    logger()->error($e);
+                    // do nothing!
+                }
 
                 return redirect()
                     ->route('backend.agencies.index')
@@ -100,6 +106,7 @@ class AgencyController extends Controller
                 /** @var Agency $agency */
                 $agency = $this->agencyManager->update($agency, [
                     'name' => $request->input('agency_name'),
+                    'email' => $request->input('email'),
                     'tax_number' => $request->input('tax_number'),
                 ]);
 

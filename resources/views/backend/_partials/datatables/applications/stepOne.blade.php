@@ -12,7 +12,7 @@
     <form action="{{ route('backend.applications.update-status') }}" method="POST" class="application-status-form">
         @csrf
 
-        <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::PENDING_PAYMENT->value }}" />
+        <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value }}" />
         <input type="hidden" name="id" value="{{ $application->id }}">
 
         <button type="button" class="dropdown-item dropdown-item-success btn-application-update">
@@ -30,18 +30,6 @@
         <button type="button" class="dropdown-item btn-application-update">
             <i class="bx bx-right-arrow-alt"></i>
             {{ trans('application.buttons.missing-document') }}
-        </button>
-    </form>
-
-    <form action="{{ route('backend.applications.update-status') }}" method="POST" class="application-status-form">
-        @csrf
-
-        <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::PENDING_RECOGNITION_CERTIFICATE->value }}" />
-        <input type="hidden" name="id" value="{{ $application->id }}">
-
-        <button type="button" class="dropdown-item btn-application-update">
-            <i class="bx bx-right-arrow-alt"></i>
-            {{ trans('application.buttons.recognition-certificate') }}
         </button>
     </form>
 

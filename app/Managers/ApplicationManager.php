@@ -24,7 +24,7 @@ class ApplicationManager extends BaseManager
             $data['user_id'] = $user->id;
         }
 
-        $data['application_code'] = IdGenerator::generate(['table' => 'applications', 'field' => 'application_code', 'length' => 10, 'prefix' => 'ABU-']);
+        $data['code'] = IdGenerator::generate(['table' => 'applications', 'field' => 'code', 'length' => 10, 'prefix' => 'ABU-']);
 
         return Application::query()->create($data);
     }
@@ -64,18 +64,48 @@ class ApplicationManager extends BaseManager
         ]);
     }
 
-    public function uploadDocumentFile(Application $application, UploadedFile $file): void
+    public function uploadOfficialExam(Application $application, UploadedFile $uploadedFile): void
     {
-        $documentFile = $application->getRawOriginal('document_file');
+        $file = $application->getRawOriginal('official_exam');
 
-        if (! is_null($documentFile) && $this->disk()->exists($documentFile)) {
-            $this->disk()->delete($documentFile);
+        if (! is_null($file) && $this->disk()->exists($uploadedFile)) {
+            $this->disk()->delete($uploadedFile);
         }
 
-        $path = $file->store('applications/documents', 'public');
+        $path = $uploadedFile->store('applications/exams', 'public');
 
         $application->update([
-            'document_file' => $path,
+            'official_exam' => $path,
+        ]);
+    }
+
+    public function uploadHighSchoolDiploma(Application $application, UploadedFile $uploadedFile): void
+    {
+        $file = $application->getRawOriginal('high_school_diploma');
+
+        if (! is_null($file) && $this->disk()->exists($file)) {
+            $this->disk()->delete($file);
+        }
+
+        $path = $uploadedFile->store('applications/diplomas', 'public');
+
+        $application->update([
+            'high_school_diploma' => $path,
+        ]);
+    }
+
+    public function uploadAdditionalDocument(Application $application, UploadedFile $uploadedFile): void
+    {
+        $file = $application->getRawOriginal('additional_document');
+
+        if (! is_null($file) && $this->disk()->exists($file)) {
+            $this->disk()->delete($file);
+        }
+
+        $path = $uploadedFile->store('applications/additional-documents', 'public');
+
+        $application->update([
+            'additional_document' => $path,
         ]);
     }
 

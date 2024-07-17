@@ -137,12 +137,6 @@ class DepartmentController extends Controller
 
         return datatables()
             ->eloquent($model)
-            ->editColumn('annual_fee', function ($item) {
-                return '$' . number_format($item->annual_fee, 2, ',', '.');
-            })
-            ->editColumn('discounted_fee', function ($item) {
-                return '$' . number_format($item->discounted_fee, 2, ',', '.');
-            })
             ->addColumn('actions', function ($item) {
                 return view('backend._partials.datatables._default-actions')
                     ->with('editRoute', route('backend.departments.edit', ['departmentId' => $item->id]))

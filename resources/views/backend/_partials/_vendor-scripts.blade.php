@@ -9,6 +9,8 @@
 <script src="{{ asset('backend/assets/libs/toastify-js/toastify-js.js') }}"></script>
 <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/plugins.min.js') }}"></script>
+<script src="{{ asset('backend/assets/libs/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('backend/assets/libs/daterangepicker/daterangepicker.min.js') }}"></script>
 
 <script src="{{asset('backend/assets/js/app.js')}}"></script>
 

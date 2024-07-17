@@ -9,6 +9,9 @@ use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
 use App\Mail\ApplicationNotifyMail;
+use App\Mail\NewStudentRegisteredMail;
+use App\Mail\SendOfficialLetterMail;
+use App\Mail\UploadedFinancialFileMail;
 use App\Managers\ApplicationManager;
 use App\Models\Application;
 use App\Models\EmailTemplate;
@@ -16,6 +19,7 @@ use App\Models\EmailTemplateApplicationStatus;
 use App\Models\EmailTemplateAttachment;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +42,158 @@ class ApplicationController extends Controller
         return view('backend.applications.index');
     }
 
+    public function statistics(Request $request): JsonResponse
+    {
+        $pendingApplicationQuery = Application::query();
+        $totalApplicationQuery = Application::query();
+        $pendingPrePaymentQuery = Application::query();
+        $pendingPaymentQuery = Application::query();
+
+        if ($request->has('nationality_id')) {
+            $pendingApplicationQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
+
+            $totalApplicationQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
+
+            $pendingPrePaymentQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
+
+            $pendingPaymentQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
+        }
+
+        if ($request->has('agency_id')) {
+            $agencyId = $request->input('agency_id') != 'self' ? $request->input('agency_id') : null;
+
+            if (! is_null($agencyId)) {
+                $pendingApplicationQuery
+                    ->where('agency_id', '=', $agencyId)
+                ;
+
+                $totalApplicationQuery
+                    ->where('agency_id', '=', $agencyId)
+                ;
+
+                $pendingPrePaymentQuery
+                    ->where('agency_id', '=', $agencyId)
+                ;
+
+                $pendingPaymentQuery
+                    ->where('agency_id', '=', $agencyId)
+                ;
+            } else {
+                $pendingApplicationQuery
+                    ->whereNull('agency_id')
+                ;
+
+                $totalApplicationQuery
+                    ->whereNull('agency_id')
+                ;
+
+                $pendingPrePaymentQuery
+                    ->whereNull('agency_id')
+                ;
+
+                $pendingPaymentQuery
+                    ->whereNull('agency_id')
+                ;
+            }
+        }
+
+        $pendingApplicationQuery
+            ->whereIn('status', [
+                ApplicationStatusEnum::PENDING->value
+            ])
+        ;
+
+        $pendingPrePaymentQuery
+            ->whereIn('status', [
+                ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value
+            ])
+        ;
+
+        $pendingPaymentQuery
+            ->whereIn('status', [
+                ApplicationStatusEnum::PENDING->value
+            ])
+        ;
+
+//        $pendingApplication = Application::query()
+//            ->whereIn('status', [
+//                ApplicationStatusEnum::PENDING->value
+//            ])
+//            ->when($request->input('nationality_id'), function ($query) use ($request) {
+//                $query->where('nationality_id', '=', $request->input('nationality_id'));
+//            })
+//            ->when($request->input('agency_id'), function ($query) use ($request) {
+//                if ($request->input('agency_id') == 'self') {
+//                    $query->whereNull('agency_id');
+//                } else {
+//                    $query->where('agency_id', '=', $request->input('agency_id'));
+//                }
+//            })
+//            ->count(['id']);
+//
+//        $totalApplication = Application::query()
+//            ->when($request->input('nationality_id'), function ($query) use ($request) {
+//                $query->where('nationality_id', '=', $request->input('nationality_id'));
+//            })
+//            ->when($request->input('agency_id'), function ($query) use ($request) {
+//                if ($request->input('agency_id') == 'self') {
+//                    $query->whereNull('agency_id');
+//                } else {
+//                    $query->where('agency_id', '=', $request->input('agency_id'));
+//                }
+//            })
+//            ->count(['id']);
+//
+//        $pendingPrePayment = Application::query()
+//            ->whereIn('status', [
+//                ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value
+//            ])
+//            ->when($request->input('nationality_id'), function ($query) use ($request) {
+//                $query->where('nationality_id', '=', $request->input('nationality_id'));
+//            })
+//            ->when($request->input('agency_id'), function ($query) use ($request) {
+//                if ($request->input('agency_id') == 'self') {
+//                    $query->whereNull('agency_id');
+//                } else {
+//                    $query->where('agency_id', '=', $request->input('agency_id'));
+//                }
+//            })
+//            ->count(['id']);
+//
+//        $pendingPayment = Application::query()
+//            ->whereIn('status', [
+//                ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value
+//            ])
+//            ->when($request->input('nationality_id'), function ($query) use ($request) {
+//                $query->where('nationality_id', '=', $request->input('nationality_id'));
+//            })
+//            ->when($request->input('agency_id'), function ($query) use ($request) {
+//                if ($request->input('agency_id') == 'self') {
+//                    $query->whereNull('agency_id');
+//                } else {
+//                    $query->where('agency_id', '=', $request->input('agency_id'));
+//                }
+//            })
+//            ->count(['id']);
+
+        return response()->json([
+            'data' => [
+//                'pending_application' => $pendingApplication,
+//                'total_application' => $totalApplication,
+//                'pending_pre_payment' => $pendingPrePayment,
+//                'pending_payment' => $pendingPayment
+            ]
+        ]);
+    }
+
     public function create(): View
     {
         return view('backend.applications.create');
@@ -55,14 +211,14 @@ class ApplicationController extends Controller
                     'nationality_id' => $request->input('nationality_id'),
                     'passport_number' => $request->input('passport_number'),
                     'place_of_birth' => $request->input('place_of_birth'),
-                    'date_of_birth' => $request->input('date_of_birth'),
+                    'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth')),
                     'address' => $request->input('address'),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
                     'school_name' => $request->input('school_name'),
                     'school_country_id' => $request->input('school_country_id'),
                     'school_city' => $request->input('school_city'),
-                    'year_of_graduation' => $request->input('year_of_graduation'),
+                    'year_of_graduation' => Carbon::createFromFormat('d/m/Y', $request->input('year_of_graduation')),
                     'graduation_degree' => $request->input('graduation_degree'),
                     'reference' => $request->input('reference'),
                 ]);
@@ -75,9 +231,19 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadTranscript($application, $request->file('official_transcript'));
                 }
 
-                if ($request->hasFile('document_file')) {
-                    $this->applicationManager->uploadDocumentFile($application, $request->file('document_file'));
+                if ($request->hasFile('official_exam')) {
+                    $this->applicationManager->uploadOfficialExam($application, $request->file('official_exam'));
                 }
+
+                if ($request->hasFile('high_school_diploma')) {
+                    $this->applicationManager->uploadHighSchoolDiploma($application, $request->file('high_school_diploma'));
+                }
+
+                if ($request->hasFile('additional_document')) {
+                    $this->applicationManager->uploadAdditionalDocument($application, $request->file('additional_document'));
+                }
+
+                Mail::to('oguz.topcu@antalya.edu.tr')->send(new NewStudentRegisteredMail());
 
                 return redirect()
                     ->route('backend.applications.index')
@@ -108,6 +274,17 @@ class ApplicationController extends Controller
                     ->first();
 
                 $this->applicationManager->updateStatus($application, $request->input('status'));
+
+                if ($request->input('status') == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
+                    $files = [];
+                    if ($request->hasFile('attachments')) {
+                        foreach ($request->file('attachments') as $uploadedFile) {
+                            $files[] = $uploadedFile->store('uploads', 'public');
+                        }
+                    }
+
+                    Mail::to('oguz.topcu@antalya.edu.tr')->send(new SendOfficialLetterMail($application, $request->input('title'), $request->input('content'), $files));
+                }
 
                 $emailTemplates = EmailTemplate::query()
                     ->with(['attachments'])
@@ -169,6 +346,10 @@ class ApplicationController extends Controller
         $user = auth()->user();
 
         if (! $user->isAllAdmin()) {
+            if ($application->status == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
+                abort(Response::HTTP_FORBIDDEN);
+            }
+
             // acente kendi basvurusu degilse hata verecek
             if ($user->isAgency() && $user->agency_id != $application->agency_id) {
                 abort(Response::HTTP_FORBIDDEN);
@@ -215,13 +396,26 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadTranscript($application, $request->file('official_transcript'));
                 }
 
-                if ($request->hasFile('document_file')) {
-                    $this->applicationManager->uploadDocumentFile($application, $request->file('document_file'));
+                if ($request->hasFile('official_exam')) {
+                    $this->applicationManager->uploadOfficialExam($application, $request->file('official_exam'));
+                }
+
+                if ($request->hasFile('high_school_diploma')) {
+                    $this->applicationManager->uploadHighSchoolDiploma($application, $request->file('high_school_diploma'));
+                }
+
+                if ($request->hasFile('additional_document')) {
+                    $this->applicationManager->uploadAdditionalDocument($application, $request->file('additional_document'));
                 }
 
                 // odeme alindiginda basvuru durumunu guncelleyecegiz
                 if ($request->hasFile('payment_file')) {
                     $this->applicationManager->uploadPaymentFile($application, $request->file('payment_file'));
+                    $this->applicationManager->update($application, [
+                        'status' => ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
+                    ]);
+
+                    Mail::to('oguz.topcu@antalya.edu.tr')->send(new UploadedFinancialFileMail($application));
                 }
 
                 return redirect()
@@ -234,7 +428,7 @@ class ApplicationController extends Controller
                 DB::rollBack();
 
                 return redirect()
-                    ->route('backend.applications.create')
+                    ->route('backend.applications.edit', ['applicationId' => $application->id])
                     ->withInput()
                     ->with('alert-type', 'error')
                     ->with('alert-message', trans('transactions.failed'))
@@ -259,7 +453,8 @@ class ApplicationController extends Controller
         if ($user->isAllAdmin()) {
             $columns = [
                 [ 'data' => 'id', 'name' => 'applications.id' ],
-                [ 'data' => 'agency_name', 'name' => 'agency_name', 'orderable' => false, 'searchable' => false ],
+                [ 'data' => 'agency_code', 'name' => 'agency.code' ],
+                [ 'data' => 'agency_name', 'name' => 'agency.name' ],
                 [ 'data' => 'name', 'name' => 'name' ],
                 [ 'data' => 'nationality.name', 'name' => 'nationality.id' ],
                 [ 'data' => 'status', 'name' => 'status', 'searchable' => false, 'orderable' => false ],
@@ -279,7 +474,8 @@ class ApplicationController extends Controller
 
         $relations = ['nationality'];
 
-        $model = Application::query();
+        $model = Application::query()
+            ->select(['applications.*']);
 
         if ($user->isAllAdmin()) {
             $relations[] = 'agency';
@@ -295,7 +491,6 @@ class ApplicationController extends Controller
 
         $model
             ->with($relations)
-            ->orderByDesc('applications.id')
         ;
 
 
@@ -314,48 +509,56 @@ class ApplicationController extends Controller
                     $query->where('nationality_id', '=', $nationality);
                 }
 
-                if (strlen($agency)) {
-                    $query->where('agency_id', '=', $agency);
+                if (! is_null($agency)) {
+                    if (intval($agency) > 0) {
+                        $query->where('agency_id', '=', $agency);
+                    }
+
+                    if ($agency == 'self') {
+                        $query->whereNull('agency_id');
+                    }
                 }
             })
-            ->editColumn('agency_name', function ($item) {
-                if (is_null($item->agency)) {
-                    return trans('application.texts.self-application');
+            ->addColumn('agency_code', function ($item) {
+                if (! is_null($item->agency)) {
+                    return $item->agency->code;
                 }
 
-                return $item->agency->name . ' (' . $item->agency->code . ')';
+                return '';
+            })
+            ->addColumn('agency_name', function ($item) {
+                if (! is_null($item->agency)) {
+                    return $item->agency->name;
+                }
+
+                return '';
             })
             ->editColumn('status', function ($item) {
-                switch ($item->status) {
-                    case ApplicationStatusEnum::PENDING->value:
-                        return '<span class="badge bg-info">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
-                    break;
+                /** @var User $user */
+                $user = auth()->user();
 
-                    case ApplicationStatusEnum::APPROVED->value:
-                        return '<span class="badge bg-success">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
-                    break;
+                return match ($item->status) {
+                    ApplicationStatusEnum::PENDING->value => '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
 
-                    case ApplicationStatusEnum::PENDING_RECOGNITION_CERTIFICATE->value:
-                    case ApplicationStatusEnum::PENDING_PAYMENT->value:
-                    case ApplicationStatusEnum::MISSING_DOCUMENT->value:
-                        return '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
-                    break;
+                    ApplicationStatusEnum::APPROVED->value => '<span class="badge bg-success">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
 
-                    case ApplicationStatusEnum::REJECTED->value:
-                        return '<span class="badge bg-danger">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
-                    break;
+                    ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value,
+                    ApplicationStatusEnum::MISSING_DOCUMENT->value => '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
 
-                    case ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value:
-                        return '<span class="badge bg-primary">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>';
-                    break;
+                    ApplicationStatusEnum::REJECTED->value => '<span class="badge bg-danger">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
 
-                    default:
-                        return '';
-                }
+                    ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value => '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
+                    ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value => '<span class="badge bg-primary">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
+                    default => '',
+                };
             })
             ->addColumn('actions', function ($item) {
                 /** @var User $user */
                 $user = auth()->user();
+
+                if ($item->status == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
+                    return '';
+                }
 
                 if ($user->isAllAdmin()) {
                     $viewName = 'backend._partials.datatables.applications.' . ApplicationStatusEnum::getStep($item->status);

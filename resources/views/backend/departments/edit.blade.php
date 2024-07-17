@@ -33,19 +33,32 @@
 
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <div class="form-group {{ $errors->has('name') ? 'has-error' : null }}">
-                                    <label for="name">{{ trans('department.inputs.name') }}</label>
-                                    <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : null }}" value="{{ old('name', $department->name) }}" />
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-                                    @endif
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group {{ $errors->has('name') ? 'has-error' : null }}">
+                                            <label for="name">{{ trans('department.inputs.name') }}</label>
+                                            <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : null }}" value="{{ old('name', $department->name) }}" />
+                                            @if ($errors->has('name'))
+                                                <span class="invalid-feedback">{{ $errors->first('name') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group {{ $errors->has('faculty') ? 'has-error' : null }}">
+                                            <label for="name">{{ trans('department.inputs.faculty') }}</label>
+                                            <input type="text" name="faculty" class="form-control {{ $errors->has('faculty') ? 'is-invalid' : null }}" value="{{ old('faculty', $department->faculty) }}" />
+                                            @if ($errors->has('faculty'))
+                                                <span class="invalid-feedback">{{ $errors->first('faculty') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <div class="form-group {{ $errors->has('annual_fee') ? 'has-error' : null }}">
                                     <label for="name">{{ trans('department.inputs.annual_fee') }}</label>
-                                    <input type="text" name="annual_fee" class="form-control {{ $errors->has('annual_fee') ? 'is-invalid' : null }}" placeholder="1234.98" value="{{ old('annual_fee', $department->annual_fee) }}" />
+                                    <input type="text" name="annual_fee" class="form-control {{ $errors->has('annual_fee') ? 'is-invalid' : null }}" placeholder="1234.98" value="{{ old('annual_fee', $department->getRawOriginal('annual_fee')) }}" />
                                     <span class="text-info">{{ trans('department.texts.only-dollars') }}</span>
                                     @if ($errors->has('annual_fee'))
                                         <span class="invalid-feedback">{{ $errors->first('annual_fee') }}</span>
@@ -53,10 +66,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <div class="form-group {{ $errors->has('discounted_fee') ? 'has-error' : null }}">
                                     <label for="name">{{ trans('department.inputs.discounted_fee') }}</label>
-                                    <input type="text" name="discounted_fee" class="form-control {{ $errors->has('discounted_fee') ? 'is-invalid' : null }}" placeholder="1234.98" value="{{ old('discounted_fee', $department->discounted_fee) }}" />
+                                    <input type="text" name="discounted_fee" class="form-control {{ $errors->has('discounted_fee') ? 'is-invalid' : null }}" placeholder="1234.98" value="{{ old('discounted_fee', $department->getRawOriginal('discounted_fee')) }}" />
                                     <span class="text-info">{{ trans('department.texts.only-dollars') }}</span>
                                     @if ($errors->has('discounted_fee'))
                                         <span class="invalid-feedback">{{ $errors->first('discounted_fee') }}</span>

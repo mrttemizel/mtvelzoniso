@@ -14,6 +14,11 @@ class Application extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'year_of_graduation' => 'date'
+    ];
+
     public function hasPassportPhoto(): bool
     {
         return ! is_null($this->getRawOriginal('passport_photo'));
@@ -24,9 +29,9 @@ class Application extends Model
         return ! is_null($this->getRawOriginal('official_transcript'));
     }
 
-    public function hasDocumentFile(): bool
+    public function hasOfficialExam(): bool
     {
-        return ! is_null($this->getRawOriginal('document_file'));
+        return ! is_null($this->getRawOriginal('official_exam'));
     }
 
     public function hasPaymentFile(): bool
@@ -34,7 +39,27 @@ class Application extends Model
         return ! is_null($this->getRawOriginal('payment_file'));
     }
 
+    public function hasHighSchoolDiploma(): bool
+    {
+        return ! is_null($this->getRawOriginal('high_school_diploma'));
+    }
+
+    public function hasAdditionalDocument(): bool
+    {
+        return ! is_null($this->getRawOriginal('additional_document'));
+    }
+
     public function getPassportPhotoAttribute($value): string
+    {
+        return Storage::disk('public')->url($value);
+    }
+
+    public function getHighSchoolDiplomaAttribute($value): string
+    {
+        return Storage::disk('public')->url($value);
+    }
+
+    public function getAdditionalDocumentAttribute($value): string
     {
         return Storage::disk('public')->url($value);
     }
@@ -44,7 +69,7 @@ class Application extends Model
         return Storage::disk('public')->url($value);
     }
 
-    public function getDocumentFileAttribute($value): string
+    public function getOfficialExamAttribute($value): string
     {
         return Storage::disk('public')->url($value);
     }

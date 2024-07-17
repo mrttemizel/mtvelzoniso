@@ -25,7 +25,7 @@
                                     <select name="department_id" class="form-control {{ $errors->has('department_id') ? 'is-invalid' : null }}">
                                         <option value="" disabled selected>{{ trans('application.inputs.department_id') }}</option>
                                         @foreach (departments() as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : null }}>{{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('department_id'))
@@ -117,7 +117,7 @@
                                         {{ trans('application.inputs.date_of_birth') }}
                                     </label>
                                     <input type="text"
-                                           class="form-control  {{ $errors->has('date_of_birth') ? 'is-invalid' : null }}"
+                                           class="form-control date {{ $errors->has('date_of_birth') ? 'is-invalid' : null }}"
                                            placeholder="YYYY-MM-DD"
                                            name="date_of_birth"
                                            value="{{ old('date_of_birth') }}"
@@ -169,7 +169,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('address') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.address') }}
                                     </label>
                                     <input type="text"
@@ -187,7 +186,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('phone_number') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.phone_number') }}
                                     </label>
                                     <input type="text"
@@ -261,7 +259,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('school_city') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.school_city') }}
                                     </label>
                                     <input type="text"
@@ -279,11 +276,10 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('year_of_graduation') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.year_graduation') }}
                                     </label>
                                     <input type="text"
-                                           class="form-control {{ $errors->has('year_of_graduation') ? 'is-invalid' : null }}"
+                                           class="form-control date {{ $errors->has('year_of_graduation') ? 'is-invalid' : null }}"
                                            placeholder="YYYY-MM-DD"
                                            name="year_of_graduation"
                                            value="{{ old('year_of_graduation') }}"
@@ -295,9 +291,25 @@
                             </div>
 
                             <div class="col-12 col-md-6">
+                                <div class="form-group {{ $errors->has('high_school_diploma') ? 'has-error' : null }} mb-3">
+                                    <label class="form-label">
+                                        {{ trans('application.inputs.high_school_diploma') }}
+                                    </label>
+                                    <input type="file"
+                                           class="form-control {{ $errors->has('high_school_diploma') ? 'is-invalid' : null }}"
+                                           name="high_school_diploma"
+                                    />
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
+
+                                    @if ($errors->has('high_school_diploma'))
+                                        <span class="invalid-feedback">{{ $errors->first('high_school_diploma') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('graduation_degree') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.graduation_degree') }}
                                     </label>
                                     <input type="text"
@@ -315,16 +327,31 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('official_transcript') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.official_transcript') }}
                                     </label>
                                     <input type="file"
                                            class="form-control {{ $errors->has('official_transcript') ? 'is-invalid' : null }}"
                                            name="official_transcript"
                                     />
-                                    <span class="text-info">{{ trans('application.texts.warning-upload-transcript') }}</span>
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
                                     @if ($errors->has('official_transcript'))
                                         <span class="invalid-feedback">{{ $errors->first('official_transcript') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group {{ $errors->has('additional_document') ? 'has-error' : null }} mb-3">
+                                    <label class="form-label">
+                                        {{ trans('application.inputs.additional_document') }}
+                                    </label>
+                                    <input type="file"
+                                           class="form-control {{ $errors->has('additional_document') ? 'is-invalid' : null }}"
+                                           name="additional_document"
+                                    />
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
+                                    @if ($errors->has('additional_document'))
+                                        <span class="invalid-feedback">{{ $errors->first('additional_document') }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -340,13 +367,15 @@
                                            class="form-control {{ $errors->has('official_exam') ? 'is-invalid' : null }}"
                                            name="official_exam"
                                     />
-                                    <span class="text-info">{{ trans('application.texts.warning-upload-exam') }}</span>
+                                    <span class="text-info">{{ trans('application.texts.warning-upload') }}</span>
 
                                     @if ($errors->has('official_exam'))
                                         <span class="invalid-feedback">{{ $errors->first('official_exam') }}</span>
                                     @endif
                                 </div>
                             </div>
+
+
 
                             <h6 class="fw-bolder text-uppercase mt-4">{{ trans('application.tabs.program-details') }}</h6>
 
@@ -417,3 +446,19 @@
         </div>
     </div>
 @endsection
+
+@push('javascript')
+    <script>
+        $(document).ready(function () {
+            const body = $('body');
+
+            body.find('.date').daterangepicker({
+                singleDatePicker: true,
+                maxDate: parseInt(moment().format('YYYY'), 10),
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            })
+        });
+    </script>
+@endpush

@@ -22,6 +22,9 @@ return [
         'apply' => 'Uygula',
         'reset' => 'Sıfırla',
 
+        'send-mail' => 'Maili Gönder',
+        'cancel' => 'İptal',
+
         'approve-application' => 'Başvuruyu Onayla',
         'reject-application' => 'Başvuruyu Reddet',
         'recognition-certificate' => 'YÖK Tanınırlık İste',
@@ -41,9 +44,10 @@ return [
         'approved' => 'Başvuru Kabul Edildi',
         'missing-document' => 'Eksik veya Hatalı Belge',
         'rejected' => 'Reddedildi',
-        'pending-recognition-certificate' => 'YÖK Tanınırlık Belgesi Bekleniyor',
-        'pending-payment' => 'Ödeme Bekleniyor',
-        'approval-payment' => 'Ödeme Onaylandı',
+
+        'sent-pre-approval-letter' => 'Ön Kabul Mektubu Gönderilmiştir',
+        'pending-financial-approval' => 'Mali Onay Bekliyor',
+
         'official-letter-sent' => 'Resmi Davetiye Gönderildi'
     ],
 
@@ -63,14 +67,16 @@ return [
     ],
 
     'texts' => [
+        'upload-letter' => 'Resmi Kabul Mektubu',
+
+        'pending-application' => 'Bekleyen Başvuru',
+        'total-application' => 'Toplam Başvuru',
+        'pending-pre-payment-application' => 'Ön Ödeme Yapmasını Beklenen',
+        'pending-payment-application' => 'Ödeme Yapmasını Beklenen',
         'self-application' => 'Kendisi',
         'warning-upload-image' => 'Yükleyebileceğiniz fotoğraf boyutu en fazla 2MB olmalıdır. Desteklenen Formatlar: jpg, png, jpeg.',
 //        'warning-upload-image' => 'The file size you upload must be a maximum of 2MB. Supported formats are jpg, png, jpeg.'
-        'warning-upload-transcript' => 'Yükleyebileceğiniz dosya boyutu en fazla 2MB olmalıdır. Desteklenen Formatlar: pdf, xlsx, docx, doc.',
-        'warning-upload-payment' => 'Yükleyebileceğiniz dosya boyutu en fazla 2MB olmalıdır. Desteklenen Format: pdf.',
-//        'warning-upload-transcript' => 'The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.',
-        'warning-upload-exam' => 'Yükleyebileceğiniz dosya boyutu en fazla 2MB olmalıdır. Desteklenen Formatlar: pdf, xlsx, docx, doc.',
-//        'warning-upload-exam' => 'The file size you upload must be a maximum of 2MB. Supported formats are pdf, xlsx, docx, doc.',
+        'warning-upload' => 'Yükleyebileceğiniz dosya boyutu en fazla 2MB olmalıdır. Desteklenen Formatlar: pdf, xlsx, docx, doc.',
         'application-terms' => "I Confirm that, <br>
                                         1. I will bring all required documents for the final registration.<br>
                                         2. If I don't get equivalency from the Ministry of Education in Turkey the
@@ -98,18 +104,25 @@ return [
         'school_city' => 'Okulun Bulunduğu Şehir',
         'year_graduation' => 'Mezuniyet Yılı',
         'graduation_degree' => 'Mezuniyet Derecesi',
+        'high_school_diploma' => 'Lise Diploması',
         'official_transcript' => 'Resmi Transkript (Son 3 YIL)',
+        'additional_document' => 'Ek Belge',
         'official_exam' => 'TOEFL veya IELTS Sonucunuz (varsa)',
-        'reference' => 'Referans',
+        'reference' => 'Bizi Nereden Duydunuz?',
         'payment_file' => 'Ödeme Dekontu',
         'status' => 'Statü',
         'nationality_id' => 'Uyruk',
-        'agency_id' => 'Acente'
+        'agency_id' => 'Acente',
+
+        'title' => 'Başlık',
+        'content' => 'İçerik',
+        'attachments' => 'Ek Dosya(lar)'
     ],
 
     'tables' => [
         'id' => 'ID',
-        'who_applied' => 'Başvuran Kişi',
+        'agency_code' => 'Acente Kodu',
+        'agency_name' => 'Acente Adı',
         'name' => 'Öğrenci Adı',
         'nationality' => 'Uyruk',
         'status' => 'Durum',

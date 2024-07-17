@@ -36,14 +36,12 @@
                         <span>{{ trans('sidebar.applications.create') }}</span>
                     </a>
                 </li>
-                @if (auth()->user()->isAuthorized())
-                    <li class="nav-item">
-                        <a href="{{ route('backend.applications.index') }}" class="nav-link menu-link">
-                            <i class="las la-users"></i>
-                            <span>{{ trans('sidebar.applications.index') }}</span>
-                        </a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a href="{{ route('backend.applications.index') }}" class="nav-link menu-link">
+                        <i class="las la-users"></i>
+                        <span>{{ trans('sidebar.applications.index') }}</span>
+                    </a>
+                </li>
 
                 @if (auth()->user()->isAllAdmin())
                     <li class="nav-item">

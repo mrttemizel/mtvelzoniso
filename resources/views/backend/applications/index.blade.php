@@ -26,60 +26,155 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <form action="#" method="POST" id="applicationFilterForm">
-                        <div class="row">
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="status">{{ trans('application.inputs.status') }}</label>
-                                    <select name="status" class="form-control">
-                                        <option value="" selected>{{ trans('application.inputs.status') }}</option>
-                                        @foreach (\App\Enums\ApplicationStatusEnum::array() as $value => $key)
-                                            <option value="{{ $value }}">{{ trans('application.statuses.' . str($value)->replace('.', '-')) }}</option>
-                                        @endforeach
-                                    </select>
+        @if (auth()->user()->isAuthorized())
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-application') }}</p>
+                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                            <span class="counter-value pending-application" data-target="">0</span>
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <i data-feather="users" class="text-info"></i>
+                                        </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="status">{{ trans('application.inputs.nationality_id') }}</label>
-                                    <select name="nationality_id" class="form-control">
-                                        <option value="" selected>{{ trans('application.inputs.nationality_id') }}</option>
-                                        @foreach (countries() as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
+                    <div class="col-12 col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.total-application') }}</p>
+                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                            <span class="counter-value total-application" data-target="">0</span>
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <i data-feather="users" class="text-info"></i>
+                                        </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            @if (auth()->user()->isAllAdmin())
+                    <div class="col-12 col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-pre-payment-application') }}</p>
+                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                            <span class="counter-value pre-payment-application" data-target="">0</span>
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <i data-feather="users" class="text-info"></i>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <div class="card card-animate">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-payment-application') }}</p>
+                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                            <span class="counter-value pending-payment-application" data-target="">0</span>
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
+                                            <i data-feather="users" class="text-info"></i>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="#" method="POST" id="applicationFilterForm">
+                            <div class="row">
                                 <div class="col-12 col-md-4">
                                     <div class="form-group">
-                                        <label for="status">{{ trans('application.inputs.agency_id') }}</label>
-                                        <select name="agency_id" class="form-control">
-                                            <option value="" selected>{{ trans('application.inputs.agency_id') }}</option>
-                                            @foreach (agencies() as $item)
+                                        <label for="status">{{ trans('application.inputs.status') }}</label>
+                                        <select name="status" class="form-control">
+                                            <option value="" selected>{{ trans('application.inputs.status') }}</option>
+                                            @foreach (\App\Enums\ApplicationStatusEnum::array() as $value => $key)
+                                                <option value="{{ $value }}">{{ trans('application.statuses.' . str($value)->replace('.', '-')) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="status">{{ trans('application.inputs.nationality_id') }}</label>
+                                        <select name="nationality_id" class="form-control">
+                                            <option value="" selected>{{ trans('application.inputs.nationality_id') }}</option>
+                                            @foreach (countries() as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                            @endif
-                        </div>
 
-                        <div class="row">
-                            <div class="col-12 mt-3 justify-content-end d-flex">
-                                <button type="submit" class="btn btn-primary mr-5">{{ trans('application.buttons.apply') }}</button>
-                                <button type="reset" class="btn btn-danger">{{ trans('application.buttons.reset') }}</button>
+                                @if (auth()->user()->isAllAdmin())
+                                    <div class="col-12 col-md-4">
+                                        <div class="form-group">
+                                            <label for="status">{{ trans('application.inputs.agency_id') }}</label>
+                                            <select name="agency_id" class="form-control">
+                                                <option value="" selected>{{ trans('application.inputs.agency_id') }}</option>
+                                                <option value="self">{{ trans('application.texts.self-application') }}</option>
+                                                @foreach (agencies() as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }} ({{ $item->code }})</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                        </div>
-                    </form>
+
+                            <div class="row">
+                                <div class="col-12 mt-3 justify-content-end d-flex">
+                                    <button type="submit" class="btn btn-primary mr-5">{{ trans('application.buttons.apply') }}</button>
+                                    <button type="reset" class="btn btn-danger">{{ trans('application.buttons.reset') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="col-12">
             <div class="card">
@@ -98,7 +193,8 @@
                                         <tr>
                                             <th>{{ trans('application.tables.id') }}</th>
                                             @if (auth()->user()->isAllAdmin())
-                                                <th>{{ trans('application.tables.who_applied') }}</th>
+                                                <th>{{ trans('application.tables.agency_code') }}</th>
+                                                <th>{{ trans('application.tables.agency_name') }}</th>
                                             @endif
                                             <th>{{ trans('application.tables.name') }}</th>
                                             <th>{{ trans('application.tables.nationality') }}</th>
@@ -114,6 +210,51 @@
             </div>
         </div>
     </div>
+
+    <div class="modal modal-lg fade" id="sendOfficialLetterModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('backend.applications.update-status') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value }}" />
+                    <input type="hidden" name="id" value="" />
+
+                    <div class="modal-header">
+                        <h5 class="modal-title"{{ trans('application.texts.upload-letter') }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="title">{{ trans('application.inputs.title') }}</label>
+                                    <input type="text" name="title" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="content">{{ trans('application.inputs.content') }}</label>
+                                    <textarea name="content" class="form-control" id="content" rows="15"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>{{ trans('application.inputs.attachments') }}</label>
+                                    <input type="file" name="attachments[]" class="form-control" multiple />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('application.buttons.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('application.buttons.send-mail') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('javascript')
@@ -124,6 +265,16 @@
     <script>
         $(document).ready(function () {
             const body = $(this);
+
+            body.on('click', '.btn-sent-letter', function (e) {
+                let btn = $(this);
+                let modal = body.find('#sendOfficialLetterModal');
+                let form = modal.find('form');
+
+                form.find('input[name="id"]').val(btn.attr('data-id'));
+
+                modal.modal('show');
+            });
 
             $.ajax({
                 method: 'GET',
@@ -151,16 +302,44 @@
                         e.preventDefault();
 
                         dt.ajax.reload();
+                        getStatistics();
                     });
 
                     body.on('click', '#applicationFilterForm button[type="reset"]', function (e) {
                         let form = body.find('#applicationFilterForm');
                         form.trigger('reset');
 
+                        dt.table().order([]);
                         dt.ajax.reload();
                     });
                 }
             });
+
+            getStatistics();
+
+            function getStatistics() {
+                let form = body.find('#applicationFilterForm');
+
+                let status = form.find('select[name="status"] option:selected').val();
+                let nationality = form.find('select[name="nationality_id"] option:selected').val();
+                let agency = form.find('select[name="agency_id"] option:selected').val();
+
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route('backend.applications.statistics') }}',
+                    data: {
+                        agency_id: agency,
+                        nationality_id: nationality,
+                        status: status
+                    },
+                    success: function (response) {
+                        body.find('.pending-application').text(response.data.pending_application);
+                        body.find('.total-application').text(response.data.total_application);
+                        body.find('.pre-payment-application').text(response.data.pending_pre_payment);
+                        body.find('.pending-payment-application').text(response.data.pending_payment);
+                    }
+                });
+            }
         });
     </script>
 @endpush

@@ -43,6 +43,7 @@
                                     <thead>
                                         <tr>
                                             <th>{{ trans('department.tables.id') }}</th>
+                                            <th>{{ trans('department.tables.faculty') }}</th>
                                             <th>{{ trans('department.tables.name') }}</th>
                                             <th>{{ trans('department.tables.annual_fee') }}</th>
                                             <th>{{ trans('department.tables.discounted_fee') }}</th>
@@ -77,6 +78,7 @@
                 },
                 columns: [
                     { data: 'id', name: 'id', searchable: false },
+                    { data: 'faculty', name: 'faculty' },
                     { data: 'name', name: 'name' },
                     { data: 'annual_fee', name: 'annual_fee' },
                     { data: 'discounted_fee', name: 'discounted_fee' },
