@@ -284,6 +284,7 @@
                         searching: false,
                         processing: true,
                         serverSide: true,
+                        order: [[0, 'desc']],
                         ajax: {
                             url: "{{ route('backend.applications.dataTable') }}",
                             data: function (item) {
