@@ -10,7 +10,9 @@ use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
 use App\Mail\ApplicationNotifyMail;
 use App\Mail\NewStudentRegisteredMail;
+use App\Mail\PreApprovalLetterMail;
 use App\Mail\SendOfficialLetterMail;
+use App\Mail\UpdateApplicationStatusMail;
 use App\Mail\UploadedFinancialFileMail;
 use App\Managers\ApplicationManager;
 use App\Models\Application;
@@ -268,14 +270,66 @@ class ApplicationController extends Controller
     {
         return DB::transaction(function () use ($request) {
             try {
+                $status = $request->input('status');
+
                 /** @var Application $application */
                 $application = Application::query()
+                    ->with(['agency'])
                     ->where('id', '=', $request->input('id'))
                     ->first();
 
-                $this->applicationManager->updateStatus($application, $request->input('status'));
+                $this->applicationManager->updateStatus($application, $status);
+                $emails = [
+                    $application->email
+                ];
+                $agencyEmails = [];
 
-                if ($request->input('status') == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
+                if ($application->agency) {
+                    foreach ($application->agency->users as $user) {
+                        $agencyEmails[] = $user->email;
+                    }
+                }
+
+                // eksik veya hatali belge oldugunda gidecek mail
+                if ($status == ApplicationStatusEnum::MISSING_DOCUMENT->value) {
+                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                }
+
+                // başvuru reddedildiğinde
+                if ($status == ApplicationStatusEnum::REJECTED->value) {
+                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                }
+
+                // basvuru kabul edildi
+                if ($status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
+                    $disk = Storage::disk('public');
+
+                    if (! $disk->exists('attachments')) {
+                        $disk->makeDirectory('attachments');
+                    }
+
+                    $pdf = Pdf::loadView('pdfs.pre-approval-letter', [
+                        'application' => $application
+                    ]);
+
+                    $fileName = Str::random() . '.pdf';
+                    $path = 'attachments/' . $fileName;
+                    $attachments[] = $path;
+
+                    $pdf->save($disk->path($path));
+
+                    Mail::to($application->email)->send(new PreApprovalLetterMail($application, $attachments));
+
+                    Mail::to($agencyEmails)->send(new UpdateApplicationStatusMail($application));
+                }
+
+                // mali onay bekliyor
+                if ($status == ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value) {
+                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                }
+
+                // resmi davetiye gonderildiginde
+                if ($status == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
                     $files = [];
                     if ($request->hasFile('attachments')) {
                         foreach ($request->file('attachments') as $uploadedFile) {
@@ -283,42 +337,14 @@ class ApplicationController extends Controller
                         }
                     }
 
-                    Mail::to('oguz.topcu@antalya.edu.tr')->send(new SendOfficialLetterMail($application, $request->input('title'), $request->input('content'), $files));
-                }
+                    Mail::to($application->email)->send(new SendOfficialLetterMail(
+                        $application,
+                        $request->input('title'),
+                        $request->input('content'),
+                        $files
+                    ));
 
-                $emailTemplates = EmailTemplate::query()
-                    ->with(['attachments'])
-                    ->whereHas('statuses', function (Builder $query) use ($request) {
-                        $query
-                            ->where('application_status_type', '=', $request->input('status'))
-                        ;
-                    })
-                    ->get();
-
-                if ($emailTemplates->count()) {
-                    $disk = Storage::disk('public');
-
-                    if (! $disk->exists('attachments')) {
-                        $disk->makeDirectory('attachments');
-                    }
-
-                    foreach ($emailTemplates as $emailTemplate) {
-                        $attachments = [];
-                        foreach ($emailTemplate->attachments as $attachment) {
-                            $pdf = Pdf::loadView('pdfs.' . $attachment->view, [
-                                'application' => $application,
-                                'emailTemplate', $emailTemplate
-                            ]);
-
-                            $fileName = Str::random() . '.pdf';
-                            $path = 'attachments/' . $fileName;
-                            $attachments[] = $path;
-
-                            $pdf->save($disk->path($path));
-                        }
-
-                        Mail::to($application->email)->send(new ApplicationNotifyMail($application, $emailTemplate, $attachments));
-                    }
+                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
                 }
 
                 return redirect()
@@ -376,14 +402,14 @@ class ApplicationController extends Controller
                     'nationality_id' => $request->input('nationality_id'),
                     'passport_number' => $request->input('passport_number'),
                     'place_of_birth' => $request->input('place_of_birth'),
-                    'date_of_birth' => $request->input('date_of_birth'),
+                    'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth')),
                     'address' => $request->input('address'),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
                     'school_name' => $request->input('school_name'),
                     'school_country_id' => $request->input('school_country_id'),
                     'school_city' => $request->input('school_city'),
-                    'year_of_graduation' => $request->input('year_of_graduation'),
+                    'year_of_graduation' => Carbon::createFromFormat('d/m/Y', $request->input('year_of_graduation')),
                     'graduation_degree' => $request->input('graduation_degree'),
                     'reference' => $request->input('reference'),
                 ]);
@@ -421,7 +447,7 @@ class ApplicationController extends Controller
                 return redirect()
                     ->route('backend.applications.index')
                     ->with('alert-type', 'success')
-                    ->with('alert-message', trans('application.success.created'))
+                    ->with('alert-message', trans('application.success.updated'))
                 ;
             } catch (QueryException $e) {
                 logger()->error($e);
@@ -534,14 +560,8 @@ class ApplicationController extends Controller
                 return '';
             })
             ->editColumn('status', function ($item) {
-                /** @var User $user */
-                $user = auth()->user();
-
                 return match ($item->status) {
-                    ApplicationStatusEnum::PENDING->value => '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
-
-                    ApplicationStatusEnum::APPROVED->value => '<span class="badge bg-success">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
-
+                    ApplicationStatusEnum::PENDING->value,
                     ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value,
                     ApplicationStatusEnum::MISSING_DOCUMENT->value => '<span class="badge bg-warning">' . trans('application.statuses.' . str($item->status)->replace('.', '-')) . '</span>',
 
@@ -569,13 +589,12 @@ class ApplicationController extends Controller
                     }
                 }
 
-                if ($user->isAgency()) {
+                //
+                if ($user->isAgency() || $item->status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
                     return view('backend._partials.datatables.applications.agency')
                         ->with('application', $item)
                     ;
                 }
-
-                return '';
             })
             ->rawColumns(['step', 'status', 'actions'])
             ->toJson();

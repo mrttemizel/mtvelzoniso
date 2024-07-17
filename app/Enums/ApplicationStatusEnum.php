@@ -15,12 +15,6 @@ enum ApplicationStatusEnum: string
     case PENDING = 'pending';
 
     /**
-     * Basvuru gecerli oldugunda
-     * 1. adim
-     */
-    case APPROVED = 'approved';
-
-    /**
      * Basvuru icinde eksik veya hatali bilgi oldugunda
      * 1. adimda gelcek
      */
@@ -57,7 +51,6 @@ enum ApplicationStatusEnum: string
     {
         return match($value) {
             self::PENDING->value,
-            self::APPROVED->value,
             self::MISSING_DOCUMENT->value => 'stepOne',
 
             self::PENDING_FINANCIAL_APPROVAL->value,

@@ -61,14 +61,14 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->isAllAdmin())
-                    <li class="nav-item">
-                        <a href="{{ route('backend.email-templates.index') }}" class="nav-link menu-link">
-                            <i class="bx bx-mail-send"></i>
-                            <span>{{ trans('sidebar.email-template') }}</span>
-                        </a>
-                    </li>
-                @endif
+{{--                @if (auth()->user()->isAllAdmin())--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('backend.email-templates.index') }}" class="nav-link menu-link">--}}
+{{--                            <i class="bx bx-mail-send"></i>--}}
+{{--                            <span>{{ trans('sidebar.email-template') }}</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                @endif--}}
 
                 @if (auth()->user()->isAllAdmin())
                     <li class="nav-item">

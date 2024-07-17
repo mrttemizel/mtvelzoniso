@@ -41,7 +41,6 @@ return [
 
     'statuses' => [
         'pending' => 'Değerlendirmeyi Bekliyor',
-        'approved' => 'Başvuru Kabul Edildi',
         'missing-document' => 'Eksik veya Hatalı Belge',
         'rejected' => 'Reddedildi',
 

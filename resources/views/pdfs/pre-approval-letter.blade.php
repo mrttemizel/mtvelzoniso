@@ -28,6 +28,11 @@
         </p>
         <p>Please refer to the table below for pertinent admission details:</p>
 
+        @php
+            $fromYear = now()->year;
+            $toYear = now()->addYear()->year;
+        @endphp
+
         <table border="1" style="border-collapse: collapse; width: 85%; margin: 0 auto">
             <tr>
                 <td style="width: 50%;">
@@ -45,7 +50,7 @@
                 <td>
                     <div style="font-weight: 600; margin-left: 5px;">Admission Term</div>
                 </td>
-                <td></td>
+                <td>{{ $fromYear }} - {{ $toYear }} Academic Year / Fall Semester</td>
             </tr>
             <tr>
                 <td>

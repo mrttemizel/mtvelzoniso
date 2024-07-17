@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ $emailTemplate->title }}</title>
+    <title>Document</title>
 </head>
 <body>
-    {!! $emailTemplate->content !!}
+
 </body>
 </html>

@@ -27,7 +27,7 @@ class ApplicationStoreRequest extends FormRequest
             'nationality_id' => ['required', 'exists:countries,id'],
             'passport_number' => ['required', 'max:255'],
             'place_of_birth' => ['required', 'max:255'],
-            'date_of_birth' => ['required', 'date', 'dateFormat:d/m/Y'],
+            'date_of_birth' => ['required','dateFormat:d/m/Y'],
             'passport_photo' => ['required','image', 'mimes:jpg,png,jpeg', 'max:2048'],
 
             'country_id' => ['required', 'exists:countries,id'],
