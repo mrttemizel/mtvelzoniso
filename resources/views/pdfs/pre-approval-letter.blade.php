@@ -14,7 +14,7 @@
             <span>Date of Issue:</span> {{ $application->created_at->format('d.m.Y') }}
         </div>
         <div style="text-align: right">
-            <span>Application Number:</span> {{ $application->application_code }}
+            <span>Application Number:</span> {{ $application->code }}
         </div>
     </div>
 
