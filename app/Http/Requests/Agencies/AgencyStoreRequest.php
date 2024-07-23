@@ -28,8 +28,8 @@ class AgencyStoreRequest extends FormRequest
             'contract' => ['file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
 
             'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:agencies'],
-            'phone' => ['required', 'string', 'max:255'],
+//            'email' => ['required', 'email', 'max:255', 'unique:agencies,email'],
+//            'phone' => ['required', 'string', 'max:255'],
         ];
     }
 }

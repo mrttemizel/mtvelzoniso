@@ -10,7 +10,8 @@ return [
     'success' => [
         'created' => 'Başvurunuz alınmıştır.',
         'updated' => 'Başvurunuz güncellenmiştir.',
-        'status-updated' => 'Başvuru durumunu güncellendi.'
+        'status-updated' => 'Başvuru durumunu güncellendi.',
+        'uploaded-payment' => 'Ödeme dekontu başarıyla yüklendi.'
     ],
 
     'buttons' => [
@@ -22,21 +23,18 @@ return [
         'apply' => 'Uygula',
         'reset' => 'Sıfırla',
 
+        'upload' => 'Yükle',
+
         'send-mail' => 'Maili Gönder',
         'cancel' => 'İptal',
+
+        'upload-payment-document' => 'Dekont Yükle',
 
         'approve-application' => 'Başvuruyu Onayla',
         'reject-application' => 'Başvuruyu Reddet',
         'recognition-certificate' => 'YÖK Tanınırlık İste',
         'missing-document' => 'Hatalı veya Eksik Belge',
         'approve-payment' => 'Ödemeyi Onayla'
-    ],
-
-    'steps' => [
-        'one' => 'Birinci Adım',
-        'two' => 'İkinci Adım',
-        'three' => 'Üçüncü Adım',
-        'finish' => 'Tamamlandı'
     ],
 
     'statuses' => [
@@ -69,9 +67,10 @@ return [
         'upload-letter' => 'Resmi Kabul Mektubu',
 
         'pending-application' => 'Bekleyen Başvuru',
-        'total-application' => 'Toplam Başvuru',
-        'pending-pre-payment-application' => 'Ön Ödeme Yapmasını Beklenen',
-        'pending-payment-application' => 'Ödeme Yapmasını Beklenen',
+        'sent-pre-letter' => 'Ön Kabul Mektubu Aldı',
+        'pending-payment-application' => 'Ödeme Onayı Bekleyenler',
+        'sent-official-letter' => 'Resmi Kabul Mektubu Alanlar',
+        'missing-document' => 'Eksik Belge Bildirimi Yapılanlar',
         'self-application' => 'Kendisi',
         'warning-upload-image' => 'Yükleyebileceğiniz fotoğraf boyutu en fazla 2MB olmalıdır. Desteklenen Formatlar: jpg, png, jpeg.',
 //        'warning-upload-image' => 'The file size you upload must be a maximum of 2MB. Supported formats are jpg, png, jpeg.'
@@ -112,6 +111,8 @@ return [
         'status' => 'Statü',
         'nationality_id' => 'Uyruk',
         'agency_id' => 'Acente',
+
+        'payment-document' => 'Ödeme Dekontu',
 
         'title' => 'Başlık',
         'content' => 'İçerik',

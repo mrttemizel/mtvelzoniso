@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Backend\Application;
 
 use App\Enums\ApplicationStatusEnum;
-use App\Enums\ApplicationStepEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
-use App\Mail\ApplicationNotifyMail;
 use App\Mail\NewStudentRegisteredMail;
 use App\Mail\PreApprovalLetterMail;
 use App\Mail\SendOfficialLetterMail;
@@ -16,20 +14,19 @@ use App\Mail\UpdateApplicationStatusMail;
 use App\Mail\UploadedFinancialFileMail;
 use App\Managers\ApplicationManager;
 use App\Models\Application;
-use App\Models\EmailTemplate;
-use App\Models\EmailTemplateApplicationStatus;
-use App\Models\EmailTemplateAttachment;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -46,65 +43,110 @@ class ApplicationController extends Controller
 
     public function statistics(Request $request): JsonResponse
     {
-        $pendingApplicationQuery = Application::query();
-        $totalApplicationQuery = Application::query();
-        $pendingPrePaymentQuery = Application::query();
-        $pendingPaymentQuery = Application::query();
+        /** @var User $user */
+        $user = auth()->user();
 
-        if ($request->has('nationality_id')) {
+        $pendingApplicationQuery = Application::query();
+        $sentPreLetterQuery = Application::query();
+        $pendingPaymentQuery = Application::query();
+        $sentOfficialLetterQuery = Application::query();
+        $missingDocumentQuery = Application::query();
+
+        if (! is_null($request->input('nationality_id'))) {
             $pendingApplicationQuery
                 ->where('nationality_id', '=', $request->input('nationality_id'))
             ;
 
-            $totalApplicationQuery
-                ->where('nationality_id', '=', $request->input('nationality_id'))
-            ;
-
-            $pendingPrePaymentQuery
+            $sentPreLetterQuery
                 ->where('nationality_id', '=', $request->input('nationality_id'))
             ;
 
             $pendingPaymentQuery
                 ->where('nationality_id', '=', $request->input('nationality_id'))
             ;
+
+            $sentOfficialLetterQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
+
+            $missingDocumentQuery
+                ->where('nationality_id', '=', $request->input('nationality_id'))
+            ;
         }
 
-        if ($request->has('agency_id')) {
-            $agencyId = $request->input('agency_id') != 'self' ? $request->input('agency_id') : null;
+        if ($user->isAllAdmin()) {
+            // admin ise burasi calisir
+            if (! is_null($request->input('agency_id'))) {
+                $agencyId = $request->input('agency_id') != 'self' ? $request->input('agency_id') : null;
 
-            if (! is_null($agencyId)) {
-                $pendingApplicationQuery
-                    ->where('agency_id', '=', $agencyId)
-                ;
+                if (! is_null($agencyId)) {
+                    $pendingApplicationQuery
+                        ->where('agency_id', '=', $agencyId)
+                    ;
 
-                $totalApplicationQuery
-                    ->where('agency_id', '=', $agencyId)
-                ;
+                    $sentPreLetterQuery
+                        ->where('agency_id', '=', $agencyId)
+                    ;
 
-                $pendingPrePaymentQuery
-                    ->where('agency_id', '=', $agencyId)
-                ;
+                    $pendingPaymentQuery
+                        ->where('agency_id', '=', $agencyId)
+                    ;
 
-                $pendingPaymentQuery
-                    ->where('agency_id', '=', $agencyId)
-                ;
-            } else {
-                $pendingApplicationQuery
-                    ->whereNull('agency_id')
-                ;
+                    $sentOfficialLetterQuery
+                        ->where('agency_id', '=', $agencyId)
+                    ;
 
-                $totalApplicationQuery
-                    ->whereNull('agency_id')
-                ;
+                    $missingDocumentQuery
+                        ->where('agency_id', '=', $agencyId)
+                    ;
+                } else {
+                    $pendingApplicationQuery
+                        ->whereNull('agency_id')
+                    ;
 
-                $pendingPrePaymentQuery
-                    ->whereNull('agency_id')
-                ;
+                    $sentPreLetterQuery
+                        ->whereNull('agency_id')
+                    ;
 
-                $pendingPaymentQuery
-                    ->whereNull('agency_id')
-                ;
+                    $pendingPaymentQuery
+                        ->whereNull('agency_id')
+                    ;
+
+                    $sentOfficialLetterQuery
+                        ->whereNull('agency_id')
+                    ;
+
+                    $missingDocumentQuery
+                        ->whereNull('agency_id')
+                    ;
+                }
             }
+        } else {
+            // acente ise burasi calisir
+
+            $pendingApplicationQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
+
+            $pendingPaymentQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
+
+            $sentPreLetterQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
+
+            $pendingPaymentQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
+
+            $sentOfficialLetterQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
+
+            $missingDocumentQuery
+                ->where('agency_id', '=', $user->agency_id)
+            ;
         }
 
         $pendingApplicationQuery
@@ -113,7 +155,7 @@ class ApplicationController extends Controller
             ])
         ;
 
-        $pendingPrePaymentQuery
+        $sentPreLetterQuery
             ->whereIn('status', [
                 ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value
             ])
@@ -121,77 +163,31 @@ class ApplicationController extends Controller
 
         $pendingPaymentQuery
             ->whereIn('status', [
-                ApplicationStatusEnum::PENDING->value
+                ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
             ])
         ;
 
-//        $pendingApplication = Application::query()
-//            ->whereIn('status', [
-//                ApplicationStatusEnum::PENDING->value
-//            ])
-//            ->when($request->input('nationality_id'), function ($query) use ($request) {
-//                $query->where('nationality_id', '=', $request->input('nationality_id'));
-//            })
-//            ->when($request->input('agency_id'), function ($query) use ($request) {
-//                if ($request->input('agency_id') == 'self') {
-//                    $query->whereNull('agency_id');
-//                } else {
-//                    $query->where('agency_id', '=', $request->input('agency_id'));
-//                }
-//            })
-//            ->count(['id']);
-//
-//        $totalApplication = Application::query()
-//            ->when($request->input('nationality_id'), function ($query) use ($request) {
-//                $query->where('nationality_id', '=', $request->input('nationality_id'));
-//            })
-//            ->when($request->input('agency_id'), function ($query) use ($request) {
-//                if ($request->input('agency_id') == 'self') {
-//                    $query->whereNull('agency_id');
-//                } else {
-//                    $query->where('agency_id', '=', $request->input('agency_id'));
-//                }
-//            })
-//            ->count(['id']);
-//
-//        $pendingPrePayment = Application::query()
-//            ->whereIn('status', [
-//                ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value
-//            ])
-//            ->when($request->input('nationality_id'), function ($query) use ($request) {
-//                $query->where('nationality_id', '=', $request->input('nationality_id'));
-//            })
-//            ->when($request->input('agency_id'), function ($query) use ($request) {
-//                if ($request->input('agency_id') == 'self') {
-//                    $query->whereNull('agency_id');
-//                } else {
-//                    $query->where('agency_id', '=', $request->input('agency_id'));
-//                }
-//            })
-//            ->count(['id']);
-//
-//        $pendingPayment = Application::query()
-//            ->whereIn('status', [
-//                ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value
-//            ])
-//            ->when($request->input('nationality_id'), function ($query) use ($request) {
-//                $query->where('nationality_id', '=', $request->input('nationality_id'));
-//            })
-//            ->when($request->input('agency_id'), function ($query) use ($request) {
-//                if ($request->input('agency_id') == 'self') {
-//                    $query->whereNull('agency_id');
-//                } else {
-//                    $query->where('agency_id', '=', $request->input('agency_id'));
-//                }
-//            })
-//            ->count(['id']);
+        $sentOfficialLetterQuery
+            ->whereIn('status', [
+                ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value
+            ])
+        ;
+
+        $missingDocumentQuery
+            ->whereIn('status', [
+                ApplicationStatusEnum::MISSING_DOCUMENT->value
+            ])
+        ;
+
+//        dd($pendingPaymentQuery->toSql(), $pendingPaymentQuery->getBindings(), $pendingPaymentQuery->toRawSql());
 
         return response()->json([
             'data' => [
-//                'pending_application' => $pendingApplication,
-//                'total_application' => $totalApplication,
-//                'pending_pre_payment' => $pendingPrePayment,
-//                'pending_payment' => $pendingPayment
+                'pending_application' => $pendingApplicationQuery->count(['id']),
+                'sent_pre_letter' => $sentPreLetterQuery->count(['id']),
+                'pending_payment' => $pendingPaymentQuery->count(['id']),
+                'sent_official_letter' => $sentOfficialLetterQuery->count(['id']),
+                'missing_document' => $missingDocumentQuery->count(['id']),
             ]
         ]);
     }
@@ -282,22 +278,19 @@ class ApplicationController extends Controller
                 $emails = [
                     $application->email
                 ];
-                $agencyEmails = [];
 
                 if ($application->agency) {
-                    foreach ($application->agency->users as $user) {
-                        $agencyEmails[] = $user->email;
-                    }
+                    $emails[] = $application->agency->email;
                 }
 
                 // eksik veya hatali belge oldugunda gidecek mail
                 if ($status == ApplicationStatusEnum::MISSING_DOCUMENT->value) {
-                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
                 }
 
                 // başvuru reddedildiğinde
                 if ($status == ApplicationStatusEnum::REJECTED->value) {
-                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
                 }
 
                 // basvuru kabul edildi
@@ -320,14 +313,14 @@ class ApplicationController extends Controller
 
                     Mail::to($application->email)->send(new PreApprovalLetterMail($application, $attachments));
 
-                    if (count($agencyEmails)) {
-                        Mail::to($agencyEmails)->send(new UpdateApplicationStatusMail($application));
+                    if ($application->agency) {
+                        Mail::to($application->agency->email)->send(new UpdateApplicationStatusMail($application));
                     }
                 }
 
                 // mali onay bekliyor
                 if ($status == ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value) {
-                    Mail::to(array_merge($emails, $agencyEmails))->send(new UpdateApplicationStatusMail($application));
+                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
                 }
 
                 // resmi davetiye gonderildiginde
@@ -436,16 +429,6 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadAdditionalDocument($application, $request->file('additional_document'));
                 }
 
-                // odeme alindiginda basvuru durumunu guncelleyecegiz
-                if ($request->hasFile('payment_file')) {
-                    $this->applicationManager->uploadPaymentFile($application, $request->file('payment_file'));
-                    $this->applicationManager->update($application, [
-                        'status' => ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
-                    ]);
-
-                    Mail::to('oguz.topcu@antalya.edu.tr')->send(new UploadedFinancialFileMail($application));
-                }
-
                 return redirect()
                     ->route('backend.applications.index')
                     ->with('alert-type', 'success')
@@ -457,6 +440,55 @@ class ApplicationController extends Controller
 
                 return redirect()
                     ->route('backend.applications.edit', ['applicationId' => $application->id])
+                    ->withInput()
+                    ->with('alert-type', 'error')
+                    ->with('alert-message', trans('transactions.failed'))
+                ;
+            }
+        });
+    }
+
+    public function uploadPayment(Request $request): RedirectResponse
+    {
+        try {
+            $request->validate([
+                'file' => ['required', 'mimes:pdf', 'max:2048']
+            ]);
+        } catch (ValidationException $e) {
+            return redirect()
+                ->route('backend.applications.index')
+                ->withInput()
+                ->with('alert-type', 'error')
+                ->with('alert-message', $e->getMessage())
+            ;
+        }
+
+        return DB::transaction(function () use ($request) {
+            try {
+                /** @var Application $application */
+                $application = Application::query()
+                    ->with(['agency'])
+                    ->where('id', '=', $request->input('id'))
+                    ->first();
+
+                $this->applicationManager->uploadPaymentFile($application, $request->file('file'));
+                $this->applicationManager->update($application, [
+                    'status' => ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
+                ]);
+
+                Mail::to('oguz.topcu@antalya.edu.tr')->send(new UploadedFinancialFileMail($application));
+
+                return redirect()
+                    ->route('backend.applications.index')
+                    ->with('alert-type', 'success')
+                    ->with('alert-message', trans('application.success.uploaded-payment'))
+                    ;
+            } catch (\Exception $e) {
+                logger()->error($e);
+                DB::rollBack();
+
+                return redirect()
+                    ->route('backend.applications.index')
                     ->withInput()
                     ->with('alert-type', 'error')
                     ->with('alert-message', trans('transactions.failed'))
@@ -591,11 +623,10 @@ class ApplicationController extends Controller
                     }
                 }
 
-                //
-                if ($user->isAgency() || $item->status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
-                    return view('backend._partials.datatables.applications.agency')
-                        ->with('application', $item)
-                    ;
+                if ($item->status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
+                    $fileName = str(ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value)->replace('.', '')->camel();
+                    return view('backend._partials.datatables.applications.' . $fileName)
+                        ->with('application', $item);
                 }
             })
             ->rawColumns(['step', 'status', 'actions'])

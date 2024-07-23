@@ -17,15 +17,9 @@ class AgencyManager
      */
     public function create(array $data)
     {
-        $code = IdGenerator::generate(['table' => 'agencies', 'field' => 'code', 'length' => 10, 'prefix' => 'ACT-']);
+        $data['code'] = IdGenerator::generate(['table' => 'agencies', 'field' => 'code', 'length' => 10, 'prefix' => 'ACT-']);
 
-        $arr = [
-            'name' => $data['name'] ?? '',
-            'code' => $code,
-            'tax_number' => $data['tax_number'] ?? '',
-        ];
-
-        return Agency::query()->create($arr);
+        return Agency::query()->create($data);
     }
 
     public function update(Agency $agency, array $data)

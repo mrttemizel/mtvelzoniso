@@ -101,6 +101,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
         Route::post('/delete/{applicationId}', [ApplicationController::class, 'destroy'])->name('backend.applications.destroy');
 
         Route::post('/update-status', [ApplicationController::class, 'updateStatus'])->name('backend.applications.update-status');
+        Route::post('/upload-payment', [ApplicationController::class, 'uploadPayment'])->name('backend.applications.upload-payment');
     });
 
     Route::prefix('email-templates')->group(function () {

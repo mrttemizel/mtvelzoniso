@@ -9,8 +9,8 @@
 
 
 <div class="dropdown-menu">
-    <a href="{{ route('backend.applications.edit', ['applicationId' => $application->id]) }}" class="dropdown-item">
-        <i class="bx bx-edit-alt"></i>
-        {{ trans('application.buttons.edit') }}
-    </a>
+    <button class="btn btn-default dropdown-item btn-upload-payment" data-id="{{ $application->id }}">
+        <i class="bx bx-cloud-upload"></i>
+        {{ trans('application.buttons.upload-payment-document') }}
+    </button>
 </div>

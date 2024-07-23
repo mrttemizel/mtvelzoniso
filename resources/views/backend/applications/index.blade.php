@@ -28,89 +28,76 @@
     <div class="row">
         @if (auth()->user()->isAuthorized())
             <div class="col-12">
-                <div class="row">
-                    <div class="col-12 col-md-3">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-12 col-md-2">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-block">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-application') }}</p>
+                                        <p class="fw-medium text-muted text-center mb-0">{{ trans('application.texts.pending-application') }}</p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value pending-application" data-target="">0</span>
+                                            <span class="counter-value pending_application" data-target="">0</span>
                                         </h2>
-                                    </div>
-                                    <div>
-                                        <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <i data-feather="users" class="text-info"></i>
-                                        </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-2">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-block">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.total-application') }}</p>
+                                        <p class="fw-medium text-muted text-center mb-0">{{ trans('application.texts.sent-pre-letter') }}</p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value total-application" data-target="">0</span>
+                                            <span class="counter-value sent_pre_letter" data-target="">0</span>
                                         </h2>
-                                    </div>
-                                    <div>
-                                        <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <i data-feather="users" class="text-info"></i>
-                                        </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-2">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-block">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-pre-payment-application') }}</p>
+                                        <p class="fw-medium text-muted text-center mb-0">{{ trans('application.texts.pending-payment-application') }}</p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value pre-payment-application" data-target="">0</span>
+                                            <span class="counter-value pending_payment" data-target="">0</span>
                                         </h2>
-                                    </div>
-                                    <div>
-                                        <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <i data-feather="users" class="text-info"></i>
-                                        </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-2">
                         <div class="card card-animate">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-block">
                                     <div>
-                                        <p class="fw-medium text-muted mb-0">{{ trans('application.texts.pending-payment-application') }}</p>
+                                        <p class="fw-medium text-muted text-center mb-0">{{ trans('application.texts.sent-official-letter') }}</p>
                                         <h2 class="mt-4 ff-secondary fw-semibold">
-                                            <span class="counter-value pending-payment-application" data-target="">0</span>
+                                            <span class="counter-value sent_official_letter" data-target="">0</span>
                                         </h2>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-2">
+                        <div class="card card-animate">
+                            <div class="card-body">
+                                <div class="d-block">
                                     <div>
-                                        <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded-circle fs-2">
-                                            <i data-feather="users" class="text-info"></i>
-                                        </span>
-                                        </div>
+                                        <p class="fw-medium text-muted text-center mb-0">{{ trans('application.texts.missing-document') }}</p>
+                                        <h2 class="mt-4 ff-secondary fw-semibold">
+                                            <span class="counter-value missing_document" data-target="">0</span>
+                                        </h2>
                                     </div>
                                 </div>
                             </div>
@@ -211,6 +198,36 @@
         </div>
     </div>
 
+    <div class="modal modal-lg fade" id="uploadPaymentDocumentModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('backend.applications.upload-payment') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <input type="hidden" name="id" value="" />
+
+                    <div class="modal-header">
+                        <h5 class="modal-title"{{ trans('application.texts.upload-payment-document') }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>{{ trans('application.inputs.payment-document') }}</label>
+                                    <input type="file" name="file" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">{{ trans('application.buttons.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('application.buttons.upload') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal modal-lg fade" id="sendOfficialLetterModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -265,6 +282,18 @@
     <script>
         $(document).ready(function () {
             const body = $(this);
+
+            body.on('click', '.btn-upload-payment', function (e) {
+                e.preventDefault();
+                let btn = $(this);
+
+                let modal = body.find('#uploadPaymentDocumentModal');
+                let form = modal.find('form');
+
+                form.find('input[name="id"]').val(btn.attr('data-id'));
+
+                modal.modal('show');
+            });
 
             body.on('click', '.btn-sent-letter', function (e) {
                 let btn = $(this);
@@ -334,10 +363,9 @@
                         status: status
                     },
                     success: function (response) {
-                        body.find('.pending-application').text(response.data.pending_application);
-                        body.find('.total-application').text(response.data.total_application);
-                        body.find('.pre-payment-application').text(response.data.pending_pre_payment);
-                        body.find('.pending-payment-application').text(response.data.pending_payment);
+                        Object.entries(response.data).forEach(function (item) {
+                            body.find(`.${item[0]}`).text(item[1]);
+                        });
                     }
                 });
             }
