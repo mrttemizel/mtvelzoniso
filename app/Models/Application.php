@@ -19,6 +19,11 @@ class Application extends Model
         'year_of_graduation' => 'date'
     ];
 
+    public function isSameAgency($agencyId): bool
+    {
+        return $this->agency_id == $agencyId;
+    }
+
     public function hasPassportPhoto(): bool
     {
         return ! is_null($this->getRawOriginal('passport_photo'));

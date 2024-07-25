@@ -9,6 +9,11 @@
 
 
 <div class="dropdown-menu">
+    <a href="{{ route('backend.applications.download', ['applicationId' => $application->id]) }}" class="dropdown-item">
+        <i class="bx bx-download"></i>
+        {{ trans('application.buttons.zip-download') }}
+    </a>
+
     @if ($application->hasPaymentFile())
         <button type="button"
                 class="dropdown-item dropdown-item-success btn-sent-letter"

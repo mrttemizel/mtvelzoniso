@@ -90,7 +90,6 @@
                 cancelButtonText: '{{ trans('warnings.buttons.no') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log('aaaaa')
                     form.submit();
                 }
             });

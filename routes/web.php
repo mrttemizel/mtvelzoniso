@@ -88,6 +88,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
     Route::prefix('applications')->group(function () {
         Route::get('/', [ApplicationController::class, 'index'])->name('backend.applications.index');
         Route::get('/statistics', [ApplicationController::class, 'statistics'])->name('backend.applications.statistics');
+        Route::get('/download/{applicationId}', [ApplicationController::class, 'download'])->name('backend.applications.download');
 
         Route::get('/columns', [ApplicationController::class, 'getColumns'])->name('backend.applications.get-columns');
         Route::get('/datatable', [ApplicationController::class, 'dataTable'])->name('backend.applications.dataTable');

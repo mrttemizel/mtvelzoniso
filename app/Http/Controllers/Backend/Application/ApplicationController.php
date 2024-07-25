@@ -29,6 +29,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
+use ZipArchive;
 
 class ApplicationController extends Controller
 {
@@ -179,8 +180,6 @@ class ApplicationController extends Controller
             ])
         ;
 
-//        dd($pendingPaymentQuery->toSql(), $pendingPaymentQuery->getBindings(), $pendingPaymentQuery->toRawSql());
-
         return response()->json([
             'data' => [
                 'pending_application' => $pendingApplicationQuery->count(['id']),
@@ -190,6 +189,109 @@ class ApplicationController extends Controller
                 'missing_document' => $missingDocumentQuery->count(['id']),
             ]
         ]);
+    }
+
+    public function download(Application $application)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        if (! $user->isAuthorized()) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        if ($user->isAgency() && ! $application->isSameAgency($user->agency_id)) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        $files = [];
+        $disk = Storage::disk('public');
+
+        if ($application->hasPassportPhoto()) {
+            $passportPhoto = $application->getRawOriginal('passport_photo');
+
+            $files[] = [
+                'name' => 'Passport Photo.' . pathinfo($passportPhoto)['extension'] ?? '',
+                'file' => $application->getRawOriginal('passport_photo')
+            ];
+        }
+
+        if ($application->hasOfficialTranscript()) {
+            $officialTranscript = $application->getRawOriginal('official_transcript');
+            $files[] = [
+                'name' => 'Official Transcript.' . pathinfo($officialTranscript)['extension'] ?? '',
+                'file' => $officialTranscript
+            ];
+        }
+
+        if ($application->hasOfficialExam()) {
+            $officialExam = $application->getRawOriginal('official_exam');
+
+            $files[] = [
+                'name' => 'Official Exam.' . pathinfo($officialExam)['extension'] ?? '',
+                'file' => $officialExam
+            ];
+        }
+
+        if ($application->hasPaymentFile()) {
+            $paymentFile = $application->getRawOriginal('payment_file');
+
+            $files[] = [
+                'name' => 'Payment.' . pathinfo($paymentFile)['extension'] ?? '',
+                'file' => $paymentFile
+            ];
+        }
+
+        if ($application->hasHighSchoolDiploma()) {
+            $highSchoolDiploma = $application->getRawOriginal('high_school_diploma');
+
+            $files[] = [
+                'name' => 'High School Diploma.' . pathinfo($highSchoolDiploma)['extension'] ?? '',
+                'file' => $highSchoolDiploma
+            ];
+        }
+
+        if ($application->hasAdditionalDocument()) {
+            $additionalDocument = $application->getRawOriginal('additional_document');
+
+            $files[] = [
+                'name' => 'Additional Document.' . pathinfo($additionalDocument)['extension'] ?? '',
+                'file' => $additionalDocument
+            ];
+        }
+
+        $zip = new ZipArchive();
+        $fileName = $application->code . '.zip';
+        $zipPath = $disk->path('archive/' . $fileName);
+
+        try {
+            if (! $disk->exists('archive')) {
+                $disk->makeDirectory('archive');
+            }
+
+            if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+                return redirect()
+                    ->back()
+                    ->with('alert-type', 'error')
+                    ->with('alert-message', trans('application.errors.unable-create-zip'));
+            }
+
+            foreach ($files as $item) {
+                if (! $disk->exists($item['file'])) {
+                    continue;
+                }
+
+                $zip->addFile($disk->path($item['file']), $item['name']);
+            }
+
+            $zip->close();
+        } catch (\Exception $e) {
+            logger()->error($e);
+        }
+
+        return response()
+            ->download($zipPath)
+        ;
     }
 
     public function create(): View

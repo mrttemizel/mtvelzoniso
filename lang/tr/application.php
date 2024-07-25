@@ -14,6 +14,10 @@ return [
         'uploaded-payment' => 'Ödeme dekontu başarıyla yüklendi.'
     ],
 
+    'errors' => [
+        'unable-create-zip' => 'Dosya sıkıştırma işlemi başarısız oldu.'
+    ],
+
     'buttons' => [
         'create' => 'Başvuru Oluştur',
         'edit' => 'Başvuruyu Düzenle',
@@ -24,6 +28,7 @@ return [
         'reset' => 'Sıfırla',
 
         'upload' => 'Yükle',
+        'zip-download' => 'Belgeleri İndir',
 
         'send-mail' => 'Maili Gönder',
         'cancel' => 'İptal',
@@ -33,13 +38,13 @@ return [
         'approve-application' => 'Başvuruyu Onayla',
         'reject-application' => 'Başvuruyu Reddet',
         'recognition-certificate' => 'YÖK Tanınırlık İste',
-        'missing-document' => 'Hatalı veya Eksik Belge',
+        'missing-document' => 'Eksik Belge',
         'approve-payment' => 'Ödemeyi Onayla'
     ],
 
     'statuses' => [
         'pending' => 'Değerlendirmeyi Bekliyor',
-        'missing-document' => 'Eksik veya Hatalı Belge',
+        'missing-document' => 'Eksik Belge',
         'rejected' => 'Reddedildi',
 
         'sent-pre-approval-letter' => 'Ön Kabul Mektubu Gönderilmiştir',
