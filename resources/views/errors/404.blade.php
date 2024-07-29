@@ -26,11 +26,6 @@
                             <h3 class="text-uppercase text-white my-3">
                                 {{ trans('errors.404') }}
                             </h3>
-
-                            <a href="{{route('auth.login.index')}}" class="btn btn-success">
-                                <i class="mdi mdi-home me-1"></i>
-                                {{ trans('errors.buttons.login') }}
-                            </a>
                         </div>
                     </div>
                 </div>
