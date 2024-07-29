@@ -22,10 +22,15 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'g-recaptcha-response' => [new GoogleReCaptchaV2ValidationRule()]
         ];
+
+        if (config('googlerecaptchav2.is_service_enabled')) {
+            $rules['g-recaptcha-response'] = [new GoogleReCaptchaV2ValidationRule()];
+        }
+
+        return $rules;
     }
 }
