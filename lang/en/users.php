@@ -3,7 +3,8 @@
 return [
     'titles' => [
         'index' => 'Users',
-        'create' => 'Add New User'
+        'create' => 'Add New User',
+        'edit' => 'Edit User',
     ],
 
     'buttons' => [

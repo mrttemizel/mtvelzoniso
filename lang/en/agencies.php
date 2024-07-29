@@ -15,7 +15,7 @@ return [
 
     'headings' => [
         'agency-info' => 'Agency Information',
-        'user-info' => 'User Information'
+        'user-info' => 'Admin Information'
     ],
 
     'buttons' => [
