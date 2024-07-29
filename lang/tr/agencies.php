@@ -15,7 +15,7 @@ return [
 
     'headings' => [
         'agency-info' => 'Acente Bilgileri',
-        'user-info' => 'Kullanıcı Bilgileri'
+        'user-info' => 'Yetkili Bilgileri'
     ],
 
     'buttons' => [

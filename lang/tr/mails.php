@@ -2,7 +2,7 @@
 
 return [
     'welcome' => [
-        'title' => 'ISO\'ya hoşgeldin!',
+        'title' => 'ABU\'ya hoşgeldin!',
         'texts' => [
             'welcome' => 'Hoşgeldin!',
             'password' => 'Hesap şifreniz :password olarak ayarlanmıştır.'

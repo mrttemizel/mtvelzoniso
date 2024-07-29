@@ -19,10 +19,10 @@ return [
     ],
 
     'buttons' => [
-        'create' => 'Başvuru Oluştur',
-        'edit' => 'Başvuruyu Düzenle',
-        'send' => 'Başvuruyu Gönder',
-        'save' => 'Başvuruyu Kaydet',
+        'create' => 'Oluştur',
+        'edit' => 'Düzenle',
+        'send' => 'Gönder',
+        'save' => 'Kaydet',
         'preview' => 'Görüntüle',
         'apply' => 'Uygula',
         'reset' => 'Sıfırla',
@@ -36,10 +36,11 @@ return [
         'upload-payment-document' => 'Dekont Yükle',
 
         'approve-application' => 'Başvuruyu Onayla',
+        'edit-application' => 'Başvuruyu Düzenle',
         'reject-application' => 'Başvuruyu Reddet',
         'recognition-certificate' => 'YÖK Tanınırlık İste',
         'missing-document' => 'Eksik Belge',
-        'approve-payment' => 'Ödemeyi Onayla'
+        'approve-official-letter' => 'Resmi Kabul Mektubu Gönder'
     ],
 
     'statuses' => [
@@ -70,6 +71,7 @@ return [
 
     'texts' => [
         'upload-letter' => 'Resmi Kabul Mektubu',
+        'missing-document-header' => 'Eksik Belge',
 
         'pending-application' => 'Bekleyen Başvuru',
         'sent-pre-letter' => 'Ön Kabul Mektubu Aldı',
@@ -118,6 +120,7 @@ return [
         'agency_id' => 'Acente',
 
         'payment-document' => 'Ödeme Dekontu',
+        'description' => 'Açıklama',
 
         'title' => 'Başlık',
         'content' => 'İçerik',

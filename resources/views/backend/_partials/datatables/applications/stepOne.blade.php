@@ -26,21 +26,14 @@
         </button>
     </form>
 
-    <form action="{{ route('backend.applications.update-status') }}" method="POST" class="application-status-form">
-        @csrf
-
-        <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::MISSING_DOCUMENT->value }}" />
-        <input type="hidden" name="id" value="{{ $application->id }}">
-
-        <button type="button" class="dropdown-item btn-application-update">
-            <i class="bx bx-right-arrow-alt"></i>
-            {{ trans('application.buttons.missing-document') }}
-        </button>
-    </form>
+    <a href="javascript:void(0)" class="dropdown-item btn-missing-document" data-id="{{ $application->id }}">
+        <i class="bx bx-right-arrow-alt"></i>
+        {{ trans('application.buttons.missing-document') }}
+    </a>
 
     <a href="{{ route('backend.applications.edit', ['applicationId' => $application->id]) }}" class="dropdown-item">
         <i class="bx bx-edit-alt"></i>
-        {{ trans('application.buttons.edit') }}
+        {{ trans('application.buttons.edit-application') }}
     </a>
 
     <form action="{{ route('backend.applications.update-status') }}" method="POST" class="application-status-form">

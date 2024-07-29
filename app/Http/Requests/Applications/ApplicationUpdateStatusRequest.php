@@ -30,6 +30,7 @@ class ApplicationUpdateStatusRequest extends FormRequest
         return [
             'id' => ['required', 'exists:applications,id'],
             'status' => ['required', new Enum(ApplicationStatusEnum::class)],
+            'description' => ['nullable', 'string', 'max:255'],
             'attachments' => ['nullable', 'array'],
             'attachments.*' => ['file', 'mimes:pdf,xlsx,docx,doc', 'max:2048']
         ];

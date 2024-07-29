@@ -198,6 +198,38 @@
         </div>
     </div>
 
+    <div class="modal modal-lg fade" id="missingDocumentModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('backend.applications.update-status') }}" method="POST">
+                    @csrf
+
+                    <input type="hidden" name="status" value="{{ \App\Enums\ApplicationStatusEnum::MISSING_DOCUMENT->value }}" />
+                    <input type="hidden" name="id" value="" />
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ trans('application.texts.missing-document-header') }}</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>{{ trans('application.inputs.description') }}</label>
+                                    <input type="text" name="description" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">{{ trans('application.buttons.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('application.buttons.save') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal modal-lg fade" id="uploadPaymentDocumentModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -207,7 +239,7 @@
                     <input type="hidden" name="id" value="" />
 
                     <div class="modal-header">
-                        <h5 class="modal-title"{{ trans('application.texts.upload-payment-document') }}</h5>
+                        <h5 class="modal-title">{{ trans('application.texts.upload-payment-document') }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -238,7 +270,7 @@
                     <input type="hidden" name="id" value="" />
 
                     <div class="modal-header">
-                        <h5 class="modal-title"{{ trans('application.texts.upload-letter') }}</h5>
+                        <h5 class="modal-title">{{ trans('application.texts.upload-letter') }}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -288,6 +320,16 @@
                 let btn = $(this);
 
                 let modal = body.find('#uploadPaymentDocumentModal');
+                let form = modal.find('form');
+
+                form.find('input[name="id"]').val(btn.attr('data-id'));
+
+                modal.modal('show');
+            });
+
+            body.on('click', '.btn-missing-document', function (e) {
+                let btn = $(this);
+                let modal = body.find('#missingDocumentModal');
                 let form = modal.find('form');
 
                 form.find('input[name="id"]').val(btn.attr('data-id'));

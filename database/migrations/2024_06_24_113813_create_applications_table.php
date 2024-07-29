@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('payment_file')->nullable();
             $table->string('high_school_diploma')->nullable();
             $table->string('additional_document')->nullable();
+            $table->string('missing_document_description')->nullable();
             $table->string('reference')->nullable();
             $table->enum('status', \App\Enums\ApplicationStatusEnum::values())->default(\App\Enums\ApplicationStatusEnum::PENDING->value);
             $table->timestampsTz();

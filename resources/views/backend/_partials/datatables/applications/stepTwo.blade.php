@@ -20,9 +20,14 @@
                 data-id="{{ $application->id }}"
         >
             <i class="bx bx-right-arrow-alt"></i>
-            {{ trans('application.buttons.approve-payment') }}
+            {{ trans('application.buttons.approve-official-letter') }}
         </button>
     @endif
+
+    <button class="btn btn-default dropdown-item btn-upload-payment" data-id="{{ $application->id }}">
+        <i class="bx bx-cloud-upload"></i>
+        {{ trans('application.buttons.upload-payment-document') }}
+    </button>
 
     <a href="{{ route('backend.applications.edit', ['applicationId' => $application->id]) }}" class="dropdown-item">
         <i class="bx bx-edit-alt"></i>

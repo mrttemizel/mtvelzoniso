@@ -377,25 +377,23 @@ class ApplicationController extends Controller
                     ->first();
 
                 $this->applicationManager->updateStatus($application, $status);
-                $emails = [
-                    $application->email
-                ];
+                $emails = [];
+
+                if (! is_null($application->email)) {
+                    $emails[] = $application->email;
+                }
 
                 if ($application->agency) {
                     $emails[] = $application->agency->email;
                 }
 
-                // eksik veya hatali belge oldugunda gidecek mail
                 if ($status == ApplicationStatusEnum::MISSING_DOCUMENT->value) {
-                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
+                    $this->applicationManager->update($application, [
+                        'missing_document_description' => $request->input('description')
+                    ]);
                 }
 
-                // başvuru reddedildiğinde
-                if ($status == ApplicationStatusEnum::REJECTED->value) {
-                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
-                }
-
-                // basvuru kabul edildi
+                // basvuru kabul edildi ve kabul mektubu icin mail gonderimi
                 if ($status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
                     $disk = Storage::disk('public');
 
@@ -413,19 +411,10 @@ class ApplicationController extends Controller
 
                     $pdf->save($disk->path($path));
 
-                    Mail::to($application->email)->send(new PreApprovalLetterMail($application, $attachments));
-
-                    if ($application->agency) {
-                        Mail::to($application->agency->email)->send(new UpdateApplicationStatusMail($application));
-                    }
+                    Mail::to($emails)->send(new PreApprovalLetterMail($application, $attachments));
                 }
 
-                // mali onay bekliyor
-                if ($status == ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value) {
-                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
-                }
-
-                // resmi davetiye gonderildiginde
+                // basvuru onaylanip resmi davetiye icin mail gonderimi
                 if ($status == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
                     $files = [];
                     if ($request->hasFile('attachments')) {
@@ -434,15 +423,16 @@ class ApplicationController extends Controller
                         }
                     }
 
-                    Mail::to($application->email)->send(new SendOfficialLetterMail(
+                    Mail::to($emails)->send(new SendOfficialLetterMail(
                         $application,
                         $request->input('title'),
                         $request->input('content'),
                         $files
                     ));
-
-                    Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
                 }
+
+                // basvuru durumu guncellendiginde gonderilecek mail
+                Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
 
                 return redirect()
                     ->route('backend.applications.index')
