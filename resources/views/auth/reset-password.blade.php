@@ -27,7 +27,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <img src="{{ asset('backend/my-image/abu-renkli.svg') }}" alt="" height="60">
-                                    <p class="text-muted mt-4">{{ trans('passwords.texts.warning-same-password') }}</p>
+{{--                                    <p class="text-muted mt-4">{{ trans('passwords.texts.warning-same-password') }}</p>--}}
                                 </div>
 
                                 <div class="p-2">

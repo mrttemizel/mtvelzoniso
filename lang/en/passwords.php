@@ -19,4 +19,13 @@ return [
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
 
+    'inputs' => [
+        'password' => 'Password',
+        'password_repeat' => 'Password (Repeat)',
+    ],
+
+    'buttons' => [
+        'login' => 'Log In',
+        'reset-password' => 'Reset Password',
+    ]
 ];
