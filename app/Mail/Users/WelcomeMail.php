@@ -38,6 +38,9 @@ class WelcomeMail extends Mailable
     {
         return new Content(
             view: 'emails.users.welcome',
+            with: [
+                'user' => $this->user,
+            ]
         );
     }
 
