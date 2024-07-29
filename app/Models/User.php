@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\auth\MustVerifyEmail;
+use App\Enums\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,6 +50,11 @@ class User extends Authenticatable
     public static function getRoles(): Collection
     {
         return collect(self::$roles);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === UserStatusEnum::ACTIVE->value;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Agencies;
 
+use App\Enums\AgencyStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Agencies\AgencyStoreRequest;
 use App\Http\Requests\Agencies\AgencyUpdateRequest;
@@ -13,9 +14,11 @@ use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\View\View;
 
 class AgencyController extends Controller
@@ -136,16 +139,29 @@ class AgencyController extends Controller
         });
     }
 
-    public function destroy(Agency $agency)
+    public function suspend(Request $request)
     {
-        return DB::transaction(function () use ($agency) {
+        $request->validate([
+            'agency_id' => ['required', 'exists:agencies,id'],
+            'status' => ['required', new Enum(AgencyStatusEnum::class)]
+        ]);
+
+        return DB::transaction(function () use ($request) {
             try {
-                $this->agencyManager->delete($agency);
+                /** @var Agency $agency */
+                $agency = $this->agencyManager->findById($request->input('agency_id'));
+                $status = $request->input('status') == AgencyStatusEnum::ACTIVE->value ? AgencyStatusEnum::ACTIVE->value : AgencyStatusEnum::INACTIVE->value;
+
+                $this->userManager->setSuspendByAgency($agency, $status);
+
+                $this->agencyManager->update($agency, [
+                    'status' => $status
+                ]);
 
                 return redirect()
                     ->route('backend.agencies.index')
                     ->with('alert-type', 'success')
-                    ->with('alert-message', trans('agencies.success.deleted'))
+                    ->with('alert-message', trans('agencies.success.suspended'))
                 ;
             } catch (QueryException $e) {
                 logger()->error($e);
@@ -170,9 +186,9 @@ class AgencyController extends Controller
                 return '';
             })
             ->addColumn('actions', function ($item) {
-                return view('backend._partials.datatables._default-actions')
+                return view('backend._partials.datatables._agencies-actions')
+                    ->with('item', $item)
                     ->with('editRoute', route('backend.agencies.edit', ['agencyId' => $item->id]))
-                    ->with('deleteRoute', route('backend.agencies.destroy', ['agencyId' => $item->id]))
                 ;
             })
             ->toJson();

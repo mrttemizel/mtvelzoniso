@@ -12,6 +12,11 @@ class AgencyManager
 {
     protected string $diskName = 'public';
 
+    public function findById($id)
+    {
+        return Agency::query()->find($id);
+    }
+
     /**
      * @throws \Exception
      */

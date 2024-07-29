@@ -2,6 +2,8 @@
 
 namespace App\Managers;
 
+use App\Enums\UserStatusEnum;
+use App\Models\Agency;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
@@ -48,6 +50,13 @@ class UserManager extends BaseManager
     public function delete(User $user): void
     {
         $user->delete();
+    }
+
+    public function setSuspendByAgency(Agency $agency, $status): void
+    {
+        $agency->users()->update([
+            'status' => $status
+        ]);
     }
 
     public function uploadAvatar(User $user, UploadedFile $file): void

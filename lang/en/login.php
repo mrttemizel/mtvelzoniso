@@ -11,7 +11,8 @@ return [
     ],
 
     'errors' => [
-        'login' => 'The information you entered does not match our records.'
+        'login' => 'The information you entered does not match our records.',
+        'suspend' => 'Your account has been suspended.',
     ],
 
     'headings' => [

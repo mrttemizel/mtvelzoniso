@@ -32,7 +32,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 });
 
-Route::prefix('dashboard')->middleware(['auth'])->group(function() {
+Route::prefix('dashboard')->middleware(['auth', 'isActive'])->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('backend.dashboard.index');
 
     Route::prefix('profile')->group(function () {
@@ -54,7 +54,9 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function() {
         Route::get('/edit/{agencyId}', [AgencyController::class, 'edit'])->name('backend.agencies.edit');
         Route::post('/edit/{agencyId}', [AgencyController::class, 'update'])->name('backend.agencies.update');
 
-        Route::post('/delete/{agencyId}', [AgencyController::class, 'destroy'])->name('backend.agencies.destroy');
+        Route::post('/suspend', [AgencyController::class, 'suspend'])->name('backend.agencies.suspend');
+
+//        Route::post('/delete/{agencyId}', [AgencyController::class, 'destroy'])->name('backend.agencies.destroy');
     });
 
     Route::prefix('users')->group(function () {

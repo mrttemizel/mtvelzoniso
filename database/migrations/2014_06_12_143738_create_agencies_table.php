@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tax_number')->nullable();
             $table->string('tax_certificate')->nullable();
             $table->string('contract')->nullable();
+            $table->enum('status', \App\Enums\AgencyStatusEnum::values())->default(\App\Enums\AgencyStatusEnum::ACTIVE->value);
             $table->timestampsTz();
             $table->softDeletesTz();
         });

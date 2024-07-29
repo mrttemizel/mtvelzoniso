@@ -10,7 +10,8 @@ return [
     'success' => [
         'created' => 'Agency successfully registered.',
         'updated' => 'Agency successfully updated.',
-        'deleted' => 'Agency successfully deleted.'
+        'deleted' => 'Agency successfully deleted.',
+        'suspended' => 'Agency successfully suspended.',
     ],
 
     'headings' => [
@@ -22,7 +23,9 @@ return [
         'create' => 'Add New Agency',
         'save' => 'Save',
         'preview-contract' => 'View Contract',
-        'preview-certificate' => 'View Tax Certificate'
+        'preview-certificate' => 'View Tax Certificate',
+        'suspend' => 'Suspend',
+        'unsuspend' => 'Unsuspend',
     ],
 
     'tables' => [

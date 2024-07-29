@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -17,6 +18,18 @@ class LoginController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         if (auth()->attempt($request->only(['email', 'password']))) {
+            /** @var User $user */
+            $user = auth()->user();
+
+            if (! $user->isActive()) {
+                return redirect()
+                    ->route('auth.login.index')
+                    ->withInput()
+                    ->with('alert-type', 'error')
+                    ->with('alert-message', trans('login.errors.suspend'))
+                ;
+            }
+
             return redirect()
                 ->route('backend.applications.index')
                 ->with('alert-type', 'success')
