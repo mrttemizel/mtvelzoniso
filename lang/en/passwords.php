@@ -19,6 +19,10 @@ return [
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that email address.",
 
+    'texts' => [
+        'password-length' => 'Your password must be at least 6 characters long.',
+    ],
+
     'inputs' => [
         'password' => 'Password',
         'password_repeat' => 'Password (Repeat)',
