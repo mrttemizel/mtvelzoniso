@@ -87,8 +87,11 @@ class UserController extends Controller
 
     public function edit(User $user): View
     {
+        $agencies = Agency::query()->get();
+
         return view('backend.users.edit')
             ->with('user', $user)
+            ->with('agencies', $agencies)
         ;
     }
 
