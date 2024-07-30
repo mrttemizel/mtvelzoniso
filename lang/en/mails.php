@@ -10,7 +10,7 @@ return [
     ],
 
     'update-status' => [
-        'title' => 'Update Status',
+        'title' => 'Application Status Updated',
         'texts' => [
             'hello' => 'Hello!',
             'text' => ':code application status changed to :status.'
