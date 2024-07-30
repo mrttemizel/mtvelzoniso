@@ -413,7 +413,9 @@ class ApplicationController extends Controller
 
                     $pdf->save($disk->path($path));
 
-                    Mail::to($emails)->send(new PreApprovalLetterMail($application, $attachments));
+                    foreach ($emails as $email) {
+                        Mail::to($email)->queue(new PreApprovalLetterMail($application, $attachments));
+                    }
                 }
 
                 // basvuru onaylanip resmi davetiye icin mail gonderimi
@@ -425,16 +427,20 @@ class ApplicationController extends Controller
                         }
                     }
 
-                    Mail::to($emails)->send(new SendOfficialLetterMail(
-                        $application,
-                        $request->input('title'),
-                        $request->input('content'),
-                        $files
-                    ));
+                    foreach ($emails as $email) {
+                        Mail::to($email)->queue(new SendOfficialLetterMail(
+                            $application,
+                            $request->input('title'),
+                            $request->input('content'),
+                            $files
+                        ));
+                    }
                 }
 
                 // basvuru durumu guncellendiginde gonderilecek mail
-                Mail::to($emails)->send(new UpdateApplicationStatusMail($application));
+                foreach ($emails as $email) {
+                    Mail::to($email)->queue(new UpdateApplicationStatusMail($application));
+                }
 
                 return redirect()
                     ->route('backend.applications.index')
