@@ -377,7 +377,9 @@ class ApplicationController extends Controller
                     ->first();
 
                 $this->applicationManager->updateStatus($application, $status);
-                $emails = [];
+                $emails = [
+                    'oguz.topcu@antalya.edu.tr' // basvuru durumu guncellendiginde yonetime mail gidecek
+                ];
 
                 if (! is_null($application->email)) {
                     $emails[] = $application->email;
