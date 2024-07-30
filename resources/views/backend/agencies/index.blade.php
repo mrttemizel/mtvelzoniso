@@ -49,6 +49,7 @@
                                         <tr>
                                             <th>{{ trans('agencies.tables.id') }}</th>
                                             <th>{{ trans('agencies.tables.name') }}</th>
+                                            <th>{{ trans('agencies.tables.status') }}</th>
                                             <th>{{ trans('agencies.tables.actions') }}</th>
                                         </tr>
                                     </thead>
@@ -81,6 +82,7 @@
                 columns: [
                     { data: 'code', name: 'code', orderable: false },
                     { data: 'name', name: 'name' },
+                    { data: 'status', name: 'status', searchable: false, orderable: false },
                     { data: 'actions', name: 'actions', searchable: false, orderable: false }
                 ]
             });
