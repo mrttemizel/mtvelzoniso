@@ -41,7 +41,7 @@ class SendOfficialLetterMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.official-letter',
+            view: 'emails.applications.official-letter',
         );
     }
 
