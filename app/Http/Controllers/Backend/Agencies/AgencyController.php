@@ -195,6 +195,7 @@ class AgencyController extends Controller
                     ->with('editRoute', route('backend.agencies.edit', ['agencyId' => $item->id]))
                 ;
             })
+            ->rawColumns(['status'])
             ->toJson();
     }
 }
