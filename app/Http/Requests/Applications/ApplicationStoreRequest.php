@@ -28,7 +28,7 @@ class ApplicationStoreRequest extends FormRequest
             'passport_number' => ['required', 'max:255'],
             'place_of_birth' => ['required', 'max:255'],
             'date_of_birth' => ['required','dateFormat:d/m/Y'],
-            'passport_photo' => ['required','image', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'passport_photo' => ['required','image', 'mimes:jpg,png,jpeg,pdf', 'max:2048'],
 
             'country_id' => ['required', 'exists:countries,id'],
 //            'email' => ['required', 'email'],
@@ -36,8 +36,8 @@ class ApplicationStoreRequest extends FormRequest
             'school_name' => ['required', 'max:255'],
             'school_country_id' => ['required', 'exists:countries,id'],
             'year_of_graduation' => ['nullable', 'dateFormat:d/m/Y'],
-            'high_school_diploma' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
-            'official_transcript' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
+            'high_school_diploma' => ['required', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
+            'official_transcript' => ['required', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
             'additional_document' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
             'official_exam' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
 
