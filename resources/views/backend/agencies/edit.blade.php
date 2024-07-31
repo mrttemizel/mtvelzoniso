@@ -90,16 +90,16 @@
                                     </div>
 
                                     <div class="col-12 col-lg-6 mb-3">
-                                        <div class="form-group {{ $errors->has('email') ? 'has-error' : null }}">
-                                            <label for="email">{{ trans('agencies.inputs.email') }}</label>
+                                        <div class="form-group {{ $errors->has('agency_email') ? 'has-error' : null }}">
+                                            <label for="agency_email">{{ trans('agencies.inputs.email') }}</label>
                                             <input type="email"
-                                                   name="email"
-                                                   class="form-control {{ $errors->has('email') ? 'is-invalid' : null }}"
-                                                   value="{{ old('email', $agency->email) }}"
-                                                   id="email"
+                                                   name="agency_email"
+                                                   class="form-control {{ $errors->has('agency_email') ? 'is-invalid' : null }}"
+                                                   value="{{ old('agency_email', $agency->email) }}"
+                                                   id="agency_email"
                                             />
-                                            @if ($errors->has('email'))
-                                                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
+                                            @if ($errors->has('agency_email'))
+                                                <span class="invalid-feedback">{{ $errors->first('agency_email') }}</span>
                                             @endif
                                         </div>
                                     </div>

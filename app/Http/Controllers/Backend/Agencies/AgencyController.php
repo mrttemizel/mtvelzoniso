@@ -45,7 +45,7 @@ class AgencyController extends Controller
                 /** @var Agency $agency */
                 $agency = $this->agencyManager->create([
                     'name' => $request->input('agency_name'),
-                    'email' => $request->input('email'),
+                    'email' => $request->input('agency_email'),
                     'tax_number' => $request->input('tax_number'),
                 ]);
 
@@ -109,7 +109,7 @@ class AgencyController extends Controller
                 /** @var Agency $agency */
                 $agency = $this->agencyManager->update($agency, [
                     'name' => $request->input('agency_name'),
-                    'email' => $request->input('email'),
+                    'email' => $request->input('agency_email'),
                     'tax_number' => $request->input('tax_number'),
                 ]);
 
