@@ -24,6 +24,12 @@ class ApplicationManager extends BaseManager
             $data['user_id'] = $user->id;
         }
 
+        if ($user->isStudent()) {
+            if (is_null($data['email'])) {
+                $data['email'] = $user->email;
+            }
+        }
+
         $data['code'] = IdGenerator::generate(['table' => 'applications', 'field' => 'code', 'length' => 10, 'prefix' => 'ABU-']);
 
         return Application::query()->create($data);
