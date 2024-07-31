@@ -742,7 +742,7 @@ class ApplicationController extends Controller
                 }
 
                 if ($item->status == ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value) {
-                    $fileName = str(ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value)->replace('.', '')->camel();
+                    $fileName = str(ApplicationStatusEnum::SENT_PRE_APPROVAL_LETTER->value)->replace('.', '-');
                     return view('backend._partials.datatables.applications.' . $fileName)
                         ->with('application', $item);
                 }
