@@ -455,7 +455,7 @@ class ApplicationController extends Controller
                 }
 
                 // basvuru durumu guncellendiginde gonderilecek mail
-                $emails[] = 'iso@antalya.edu.tr'; // basvuru durumu guncellendiginde iso'ya mail gidecek
+//                $emails[] = 'iso@antalya.edu.tr'; // basvuru durumu guncellendiginde iso'ya mail gidecek
                 foreach ($emails as $email) {
                     Mail::to($email)->queue(new UpdateApplicationStatusMail($application));
                 }
