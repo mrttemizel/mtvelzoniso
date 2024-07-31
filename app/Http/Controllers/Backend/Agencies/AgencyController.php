@@ -183,7 +183,11 @@ class AgencyController extends Controller
         return datatables()
             ->eloquent($model)
             ->editColumn('status', function ($item) {
-                return '';
+                if ($item->isActive()) {
+                    return '<span class="badge bg-success">' . trans('agencies.statuses.active') . '</span>';
+                }
+
+                return '<span class="badge bg-warning">' . trans('agencies.statuses.inactive') . '</span>';
             })
             ->addColumn('actions', function ($item) {
                 return view('backend._partials.datatables._agencies-actions')

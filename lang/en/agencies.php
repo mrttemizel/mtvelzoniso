@@ -35,6 +35,11 @@ return [
         'actions' => 'Actions'
     ],
 
+    'statuses' => [
+        'active' => 'Active',
+        'inactive' => 'Inactive'
+    ],
+
     'inputs' => [
         'agency_name' => 'Agency Name',
         'tax_number' => 'Tax Number',

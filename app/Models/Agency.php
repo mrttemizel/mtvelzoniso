@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AgencyStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,11 @@ class Agency extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function isActive(): bool
+    {
+        return $this->status === AgencyStatusEnum::ACTIVE->value;
+    }
 
     public function getTaxCertificateAttribute($value): string
     {
