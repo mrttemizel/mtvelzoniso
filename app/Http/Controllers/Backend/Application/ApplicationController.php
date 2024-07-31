@@ -346,7 +346,7 @@ class ApplicationController extends Controller
                 }
 
                 // admin
-                Mail::to('oguz.topcu@antalya.edu.tr')->queue(new AdminNotifyNewStudentRegisteredMail());
+                Mail::to('iso@antalya.edu.tr')->queue(new AdminNotifyNewStudentRegisteredMail());
 
                 $emails = [];
 
@@ -396,7 +396,7 @@ class ApplicationController extends Controller
                 $this->applicationManager->updateStatus($application, $status);
                 $emails = [];
 
-                if (! is_null($application->email)) {
+                if (! is_null($application->email) && filter_var($application->email, FILTER_VALIDATE_EMAIL)) {
                     $emails[] = $application->email;
                 }
 
@@ -455,7 +455,7 @@ class ApplicationController extends Controller
                 }
 
                 // basvuru durumu guncellendiginde gonderilecek mail
-                $emails[] = 'oguz.topcu@antalya.edu.tr'; // basvuru durumu guncellendiginde iso'ya mail gidecek
+                $emails[] = 'iso@antalya.edu.tr'; // basvuru durumu guncellendiginde iso'ya mail gidecek
                 foreach ($emails as $email) {
                     Mail::to($email)->queue(new UpdateApplicationStatusMail($application));
                 }
@@ -594,7 +594,7 @@ class ApplicationController extends Controller
                     'status' => ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
                 ]);
 
-                Mail::to('oguz.topcu@antalya.edu.tr')->send(new UploadedFinancialFileMail($application));
+                Mail::to('iso@antalya.edu.tr')->send(new UploadedFinancialFileMail($application));
 
                 return redirect()
                     ->route('backend.applications.index')

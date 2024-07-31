@@ -203,7 +203,6 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group {{ $errors->has('email') ? 'has-error' : null }} mb-3">
                                     <label class="form-label">
-                                        <span class="text-danger">*</span>
                                         {{ trans('application.inputs.email') }}
                                     </label>
                                     <input type="text"

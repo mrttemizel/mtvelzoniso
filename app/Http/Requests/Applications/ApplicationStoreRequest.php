@@ -31,7 +31,7 @@ class ApplicationStoreRequest extends FormRequest
             'passport_photo' => ['required','image', 'mimes:jpg,png,jpeg', 'max:2048'],
 
             'country_id' => ['required', 'exists:countries,id'],
-            'email' => ['required', 'email'],
+//            'email' => ['required', 'email'],
 
             'school_name' => ['required', 'max:255'],
             'school_country_id' => ['required', 'exists:countries,id'],
