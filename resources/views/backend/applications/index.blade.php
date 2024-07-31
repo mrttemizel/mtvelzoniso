@@ -274,20 +274,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="title">{{ trans('application.inputs.title') }}</label>
-                                    <input type="text" name="title" class="form-control" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="content">{{ trans('application.inputs.content') }}</label>
-                                    <textarea name="content" class="form-control" id="content" rows="15"></textarea>
-                                </div>
-                            </div>
-
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label>{{ trans('application.inputs.attachments') }}</label>
