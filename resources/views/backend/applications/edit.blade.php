@@ -25,7 +25,7 @@
                                     <select name="department_id" class="form-control {{ $errors->has('department_id') ? 'is-invalid' : null }}">
                                         <option value=""}>{{ trans('application.inputs.department_id') }}</option>
                                         @foreach (departments() as $department)
-                                            <option value="{{ $department->id }}" {{ old('department_id') == $application->department_id ? 'selected' : null }}>{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}" {{ old('department_id', $department->id) == $application->department_id ? 'selected' : null }}>{{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('department_id'))
