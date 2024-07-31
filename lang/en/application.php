@@ -71,6 +71,8 @@ return [
     'texts' => [
         'upload-letter' => 'Official Acceptance Letter',
         'missing-document-header' => 'Missing Document',
+        'upload-payment-document' => 'Upload Payment Receipt',
+
 
         'pending-application' => 'Pending Application',
         'sent-pre-letter' => 'Received Pre-approval Letter',
