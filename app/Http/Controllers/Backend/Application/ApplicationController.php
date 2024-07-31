@@ -509,7 +509,7 @@ class ApplicationController extends Controller
         return DB::transaction(function () use ($request, $application) {
             try {
                 $this->applicationManager->update($application, [
-                    'department_id' => $request->get('department_id'),
+                    'department_id' => $request->input('department_id'),
                     'country_id' => $request->input('country_id'),
                     'name' => $request->input('name'),
                     'nationality_id' => $request->input('nationality_id'),
