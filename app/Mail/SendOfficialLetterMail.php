@@ -19,8 +19,6 @@ class SendOfficialLetterMail extends Mailable
      */
     public function __construct(
         public $application,
-        public $title,
-        public $content,
         public $files
     )
     {
@@ -33,7 +31,7 @@ class SendOfficialLetterMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->title,
+            subject: trans('mails.official-letter.title'),
         );
     }
 

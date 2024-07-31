@@ -449,8 +449,6 @@ class ApplicationController extends Controller
                     foreach ($emails as $email) {
                         Mail::to($email)->queue(new SendOfficialLetterMail(
                             $application,
-                            $request->input('title'),
-                            $request->input('content'),
                             $files
                         ));
                     }

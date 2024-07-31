@@ -31,6 +31,28 @@ return [
         ]
     ],
 
+    'pre-approval-letter' => [
+        'title' => 'Pre Approval Letter Mail',
+        'texts' => [
+            'text1' => 'Congratulations on your acceptance to Antalya Bilim University!',
+            'text2' => 'We are delighted to inform you that you have met our academic criteria and have been offered admission to our esteemed institution. Attached, you will find your Pre-Acceptance Letter.',
+            'text3' => 'Please note that this is not the official acceptance letter, which will be issued upon receipt of your deposit payment. We look forward to welcoming you to our university community.',
+            'text4' => 'Best regards',
+        ]
+    ],
+
+    'official-letter' => [
+        'title' => 'Official Letter',
+        'texts' => [
+            'text1' => 'Congratulations on your acceptance to Antalya Bilim University!',
+            'text2' => 'We are pleased to formally extend our acceptance to you.',
+            'text3' => 'Please find the official Acceptance Letter attached for your reference.',
+            'text4' => 'This letter can be used for your visa application process.',
+            'text5' => 'If you require further assistance, such as a visa support letter, please inform us of the Turkish embassy where you will apply for your visa. We are here to support you every step of the way.',
+            'text6' => 'Best regards'
+        ]
+    ],
+
     'update-status' => [
         'title' => 'Application Status Updated',
         'texts' => [

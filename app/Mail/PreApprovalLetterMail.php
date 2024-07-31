@@ -29,7 +29,7 @@ class PreApprovalLetterMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pre Approval Letter Mail',
+            subject: trans('mails.pre-approval-letter.title'),
         );
     }
 
@@ -39,7 +39,7 @@ class PreApprovalLetterMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.pre-approval-letter',
+            view: 'emails.applications.pre-approval-letter',
         );
     }
 
