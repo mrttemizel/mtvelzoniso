@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
+use App\Mail\AdminNotifyNewStudentRegisteredMail;
 use App\Mail\NewStudentRegisteredMail;
 use App\Mail\PreApprovalLetterMail;
 use App\Mail\SendOfficialLetterMail;
@@ -343,7 +344,22 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadAdditionalDocument($application, $request->file('additional_document'));
                 }
 
-                Mail::to('oguz.topcu@antalya.edu.tr')->send(new NewStudentRegisteredMail());
+                // admin
+                Mail::to('oguz.topcu@antalya.edu.tr')->queue(new AdminNotifyNewStudentRegisteredMail());
+
+                $emails = [];
+
+                if (! is_null($application->email) && filter_var($application->email, FILTER_VALIDATE_EMAIL)) {
+                    $emails[] = $application->email;
+                }
+
+                if ($application->agency) {
+                    $emails[] = $application->agency->email;
+                }
+
+                foreach ($emails as $email) {
+                    Mail::to($email)->queue(new NewStudentRegisteredMail());
+                }
 
                 return redirect()
                     ->route('backend.applications.index')
