@@ -8,6 +8,7 @@ use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
 use App\Http\Requests\Applications\ApplicationUpdateStatusRequest;
 use App\Mail\AdminNotifyNewStudentRegisteredMail;
+use App\Mail\MissingDocumentMail;
 use App\Mail\NewStudentRegisteredMail;
 use App\Mail\PreApprovalLetterMail;
 use App\Mail\SendOfficialLetterMail;
@@ -393,9 +394,7 @@ class ApplicationController extends Controller
                     ->first();
 
                 $this->applicationManager->updateStatus($application, $status);
-                $emails = [
-                    'oguz.topcu@antalya.edu.tr' // basvuru durumu guncellendiginde yonetime mail gidecek
-                ];
+                $emails = [];
 
                 if (! is_null($application->email)) {
                     $emails[] = $application->email;
@@ -409,6 +408,10 @@ class ApplicationController extends Controller
                     $this->applicationManager->update($application, [
                         'missing_document_description' => $request->input('description')
                     ]);
+
+                    foreach ($emails as $email) {
+                        Mail::to($email)->queue(new MissingDocumentMail($application));
+                    }
                 }
 
                 // basvuru kabul edildi ve kabul mektubu icin mail gonderimi
@@ -454,6 +457,7 @@ class ApplicationController extends Controller
                 }
 
                 // basvuru durumu guncellendiginde gonderilecek mail
+                $emails[] = 'oguz.topcu@antalya.edu.tr'; // basvuru durumu guncellendiginde iso'ya mail gidecek
                 foreach ($emails as $email) {
                     Mail::to($email)->queue(new UpdateApplicationStatusMail($application));
                 }
