@@ -24,13 +24,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('backend.dashboard.index') }}" class="nav-link menu-link">
-                        <i class="ri-dashboard-2-line"></i>
-                        <span>{{ trans('sidebar.dashboard') }}</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a href="{{ route('backend.applications.create') }}" class="nav-link menu-link">
                         <i class="las la-plus-square"></i>
                         <span>{{ trans('sidebar.applications.create') }}</span>

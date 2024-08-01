@@ -23,25 +23,20 @@ class ApplicationStoreRequest extends FormRequest
     {
         return [
             'department_id' => ['required', 'exists:departments,id'],
+            'academic_year_id' => ['required', 'exists:academic_years,id'],
             'name' => ['required', 'string', 'max:255'],
-            'nationality_id' => ['required', 'exists:countries,id'],
-            'passport_number' => ['required', 'max:255'],
-            'place_of_birth' => ['required', 'max:255'],
-            'date_of_birth' => ['required','dateFormat:d/m/Y'],
             'passport_photo' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:2048'],
 
-            'country_id' => ['required', 'exists:countries,id'],
+//            'phone_number' => ['required'],
 //            'email' => ['required', 'email'],
 
             'school_name' => ['required', 'max:255'],
             'school_country_id' => ['required', 'exists:countries,id'],
-            'year_of_graduation' => ['nullable', 'dateFormat:d/m/Y'],
-            'high_school_diploma' => ['required', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
+            'school_diploma' => ['required', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
             'official_transcript' => ['required', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
             'additional_document' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
-            'official_exam' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
 
-            'reference' => ['nullable', 'max:255'],
+            'reference' => ['required', 'max:255'],
             'application_term' => ['required', 'accepted'],
             'gdpr' => ['required', 'accepted']
         ];

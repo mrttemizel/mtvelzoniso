@@ -64,10 +64,7 @@ return [
         'personal-details' => 'Personal Details',
         'contact-details' => 'Contact Details',
         'school-details' => 'School Details',
-        'test-and-score-details' => 'Test and Scores',
-        'program-details' => 'Program Details',
         'application-terms' => 'Application Terms',
-        'payment-details' => 'Payment Receipt'
     ],
 
     'texts' => [
@@ -85,41 +82,25 @@ return [
         'warning-upload-image' => 'The photo you upload must be a maximum of 2MB. Supported formats: jpg, png, jpeg.',
 //        'warning-upload-image' => 'The file size you upload must be a maximum of 2MB. Supported formats are jpg, png, jpeg.'
         'warning-upload' => 'The file you upload must be a maximum of 2MB. Supported formats: pdf, xlsx, docx, doc.',
-        'application-terms' => "I Confirm that, <br>
-                                        1. I will bring all required documents for the final registration.<br>
-                                        2. If I don't get equivalency from the Ministry of Education in Turkey the
-                                        University won't take any responsibility and can cancel the registration.<br>
-                                        3. I will require my deposit fees only in case of visa rejection confirmed from
-                                        the embassy.<br>
-                                        4. Tuition fees are non-refundable.<br>",
+        'application-terms' => "I Confirm that I will bring all required documents for the final registration.",
         'gdpr' => 'I approve and consent to the processing of my personal data in the ways specified in the text.'
     ],
 
     'inputs' => [
-        'department_id' => 'Departments',
+        'department_id' => 'Program Preference',
+        'academic_year_id' => 'Academic Year',
         'name' => 'Full Name',
-        'nationality' => 'Nationality',
-        'passport_number' => 'Passport Number',
-        'place_of_birth' => 'Place of Birth',
-        'date_of_birth' => 'Date of Birth',
         'passport_photo' => 'Passport Photo',
-        'country' => 'Country',
-        'address' => 'Address',
         'phone_number' => 'Phone Number',
         'email' => 'Email',
         'school_name' => 'School Name',
         'school_country' => 'School Country',
-        'school_city' => 'School City',
-        'year_graduation' => 'Graduation Year',
-        'graduation_degree' => 'Graduation Degree',
-        'high_school_diploma' => 'High School Diploma',
+        'school_diploma' => 'School Diploma',
         'official_transcript' => 'Official Transcript (Last 3 Years)',
-        'additional_document' => 'Additional Document',
-        'official_exam' => 'TOEFL or IELTS Result (if any)',
+        'additional_document' => 'Additional Document (If it is required)',
         'reference' => 'How Did You Hear About Us?',
         'payment_file' => 'Payment Receipt',
         'status' => 'Status',
-        'nationality_id' => 'Nationality',
         'agency_id' => 'Agency',
 
         'payment-document' => 'Payment Receipt',
@@ -135,7 +116,6 @@ return [
         'agency_code' => 'Agency Code',
         'agency_name' => 'Agency Name',
         'name' => 'Student Name',
-        'nationality' => 'Nationality',
         'status' => 'Status',
         'payment_file_at' => 'Date Of Payment',
         'actions' => 'Actions'
@@ -144,7 +124,6 @@ return [
     'excel' => [
         'code' => 'Application Number',
         'name' => 'Full Name',
-        'nationality' => 'Nationality',
         'faculty' => 'Faculty',
         'department' => 'Department',
         'agencyName' => 'Agency Name'

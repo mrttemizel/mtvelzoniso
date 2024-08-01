@@ -9,6 +9,15 @@ if (! function_exists('countries')) {
     }
 }
 
+if (! function_exists('academicYears')) {
+    function academicYears(): Collection
+    {
+        return \App\Models\AcademicYear::query()
+            ->where('status', '=', \App\Enums\AcademicYearStatusEnum::ACTIVE->value)
+            ->get();
+    }
+}
+
 if (! function_exists('departments')) {
     function departments(bool $all = false): Collection
     {

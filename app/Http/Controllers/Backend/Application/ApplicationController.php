@@ -227,15 +227,6 @@ class ApplicationController extends Controller
             ];
         }
 
-        if ($application->hasOfficialExam()) {
-            $officialExam = $application->getRawOriginal('official_exam');
-
-            $files[] = [
-                'name' => 'Official Exam.' . pathinfo($officialExam)['extension'] ?? '',
-                'file' => $officialExam
-            ];
-        }
-
         if ($application->hasPaymentFile()) {
             $paymentFile = $application->getRawOriginal('payment_file');
 
@@ -245,12 +236,12 @@ class ApplicationController extends Controller
             ];
         }
 
-        if ($application->hasHighSchoolDiploma()) {
-            $highSchoolDiploma = $application->getRawOriginal('high_school_diploma');
+        if ($application->hasSchoolDiploma()) {
+            $schoolDiploma = $application->getRawOriginal('school_diploma');
 
             $files[] = [
-                'name' => 'High School Diploma.' . pathinfo($highSchoolDiploma)['extension'] ?? '',
-                'file' => $highSchoolDiploma
+                'name' => 'School Diploma.' . pathinfo($schoolDiploma)['extension'] ?? '',
+                'file' => $schoolDiploma
             ];
         }
 
@@ -309,20 +300,14 @@ class ApplicationController extends Controller
                 /** @var Application $application */
                 $application = $this->applicationManager->create([
                     'department_id' => $request->get('department_id'),
-                    'country_id' => $request->input('country_id'),
+                    'academic_year_id' => $request->input('academic_year_id'),
                     'name' => $request->input('name'),
                     'nationality_id' => $request->input('nationality_id'),
                     'passport_number' => $request->input('passport_number'),
-                    'place_of_birth' => $request->input('place_of_birth'),
-                    'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth')),
-                    'address' => $request->input('address'),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
                     'school_name' => $request->input('school_name'),
                     'school_country_id' => $request->input('school_country_id'),
-                    'school_city' => $request->input('school_city'),
-                    'year_of_graduation' => Carbon::createFromFormat('d/m/Y', $request->input('year_of_graduation')),
-                    'graduation_degree' => $request->input('graduation_degree'),
                     'reference' => $request->input('reference'),
                 ]);
 
@@ -334,12 +319,8 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadTranscript($application, $request->file('official_transcript'));
                 }
 
-                if ($request->hasFile('official_exam')) {
-                    $this->applicationManager->uploadOfficialExam($application, $request->file('official_exam'));
-                }
-
-                if ($request->hasFile('high_school_diploma')) {
-                    $this->applicationManager->uploadHighSchoolDiploma($application, $request->file('high_school_diploma'));
+                if ($request->hasFile('school_diploma')) {
+                    $this->applicationManager->uploadSchoolDiploma($application, $request->file('school_diploma'));
                 }
 
                 if ($request->hasFile('additional_document')) {
@@ -511,20 +492,14 @@ class ApplicationController extends Controller
             try {
                 $this->applicationManager->update($application, [
                     'department_id' => $request->input('department_id'),
-                    'country_id' => $request->input('country_id'),
+                    'academic_year_id' => $request->input('academic_year_id'),
                     'name' => $request->input('name'),
                     'nationality_id' => $request->input('nationality_id'),
                     'passport_number' => $request->input('passport_number'),
-                    'place_of_birth' => $request->input('place_of_birth'),
-                    'date_of_birth' => Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth')),
-                    'address' => $request->input('address'),
                     'phone_number' => $request->input('phone_number'),
                     'email' => $request->input('email'),
                     'school_name' => $request->input('school_name'),
                     'school_country_id' => $request->input('school_country_id'),
-                    'school_city' => $request->input('school_city'),
-                    'year_of_graduation' => Carbon::createFromFormat('d/m/Y', $request->input('year_of_graduation')),
-                    'graduation_degree' => $request->input('graduation_degree'),
                     'reference' => $request->input('reference'),
                 ]);
 
@@ -536,12 +511,8 @@ class ApplicationController extends Controller
                     $this->applicationManager->uploadTranscript($application, $request->file('official_transcript'));
                 }
 
-                if ($request->hasFile('official_exam')) {
-                    $this->applicationManager->uploadOfficialExam($application, $request->file('official_exam'));
-                }
-
-                if ($request->hasFile('high_school_diploma')) {
-                    $this->applicationManager->uploadHighSchoolDiploma($application, $request->file('high_school_diploma'));
+                if ($request->hasFile('school_diploma')) {
+                    $this->applicationManager->uploadSchoolDiploma($application, $request->file('school_diploma'));
                 }
 
                 if ($request->hasFile('additional_document')) {
@@ -628,7 +599,6 @@ class ApplicationController extends Controller
 
         return (new ApplicationsExport())
             ->setAgency($request->get('agency'))
-            ->setNationality($request->get('nationality_id'))
             ->setStatus($request->get('status'))
             ->download(now()->format('d-m-Y') . '-Report.xlsx')
         ;
@@ -653,7 +623,6 @@ class ApplicationController extends Controller
                 [ 'data' => 'agency_code', 'name' => 'agency.code' ],
                 [ 'data' => 'agency_name', 'name' => 'agency.name' ],
                 [ 'data' => 'name', 'name' => 'name' ],
-                [ 'data' => 'nationality.name', 'name' => 'nationality.id' ],
                 [ 'data' => 'payment_file_at', 'name' => 'payment_file_at' ],
                 [ 'data' => 'status', 'name' => 'status', 'searchable' => false, 'orderable' => false ],
                 [ 'data' => 'actions', 'name' => 'actions', 'searchable' => false, 'orderable' => false ],
@@ -670,7 +639,7 @@ class ApplicationController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $relations = ['nationality'];
+        $relations = [];
 
         $model = Application::query()
             ->select(['applications.*']);

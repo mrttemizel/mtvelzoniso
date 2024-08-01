@@ -85,9 +85,9 @@ class ApplicationManager extends BaseManager
         ]);
     }
 
-    public function uploadHighSchoolDiploma(Application $application, UploadedFile $uploadedFile): void
+    public function uploadSchoolDiploma(Application $application, UploadedFile $uploadedFile): void
     {
-        $file = $application->getRawOriginal('high_school_diploma');
+        $file = $application->getRawOriginal('school_diploma');
 
         if (! is_null($file) && $this->disk()->exists($file)) {
             $this->disk()->delete($file);
@@ -96,7 +96,7 @@ class ApplicationManager extends BaseManager
         $path = $uploadedFile->store('applications/diplomas', 'public');
 
         $application->update([
-            'high_school_diploma' => $path,
+            'school_diploma' => $path,
         ]);
     }
 

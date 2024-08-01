@@ -123,18 +123,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-4">
-                                    <div class="form-group">
-                                        <label for="status">{{ trans('application.inputs.nationality_id') }}</label>
-                                        <select name="nationality_id" class="form-control">
-                                            <option value="" selected>{{ trans('application.inputs.nationality_id') }}</option>
-                                            @foreach (countries() as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
                                 @if (auth()->user()->isAllAdmin())
                                     <div class="col-12 col-md-4">
                                         <div class="form-group">
@@ -189,7 +177,6 @@
                                                 <th>{{ trans('application.tables.agency_name') }}</th>
                                             @endif
                                             <th>{{ trans('application.tables.name') }}</th>
-                                            <th>{{ trans('application.tables.nationality') }}</th>
                                             @if (auth()->user()->isAllAdmin())
                                                 <th>{{ trans('application.tables.payment_file_at') }}</th>
                                             @endif
@@ -314,14 +301,12 @@
                 let form = body.find('#applicationFilterForm');
                 let data = {
                     status: form.find('select[name="status"] option:selected').val(),
-                    nationality_id: form.find('select[name="nationality_id"] option:selected').val(),
                     agency: form.find('select[name="agency_id"] option:selected').val()
                 };
 
                 let url = new URL('{{ route('backend.applications.export') }}');
 
                 url.searchParams.set('status', data.status);
-                url.searchParams.set('nationality_id', data.nationality_id);
                 url.searchParams.set('agency', data.agency);
 
                 window.open(url.toString(), '_blank');
@@ -373,7 +358,6 @@
                             data: function (item) {
                                 let form = body.find('#applicationFilterForm');
                                 item.status = form.find('select[name="status"] option:selected').val();
-                                item.nationality = form.find('select[name="nationality_id"] option:selected').val();
                                 item.agency = form.find('select[name="agency_id"] option:selected').val();
 
                                 return item;
@@ -405,7 +389,6 @@
                 let form = body.find('#applicationFilterForm');
 
                 let status = form.find('select[name="status"] option:selected').val();
-                let nationality = form.find('select[name="nationality_id"] option:selected').val();
                 let agency = form.find('select[name="agency_id"] option:selected').val();
 
                 $.ajax({
@@ -413,7 +396,6 @@
                     url: '{{ route('backend.applications.statistics') }}',
                     data: {
                         agency_id: agency,
-                        nationality_id: nationality,
                         status: status
                     },
                     success: function (response) {

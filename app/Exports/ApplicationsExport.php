@@ -18,19 +18,11 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
 
     public $status = null;
 
-    public $nationality = null;
-
     public $agency = null;
 
     public function setStatus($status): self
     {
         $this->status = $status;
-        return $this;
-    }
-
-    public function setNationality($nationality): self
-    {
-        $this->nationality = $nationality;
         return $this;
     }
 
@@ -48,10 +40,6 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
             $query->where('status', '=', $this->status);
         }
 
-        if (! is_null($this->nationality)) {
-            $query->where('nationality_id', '=', $this->nationality);
-        }
-
         if (! is_null($this->agency)) {
             $query->where('agency_id', '=', $this->agency);
         }
@@ -64,7 +52,6 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
         return [
             trans('application.excel.code'),
             trans('application.excel.name'),
-            trans('application.excel.nationality'),
             trans('application.excel.faculty'),
             trans('application.excel.department'),
             trans('application.excel.agencyName'),
@@ -76,7 +63,6 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
         return [
             $application->code ?? '',
             $application->name ?? '',
-            $application->nationality->name ?? '',
             $application->department->faculty ?? '',
             $application->department->name ?? '',
             $application->agency->name ?? ''

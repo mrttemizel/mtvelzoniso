@@ -35,19 +35,14 @@ class Application extends Model
         return ! is_null($this->getRawOriginal('official_transcript'));
     }
 
-    public function hasOfficialExam(): bool
-    {
-        return ! is_null($this->getRawOriginal('official_exam'));
-    }
-
     public function hasPaymentFile(): bool
     {
         return ! is_null($this->getRawOriginal('payment_file'));
     }
 
-    public function hasHighSchoolDiploma(): bool
+    public function hasSchoolDiploma(): bool
     {
-        return ! is_null($this->getRawOriginal('high_school_diploma'));
+        return ! is_null($this->getRawOriginal('school_diploma'));
     }
 
     public function hasAdditionalDocument(): bool
@@ -69,7 +64,7 @@ class Application extends Model
         return Storage::disk('public')->url($value);
     }
 
-    public function getHighSchoolDiplomaAttribute($value): string
+    public function getSchoolDiplomaAttribute($value): string
     {
         return Storage::disk('public')->url($value);
     }
@@ -99,17 +94,7 @@ class Application extends Model
         return $this->belongsTo(Agency::class);
     }
 
-    public function nationality(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
     public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    public function schoolCountry(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }
@@ -122,5 +107,10 @@ class Application extends Model
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function academicYear(): BelongsTo
+    {
+        return $this->belongsTo(AcademicYear::class);
     }
 }

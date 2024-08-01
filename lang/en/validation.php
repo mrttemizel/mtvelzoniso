@@ -186,6 +186,18 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'department_id' => 'Program Reference',
+        'passport_photo' => 'Passport Photo',
+        'name' => 'Name',
+        'phone_number' => 'Phone Number',
+        'email' => 'E=Mail',
+        'school_name' => 'School Name',
+        'school_country_id' => 'School Country',
+        'school_diploma' => 'School Diploma',
+        'official_transcript' => 'Official Transcript',
+        'additional_document' => 'Additional Document',
+        'reference' => 'Reference',
+    ],
 
 ];
