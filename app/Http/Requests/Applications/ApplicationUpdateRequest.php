@@ -32,7 +32,7 @@ class ApplicationUpdateRequest extends FormRequest
             'department_id' => ['required', 'exists:departments,id'],
             'academic_year_id' => ['required', 'exists:academic_years,id'],
             'name' => ['required', 'string', 'max:255'],
-            'passport_photo' => ['required', 'mimes:jpg,png,jpeg,pdf', 'max:2048'],
+            'passport_photo' => ['nullable', 'mimes:jpg,png,jpeg,pdf', 'max:2048'],
 
 //            'phone_number' => ['required'],
 //            'email' => ['required', 'email'],
