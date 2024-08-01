@@ -92,7 +92,7 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
                     'bold' => true
                 ]
             ],
-            'A1' => [
+            'A:F' => [
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER
