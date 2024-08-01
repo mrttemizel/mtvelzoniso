@@ -190,10 +190,10 @@
                                             @endif
                                             <th>{{ trans('application.tables.name') }}</th>
                                             <th>{{ trans('application.tables.nationality') }}</th>
-                                            <th>{{ trans('application.tables.status') }}</th>
                                             @if (auth()->user()->isAllAdmin())
                                                 <th>{{ trans('application.tables.payment_file_at') }}</th>
                                             @endif
+                                            <th>{{ trans('application.tables.status') }}</th>
                                             <th>{{ trans('application.tables.actions') }}</th>
                                         </tr>
                                     </thead>
