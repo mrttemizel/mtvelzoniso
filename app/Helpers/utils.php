@@ -10,11 +10,17 @@ if (! function_exists('countries')) {
 }
 
 if (! function_exists('academicYears')) {
-    function academicYears(): Collection
+    function academicYears($all = false): Collection
     {
-        return \App\Models\AcademicYear::query()
-            ->where('status', '=', \App\Enums\AcademicYearStatusEnum::ACTIVE->value)
-            ->get();
+        $query = \App\Models\AcademicYear::query();
+
+        if ($all === false) {
+            $query
+                ->where('status', '=', \App\Enums\AcademicYearStatusEnum::ACTIVE->value)
+            ;
+        }
+
+        return $query->get();
     }
 }
 

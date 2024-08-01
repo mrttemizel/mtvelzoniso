@@ -20,6 +20,8 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
 
     public $agency = null;
 
+    public $academicYear = null;
+
     public function setStatus($status): self
     {
         $this->status = $status;
@@ -29,6 +31,12 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
     public function setAgency($agency): self
     {
         $this->agency = $agency;
+        return $this;
+    }
+
+    public function setAcademicYear($academicYear): self
+    {
+        $this->academicYear = $academicYear;
         return $this;
     }
 
@@ -44,6 +52,10 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
             $query->where('agency_id', '=', $this->agency);
         }
 
+        if (! is_null($this->academicYear)) {
+            $query->where('academic_year_id', '=', $this->academicYear);
+        }
+
         return $query;
     }
 
@@ -51,6 +63,7 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
     {
         return [
             trans('application.excel.code'),
+            trans('application.excel.academic_year'),
             trans('application.excel.name'),
             trans('application.excel.faculty'),
             trans('application.excel.department'),
@@ -62,6 +75,7 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
     {
         return [
             $application->code ?? '',
+            $application->academicYear->name ?? '',
             $application->name ?? '',
             $application->department->faculty ?? '',
             $application->department->name ?? '',

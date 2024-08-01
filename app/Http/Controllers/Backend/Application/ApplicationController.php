@@ -600,6 +600,7 @@ class ApplicationController extends Controller
         return (new ApplicationsExport())
             ->setAgency($request->get('agency'))
             ->setStatus($request->get('status'))
+            ->setAcademicYear($request->input('academic_year'))
             ->download(now()->format('d-m-Y') . '-Report.xlsx')
         ;
     }

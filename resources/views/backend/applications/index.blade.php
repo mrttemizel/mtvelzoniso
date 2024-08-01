@@ -123,6 +123,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="status">{{ trans('application.inputs.academic_year_id') }}</label>
+                                        <select name="academic_year_id" class="form-control">
+                                            <option value="" selected>{{ trans('application.inputs.academic_year_id') }}</option>
+                                            @foreach (academicYears(true) as $academicYear)
+                                                <option value="{{ $academicYear->id }}">{{ $academicYear->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 @if (auth()->user()->isAllAdmin())
                                     <div class="col-12 col-md-4">
                                         <div class="form-group">
