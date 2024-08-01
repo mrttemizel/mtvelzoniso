@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('additional_document')->nullable();
             $table->string('missing_document_description')->nullable();
             $table->string('reference')->nullable();
+            $table->dateTime('payment_file_at')->nullable();
             $table->enum('status', \App\Enums\ApplicationStatusEnum::values())->default(\App\Enums\ApplicationStatusEnum::PENDING->value);
             $table->timestampsTz();
             $table->softDeletesTz();

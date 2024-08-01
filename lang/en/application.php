@@ -50,7 +50,7 @@ return [
         'sent-pre-approval-letter' => 'Pre-approval Letter Sent',
         'pending-financial-approval' => 'Pending Financial Approval',
 
-        'official-letter-sent' => 'Official Invitation Sent'
+        'official-letter-sent' => 'Official Acceptance Sent'
     ],
 
     'attachments' => [
@@ -136,5 +136,14 @@ return [
         'nationality' => 'Nationality',
         'status' => 'Status',
         'actions' => 'Actions'
+    ],
+
+    'excel' => [
+        'code' => 'Application Number',
+        'name' => 'Full Name',
+        'nationality' => 'Nationality',
+        'faculty' => 'Faculty',
+        'department' => 'Department',
+        'agencyName' => 'Agency Name'
     ]
 ];

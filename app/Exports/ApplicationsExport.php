@@ -6,9 +6,11 @@ use App\Models\Application;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ApplicationsExport implements FromQuery, WithMapping
+class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize
 {
     use Exportable;
 
@@ -53,6 +55,18 @@ class ApplicationsExport implements FromQuery, WithMapping
         }
 
         return $query;
+    }
+
+    public function headings(): array
+    {
+        return [
+            trans('application.excel.code'),
+            trans('application.excel.name'),
+            trans('application.excel.nationality'),
+            trans('application.excel.faculty'),
+            trans('application.excel.department'),
+            trans('application.excel.agencyName'),
+        ];
     }
 
     public function map($application): array

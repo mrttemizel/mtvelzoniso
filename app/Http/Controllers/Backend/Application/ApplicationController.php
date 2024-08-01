@@ -591,6 +591,7 @@ class ApplicationController extends Controller
 
                 $this->applicationManager->uploadPaymentFile($application, $request->file('file'));
                 $this->applicationManager->update($application, [
+                    'payment_file_at' => now(),
                     'status' => ApplicationStatusEnum::PENDING_FINANCIAL_APPROVAL->value
                 ]);
 
