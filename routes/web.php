@@ -94,6 +94,7 @@ Route::prefix('dashboard')->middleware(['auth', 'isActive'])->group(function() {
         Route::get('/statistics', [ApplicationController::class, 'statistics'])->name('backend.applications.statistics');
         Route::get('/download/{applicationId}', [ApplicationController::class, 'download'])->name('backend.applications.download');
 
+        Route::get('/export', [ApplicationController::class, 'export'])->name('backend.applications.export');
         Route::get('/columns', [ApplicationController::class, 'getColumns'])->name('backend.applications.get-columns');
         Route::get('/datatable', [ApplicationController::class, 'dataTable'])->name('backend.applications.dataTable');
 
