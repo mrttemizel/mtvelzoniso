@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
@@ -88,7 +89,10 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
         return [
             1 => [
                 'font' => [
-                    'bold' => true
+                    'bold' => true,
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER
+                    ]
                 ]
             ]
         ];
