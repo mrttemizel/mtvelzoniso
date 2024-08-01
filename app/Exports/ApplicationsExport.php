@@ -88,11 +88,15 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
     {
         return [
             1 => [
-                'font' => [
-                    'bold' => true
-                ]
+
             ],
             'A:F' => [
+                'font' => [
+                    'bold' => true,
+                    'color' => [
+                        'hex' => '#db3131'
+                    ]
+                ],
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                     'vertical' => Alignment::VERTICAL_CENTER
