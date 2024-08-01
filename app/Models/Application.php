@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -52,6 +53,15 @@ class Application extends Model
     public function hasAdditionalDocument(): bool
     {
         return ! is_null($this->getRawOriginal('additional_document'));
+    }
+
+    public function getPaymentFileAtAttribute($value): string
+    {
+        if (is_null($value)) {
+            return '';
+        }
+
+        return Carbon::parse($value)->format('d/m/Y H:i:s');
     }
 
     public function getPassportPhotoAttribute($value): string

@@ -654,6 +654,7 @@ class ApplicationController extends Controller
                 [ 'data' => 'agency_name', 'name' => 'agency.name' ],
                 [ 'data' => 'name', 'name' => 'name' ],
                 [ 'data' => 'nationality.name', 'name' => 'nationality.id' ],
+                [ 'data' => 'payment_file_at', 'name' => 'payment_file_at' ],
                 [ 'data' => 'status', 'name' => 'status', 'searchable' => false, 'orderable' => false ],
                 [ 'data' => 'actions', 'name' => 'actions', 'searchable' => false, 'orderable' => false ],
             ];

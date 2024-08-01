@@ -137,6 +137,7 @@ return [
         'name' => 'Student Name',
         'nationality' => 'Nationality',
         'status' => 'Status',
+        'payment_file_at' => 'Date Of Payment',
         'actions' => 'Actions'
     ],
 
