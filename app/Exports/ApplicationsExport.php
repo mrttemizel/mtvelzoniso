@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\Application;
-use App\Models\User;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -87,14 +86,11 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
     public function styles(Worksheet $sheet)
     {
         return [
-            1 => [
-
-            ],
             'A1:F1' => [
                 'font' => [
                     'bold' => true,
                     'color' => [
-                        'rgba' => 'db3131'
+                        'rgb' => 'd73939'
                     ]
                 ],
                 'alignment' => [
