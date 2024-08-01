@@ -90,11 +90,11 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
             1 => [
 
             ],
-            'A:F' => [
+            'A1:F1' => [
                 'font' => [
                     'bold' => true,
                     'color' => [
-                        'hex' => '#db3131'
+                        'rgba' => 'db3131'
                     ]
                 ],
                 'alignment' => [
