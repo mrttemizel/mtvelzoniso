@@ -91,9 +91,10 @@ class ApplicationsExport implements FromQuery, WithMapping, WithHeadings, Should
                 'font' => [
                     'bold' => true,
                     'alignment' => [
-                        'horizontal' => Alignment::HORIZONTAL_CENTER,
-                        'vertical' => Alignment::VERTICAL_CENTER
-                    ]
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                        'wrapText' => true,
+                    ],
                 ]
             ]
         ];
