@@ -167,7 +167,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 mb-3 d-flex justify-content-end">
+                        <div class="col-12 mb-3 d-flex justify-content-between">
+                            <a href="#" class="btn btn-warning btn-export">
+                                <i class="bx bx-download"></i>
+                                {{ trans('application.buttons.export') }}
+                            </a>
+
                             <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
                                 <i class="bx bx-plus mr-2"></i>
                                 <span class="d-block">{{ trans('application.buttons.create') }}</span>
@@ -300,6 +305,24 @@
     <script>
         $(document).ready(function () {
             const body = $(this);
+
+            body.on('click', '.btn-export', function (e) {
+                e.preventDefault();
+                let form = body.find('#applicationFilterForm');
+                let data = {
+                    status: form.find('select[name="status"] option:selected').val(),
+                    nationality_id: form.find('select[name="nationality_id"] option:selected').val(),
+                    agency: form.find('select[name="agency_id"] option:selected').val()
+                };
+
+                let url = new URL('{{ route('backend.applications.export') }}');
+
+                url.searchParams.set('status', data.status);
+                url.searchParams.set('nationality_id', data.nationality_id);
+                url.searchParams.set('agency', data.agency);
+
+                window.open(url.toString(), '_blank');
+            });
 
             body.on('click', '.btn-upload-payment', function (e) {
                 e.preventDefault();

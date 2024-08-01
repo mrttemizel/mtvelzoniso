@@ -32,6 +32,8 @@ return [
         'send-mail' => 'Send Mail',
         'cancel' => 'Cancel',
 
+        'export' => 'Export',
+
         'upload-payment-document' => 'Upload Payment Receipt',
 
         'approve-application' => 'Approve Application',

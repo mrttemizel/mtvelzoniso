@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Application;
 
 use App\Enums\ApplicationStatusEnum;
+use App\Exports\ApplicationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Http\Requests\Applications\ApplicationUpdateRequest;
@@ -614,6 +615,23 @@ class ApplicationController extends Controller
                 ;
             }
         });
+    }
+
+    public function export(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        if (! $user->isAllAdmin()) {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
+        return (new ApplicationsExport())
+            ->setAgency($request->get('agency'))
+            ->setNationality($request->get('nationality_id'))
+            ->setStatus($request->get('status'))
+            ->download(now()->format('d-m-Y') . '-Report.xlsx')
+        ;
     }
 
     public function getColumns(): JsonResponse
