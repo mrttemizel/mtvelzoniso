@@ -6,6 +6,11 @@ use App\Models\Department;
 
 class DepartmentManager
 {
+    public function findById($id)
+    {
+        return Department::query()->find($id);
+    }
+
     public function create(array $data): Department
     {
         /** @var Department $item */

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->double('annual_fee')->default(0);
             $table->double('discounted_fee')->default(0);
+            $table->enum('status', \App\Enums\DepartmentStatusEnum::values())->default(\App\Enums\DepartmentStatusEnum::ACTIVE->value);
             $table->timestampsTz();
             $table->softDeletesTz();
         });

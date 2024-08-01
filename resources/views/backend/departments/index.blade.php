@@ -47,6 +47,7 @@
                                             <th>{{ trans('department.tables.name') }}</th>
                                             <th>{{ trans('department.tables.annual_fee') }}</th>
                                             <th>{{ trans('department.tables.discounted_fee') }}</th>
+                                            <th>{{ trans('department.tables.status') }}</th>
                                             <th>{{ trans('department.tables.actions') }}</th>
                                         </tr>
                                     </thead>
@@ -82,6 +83,7 @@
                     { data: 'name', name: 'name' },
                     { data: 'annual_fee', name: 'annual_fee' },
                     { data: 'discounted_fee', name: 'discounted_fee' },
+                    { data: 'status', name: 'status' },
                     { data: 'actions', name: 'actions', searchable: false, orderable: false }
                 ]
             });

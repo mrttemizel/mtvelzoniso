@@ -81,6 +81,8 @@ Route::prefix('dashboard')->middleware(['auth', 'isActive'])->group(function() {
         Route::get('/create', [DepartmentController::class, 'create'])->name('backend.departments.create');
         Route::post('/create', [DepartmentController::class, 'store'])->name('backend.departments.store');
 
+        Route::post('/update-status', [DepartmentController::class, 'updateStatus'])->name('backend.departments.update-status');
+
         Route::get('/edit/{departmentId}', [DepartmentController::class, 'edit'])->name('backend.departments.edit');
         Route::post('/edit/{departmentId}', [DepartmentController::class, 'update'])->name('backend.departments.update');
 

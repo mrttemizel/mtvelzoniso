@@ -10,9 +10,17 @@ if (! function_exists('countries')) {
 }
 
 if (! function_exists('departments')) {
-    function departments(): Collection
+    function departments(bool $all = false): Collection
     {
-        return \App\Models\Department::query()->get();
+        $query = \App\Models\Department::query();
+
+        if ($all === false) {
+            $query->where('status', '=', \App\Enums\DepartmentStatusEnum::ACTIVE->value);
+        }
+
+        $query->orderBy('name', 'ASC');
+
+        return $query->get();
     }
 }
 

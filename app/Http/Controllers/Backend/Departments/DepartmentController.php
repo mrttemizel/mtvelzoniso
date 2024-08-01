@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Departments;
 
+use App\Enums\DepartmentStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Managers\DepartmentManager;
 use App\Models\Department;
@@ -54,6 +55,42 @@ class DepartmentController extends Controller
 
                 return redirect()
                     ->route('backend.departments.create')
+                    ->withInput()
+                    ->with('alert-type', 'error')
+                    ->with('alert-message', trans('transactions.failed'))
+                ;
+            }
+        });
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'department_id' => ['required', 'exists:departments,id']
+        ]);
+
+        return DB::transaction(function () use ($request) {
+            try {
+                /** @var Department $department */
+                $department = $this->departmentManager->findById($request->input('department_id'));
+                $status = $department->status == DepartmentStatusEnum::ACTIVE->value ? DepartmentStatusEnum::INACTIVE->value : DepartmentStatusEnum::ACTIVE->value;
+
+                $this->departmentManager->update($department, [
+                    'status' => $status
+                ]);
+
+                return redirect()
+                    ->route('backend.departments.index')
+                    ->withInput()
+                    ->with('alert-type', 'success')
+                    ->with('alert-message', trans('departments.success.update-status'))
+                ;
+            } catch (QueryException $e) {
+                logger()->error($e);
+                DB::rollBack();
+
+                return redirect()
+                    ->route('backend.departments.index')
                     ->withInput()
                     ->with('alert-type', 'error')
                     ->with('alert-message', trans('transactions.failed'))
@@ -137,13 +174,21 @@ class DepartmentController extends Controller
 
         return datatables()
             ->eloquent($model)
+            ->editColumn('status', function ($item) {
+                if ($item->status == DepartmentStatusEnum::ACTIVE->value) {
+                    return '<span class="badge bg-success">' . trans('department.statuses.active') . '</span>';
+                }
+
+                return '<span class="badge bg-warning">' . trans('department.statuses.inactive') . '</span>';
+            })
             ->addColumn('actions', function ($item) {
-                return view('backend._partials.datatables._default-actions')
+                return view('backend._partials.datatables._department-actions')
+                    ->with('item', $item)
                     ->with('editRoute', route('backend.departments.edit', ['departmentId' => $item->id]))
                     ->with('deleteRoute', route('backend.departments.destroy', ['departmentId' => $item->id]))
                 ;
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['status', 'actions'])
             ->toJson();
     }
 }

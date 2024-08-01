@@ -8,7 +8,9 @@ return [
     ],
 
     'buttons' => [
-        'create' => 'Add Department'
+        'create' => 'Add Department',
+        'active' => 'Active',
+        'inactive' => 'Inactive'
     ],
 
     'success' => [
@@ -30,7 +32,13 @@ return [
         'name' => 'Department Name',
         'annual_fee' => 'Annual Fee',
         'discounted_fee' => 'Discounted Fee',
+        'status' => 'Status',
         'actions' => 'Actions'
+    ],
+
+    'statuses' => [
+        'active' => 'Active',
+        'inactive' => 'Inactive'
     ],
 
     'texts' => [
