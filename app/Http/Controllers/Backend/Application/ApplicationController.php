@@ -613,7 +613,6 @@ class ApplicationController extends Controller
         $columns = [
             [ 'data' => 'id', 'name' => 'id' ],
             [ 'data' => 'name', 'name' => 'name' ],
-            [ 'data' => 'nationality.name', 'name' => 'nationality.name' ],
             [ 'data' => 'status', 'name' => 'status', 'searchable' => false, 'orderable' => false ],
             [ 'data' => 'actions', 'name' => 'actions', 'searchable' => false, 'orderable' => false ],
         ];
