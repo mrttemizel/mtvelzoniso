@@ -32,7 +32,7 @@ return [
     ],
 
     'pre-approval-letter' => [
-        'title' => 'Pre Approval Letter Mail',
+        'title' => 'Pre-Acceptance Letter Mail',
         'texts' => [
             'text1' => 'Congratulations on your acceptance to Antalya Bilim University!',
             'text2' => 'We are delighted to inform you that you have met our academic criteria and have been offered admission to our esteemed institution. Attached, you will find your Pre-Acceptance Letter.',
