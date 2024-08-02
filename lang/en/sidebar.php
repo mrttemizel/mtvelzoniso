@@ -10,5 +10,6 @@ return [
     'applications' => [
         'index' => 'Applications',
         'create' => 'New Application'
-    ]
+    ],
+    'academicYears' => 'Academic Years'
 ];

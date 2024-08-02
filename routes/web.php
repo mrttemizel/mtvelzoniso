@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Backend\AcademicYears\AcademicYearsController;
 use App\Http\Controllers\Backend\Agencies\AgencyController;
 use App\Http\Controllers\Backend\Application\ApplicationController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -55,6 +56,21 @@ Route::prefix('dashboard')->middleware(['auth', 'isActive'])->group(function() {
         Route::post('/edit/{agencyId}', [AgencyController::class, 'update'])->name('backend.agencies.update');
 
         Route::post('/suspend', [AgencyController::class, 'suspend'])->name('backend.agencies.suspend');
+
+//        Route::post('/delete/{agencyId}', [AgencyController::class, 'destroy'])->name('backend.agencies.destroy');
+    });
+
+    Route::prefix('academic-years')->group(function () {
+        Route::get('/', [AcademicYearsController::class, 'index'])->name('backend.academic-years.index');
+        Route::get('/datatable', [AcademicYearsController::class, 'dataTable'])->name('backend.academic-years.dataTable');
+
+        Route::get('/create', [AcademicYearsController::class, 'create'])->name('backend.academic-years.create');
+        Route::post('/create', [AcademicYearsController::class, 'store'])->name('backend.academic-years.store');
+
+        Route::get('/edit/{academicYearId}', [AcademicYearsController::class, 'edit'])->name('backend.academic-years.edit');
+        Route::post('/edit/{academicYearId}', [AcademicYearsController::class, 'update'])->name('backend.academic-years.update');
+
+        Route::post('/suspend', [AcademicYearsController::class, 'suspend'])->name('backend.academic-years.suspend');
 
 //        Route::post('/delete/{agencyId}', [AgencyController::class, 'destroy'])->name('backend.agencies.destroy');
     });

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AcademicYear;
 use App\Models\Agency;
 use App\Models\Application;
 use App\Models\Department;
@@ -36,5 +37,6 @@ class AppServiceProvider extends ServiceProvider
         Route::model('departmentId', Department::class);
         Route::model('applicationId', Application::class);
         Route::model('emailTemplateId', EmailTemplate::class);
+        Route::model('academicYearId', AcademicYear::class);
     }
 }

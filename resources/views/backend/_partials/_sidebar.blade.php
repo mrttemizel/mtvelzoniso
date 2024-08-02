@@ -71,6 +71,15 @@
                         </a>
                     </li>
                 @endif
+
+                @if (auth()->user()->isAllAdmin())
+                    <li class="nav-item">
+                        <a href="{{ route('backend.academic-years.index') }}" class="nav-link menu-link">
+                            <i class="bx bx-calendar"></i>
+                            <span>{{ trans('sidebar.academicYears') }}</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

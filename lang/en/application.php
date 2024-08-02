@@ -2,7 +2,7 @@
 return [
     'titles' => [
         'index' => 'Applications',
-        'create' => 'Create Application',
+        'create' => 'New Application',
         'edit' => 'Edit Application'
     ],
 
@@ -18,7 +18,7 @@ return [
     ],
 
     'buttons' => [
-        'create' => 'Create',
+        'create' => 'New Application',
         'edit' => 'Edit',
         'send' => 'Send',
         'save' => 'Save',
