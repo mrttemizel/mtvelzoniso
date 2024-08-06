@@ -177,7 +177,7 @@
                                 <div>&nbsp;</div>
                             @endif
 
-                            @if (auth()->user()->haveAlreadyApplication())
+                            @if (! auth()->user()->haveAlreadyApplication())
                                 <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
                                     <i class="bx bx-plus mr-2"></i>
                                     <span class="d-block">{{ trans('application.buttons.create') }}</span>
