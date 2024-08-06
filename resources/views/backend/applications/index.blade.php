@@ -168,15 +168,28 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 mb-3 d-flex justify-content-between">
+                            @if (auth()->user()->isAuthorized())
                             <a href="#" class="btn btn-warning btn-export">
                                 <i class="bx bx-download"></i>
                                 {{ trans('application.buttons.export') }}
                             </a>
+                            @else
+                                <div>&nbsp;</div>
+                            @endif
 
-                            <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
-                                <i class="bx bx-plus mr-2"></i>
-                                <span class="d-block">{{ trans('application.buttons.create') }}</span>
-                            </a>
+                            @if (auth()->user()->haveAlreadyApplication())
+                                <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
+                                    <i class="bx bx-plus mr-2"></i>
+                                    <span class="d-block">{{ trans('application.buttons.create') }}</span>
+                                </a>
+                            @endif
+
+                            @if (auth()->user()->isAuthorized())
+                                <a href="{{ route('backend.applications.create') }}" class="btn btn-block btn-info d-flex align-items-center">
+                                    <i class="bx bx-plus mr-2"></i>
+                                    <span class="d-block">{{ trans('application.buttons.create') }}</span>
+                                </a>
+                            @endif
                         </div>
                         <div class="col-12">
                             <div class="table-responsive-sm">

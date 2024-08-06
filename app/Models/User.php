@@ -3,8 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\auth\MustVerifyEmail;
+use App\Enums\ApplicationStatusEnum;
 use App\Enums\UserStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -42,6 +44,11 @@ class User extends Authenticatable
         self::ROLE_STUDENT => 'Student',
     ];
 
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
     public function getRole(): string
     {
         return self::$roles[$this->role] ?? '';
@@ -65,6 +72,13 @@ class User extends Authenticatable
     public function isAuthorized(): bool
     {
         return $this->isAllAdmin() || $this->isAgency();
+    }
+
+    public function haveAlreadyApplication()
+    {
+        return $this->isStudent() && $this->applications()
+                ->where('status', '!=', ApplicationStatusEnum::REJECTED->value)
+                ->exists();
     }
 
     /**
