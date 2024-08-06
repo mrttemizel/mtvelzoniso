@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->isAllAdmin() || $this->isAgency();
     }
 
-    public function haveAlreadyApplication()
+    public function haveAlreadyApplication(): bool
     {
         return $this->isStudent() && $this->applications()
                 ->where('status', '!=', ApplicationStatusEnum::REJECTED->value)
