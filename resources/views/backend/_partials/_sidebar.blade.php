@@ -23,12 +23,15 @@
                     <span data-key="t-menu">{{ trans('sidebar.menu') }}</span>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('backend.applications.create') }}" class="nav-link menu-link">
-                        <i class="las la-plus-square"></i>
-                        <span>{{ trans('sidebar.applications.create') }}</span>
-                    </a>
-                </li>
+                @if (! auth()->user()->haveAlreadyApplication())
+                    <li class="nav-item">
+                        <a href="{{ route('backend.applications.create') }}" class="nav-link menu-link">
+                            <i class="las la-plus-square"></i>
+                            <span>{{ trans('sidebar.applications.create') }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 <li class="nav-item">
                     <a href="{{ route('backend.applications.index') }}" class="nav-link menu-link">
                         <i class="las la-users"></i>
