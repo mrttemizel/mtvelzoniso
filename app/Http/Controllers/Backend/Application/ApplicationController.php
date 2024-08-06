@@ -391,9 +391,11 @@ class ApplicationController extends Controller
                         'missing_document_description' => $request->input('description')
                     ]);
 
+                    $emails[] = 'iso@antalya.edu.tr';
                     foreach ($emails as $email) {
                         Mail::to($email)->queue(new MissingDocumentMail($application));
                     }
+                    array_pop($emails);
                 }
 
                 // basvuru kabul edildi ve kabul mektubu icin mail gonderimi
@@ -414,9 +416,11 @@ class ApplicationController extends Controller
 
                     $pdf->save($disk->path($path));
 
+                    $emails[] = 'iso@antalya.edu.tr';
                     foreach ($emails as $email) {
                         Mail::to($email)->queue(new PreApprovalLetterMail($application, $attachments));
                     }
+                    array_pop($emails);
                 }
 
                 // basvuru onaylanip resmi davetiye icin mail gonderimi
