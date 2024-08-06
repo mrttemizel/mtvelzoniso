@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function applications(): HasMany
     {
-        return $this->hasMany(Application::class);
+        return $this->hasMany(Application::class, 'user_id');
     }
 
     public function getRole(): string
