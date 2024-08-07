@@ -39,8 +39,8 @@ class ApplicationUpdateRequest extends FormRequest
 
             'school_name' => ['required', 'max:255'],
             'school_country_id' => ['required', 'exists:countries,id'],
-            'school_diploma' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
-            'official_transcript' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
+            'school_diploma' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc,jpeg,jpg,png', 'max:2048'],
+            'official_transcript' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc,jpeg,jpg,png', 'max:2048'],
             'additional_document' => ['nullable', 'file', 'mimes:pdf,xlsx,docx,doc', 'max:2048'],
 
             'reference' => ['required', 'max:255'],
