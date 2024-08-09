@@ -13,7 +13,18 @@ use App\Http\Controllers\Backend\EmailTemplates\EmailTemplateController;
 use App\Http\Controllers\Backend\Users\UserController;
 use App\Http\Controllers\Backend\Users\ProfileController;
 use App\Http\Controllers\Frontend\HomeController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+
+Route::get('d', function () {
+    $pdf = Pdf::loadView('pdfs.pre-approval-letter', [
+        'application' => \App\Models\Application::query()->first()
+    ]);
+
+    return $pdf->stream();
+});
+
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.index');
 

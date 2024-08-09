@@ -432,12 +432,14 @@ class ApplicationController extends Controller
                         }
                     }
 
+                    $emails[] = 'iso@antalya.edu.tr';
                     foreach ($emails as $email) {
                         Mail::to($email)->queue(new SendOfficialLetterMail(
                             $application,
                             $files
                         ));
                     }
+                    array_pop($emails);
                 }
 
                 // basvuru durumu guncellendiginde gonderilecek mail
@@ -546,7 +548,7 @@ class ApplicationController extends Controller
     {
         try {
             $request->validate([
-                'file' => ['required', 'mimes:pdf', 'max:2048']
+                'file' => ['required', 'mimes:pdf,png,jpg,jpeg', 'max:2048']
             ]);
         } catch (ValidationException $e) {
             return redirect()
@@ -720,10 +722,6 @@ class ApplicationController extends Controller
             ->addColumn('actions', function ($item) {
                 /** @var User $user */
                 $user = auth()->user();
-
-                if ($item->status == ApplicationStatusEnum::OFFICIAL_LETTER_SENT->value) {
-                    return '';
-                }
 
                 if ($user->isAllAdmin()) {
                     $viewName = 'backend._partials.datatables.applications.' . ApplicationStatusEnum::getStep($item->status);

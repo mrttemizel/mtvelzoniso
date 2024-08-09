@@ -56,7 +56,7 @@ enum ApplicationStatusEnum: string
             self::PENDING_FINANCIAL_APPROVAL->value,
             self::SENT_PRE_APPROVAL_LETTER->value => 'stepTwo',
 
-            self::OFFICIAL_LETTER_SENT->value,
+            self::OFFICIAL_LETTER_SENT->value => 'stepThree',
             self::REJECTED->value => 'none'
         };
     }

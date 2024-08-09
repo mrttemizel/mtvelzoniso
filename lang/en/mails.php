@@ -5,7 +5,7 @@ return [
         'title' => 'Welcome to ABU!',
         'texts' => [
             'welcome' => 'Welcome!',
-            'password' => 'Your account password has been set to :password.'
+            'password' => 'Your account password has been set to :password'
         ]
     ],
 

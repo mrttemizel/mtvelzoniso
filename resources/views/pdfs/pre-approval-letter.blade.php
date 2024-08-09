@@ -3,6 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <title>Pre Offer</title>
+    <style>
+        @font-face {
+            font-family: "Open Sans";
+            font-weight: 400;
+            font-style: normal;
+            src: url("{{ storage_path('fonts/OpenSans-Regular.ttf') }}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Open Sans";
+            font-weight: bold;
+            font-style: normal;
+            src: url("{{ storage_path('fonts/OpenSans-Bold.ttf') }}") format("truetype");
+        }
+
+        * {
+            font-family: "Open Sans", Sans-serif, sans-serif;
+            font-size: 11pt;
+        }
+    </style>
 </head>
 <body>
     <img src="{{ asset('pdfs/header.jpg') }}" alt="header" style="width: 100%;" />
@@ -95,6 +115,8 @@
 
         <p>The deposit will be deducted from the program's annual fee.</p>
 
+        <div style="page-break-before: always;"></div>
+
         <b style="display:block; margin-bottom: 10px;">Bank Account Details:</b>
 
         <table border="1" style="border-collapse: collapse; width: 85%; margin: 0 auto;">
@@ -135,8 +157,6 @@
                 <td>ANTALYA BILIM UNIVERSITESI</td>
             </tr>
         </table>
-
-        <div style="page-break-before: always;"></div>
 
         <p>Kindly note that the deposit fee is refundable only in case of visa rejection. Upon confirmation of rejection by the Turkish Consulate/Embassy, the deposit will be refunded to the student's bank account.</p>
 
